@@ -16,7 +16,8 @@ import {
   Link,
   Grid,
   Box,
-  Container
+  Container,
+  CircularProgress
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 // Other Components
@@ -48,7 +49,8 @@ const useStyles = makeStyles(theme => ({
     textAlign: 'center'
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
+    minHeight: 40
   }
 }));
 
@@ -132,7 +134,11 @@ const Login = ({
               color='primary'
               className={classes.submit}
             >
-              {loading ? 'Logging in ...' : 'Login'}
+              {loading ? (
+                <CircularProgress size={20} color='inherit' />
+              ) : (
+                'Login'
+              )}
             </Button>
 
             {error && (

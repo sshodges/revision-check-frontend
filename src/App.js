@@ -6,18 +6,26 @@ import { Provider } from 'react-redux';
 //Components
 import Dashboard from './components/pages/Dashboard';
 import Login from './components/auth/Login';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+
+const theme = createMuiTheme({
+  palette: {}
+});
 
 const App = () => {
   return (
     <Provider store={store}>
-      <Router>
-        <Fragment>
-          <Switch>
-            <Route exact path='/' component={Dashboard} />
-            <Route exact path='/login' component={Login} />
-          </Switch>
-        </Fragment>
-      </Router>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Fragment>
+            <Switch>
+              <Route exact path='/' component={Dashboard} />
+              <Route exact path='/login' component={Login} />
+            </Switch>
+          </Fragment>
+        </Router>
+      </ThemeProvider>
     </Provider>
   );
 };
