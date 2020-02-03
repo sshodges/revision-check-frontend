@@ -4,7 +4,7 @@ import './App.css';
 import store from './store';
 import { Provider } from 'react-redux';
 //Components
-import Dashboard from './components/pages/Dashboard';
+import Dashboard from './components/dashboard/Dashboard';
 import Login from './components/auth/Login';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
