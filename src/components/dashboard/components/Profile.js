@@ -10,11 +10,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    minHeight: 'fit-content'
+    minHeight: 'fit-content',
+    marginTop: 20
   },
   avatar: {
-    width: 60,
-    height: 60
+    width: 50,
+    height: 50
   },
   name: {
     marginTop: theme.spacing(1)
@@ -27,9 +28,9 @@ const Profile = props => {
   const classes = useStyles();
 
   const user = {
-    name: 'Shen Zhi',
+    name: 'Sam Hodges',
     avatar: '/images/avatars/avatar_11.png',
-    bio: 'Brain Director'
+    company: '4mation Technologies'
   };
 
   return (
@@ -41,10 +42,10 @@ const Profile = props => {
         src={user.avatar}
         to='/settings'
       />
-      <Typography className={classes.name} variant='h4'>
+      <Typography className={classes.name} variant='h5'>
         {user.name}
       </Typography>
-      <Typography variant='body2'>{user.bio}</Typography>
+      <Typography variant='body2'>{user.company}</Typography>
     </div>
   );
 };

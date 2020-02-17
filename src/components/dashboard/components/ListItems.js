@@ -3,10 +3,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
+import SettingIcon from '@material-ui/icons/Settings';
 
 const ListItems = () => {
   return (
@@ -15,31 +13,19 @@ const ListItems = () => {
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText primary='Dashboard' />
-      </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <ShoppingCartIcon />
-        </ListItemIcon>
-        <ListItemText primary='Orders' />
-      </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <PeopleIcon />
-        </ListItemIcon>
-        <ListItemText primary='Customers' />
+        <ListItemText primary='Home' />
       </ListItem>
       <ListItem button>
         <ListItemIcon>
           <BarChartIcon />
         </ListItemIcon>
-        <ListItemText primary='Reports' />
+        <ListItemText primary='Archive' />
       </ListItem>
       <ListItem button>
         <ListItemIcon>
-          <LayersIcon />
+          <SettingIcon />
         </ListItemIcon>
-        <ListItemText primary='Integrations' />
+        <ListItemText primary='Settings' />
       </ListItem>
     </div>
   );

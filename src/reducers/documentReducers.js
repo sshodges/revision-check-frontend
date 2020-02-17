@@ -1,8 +1,15 @@
-import { GET_ALL_ITEMS, SET_LOADING, LOGS_ERROR } from '../actions/types';
+import {
+  GET_ALL_DOCUMENTS,
+  GET_ALL_FOLDERS,
+  SET_LOADING,
+  ERROR
+} from '../actions/types';
 
 const initialState = {
-  allDocuments: null,
+  documents: [],
+  folders: [],
   loading: false,
+  parent: 0,
   error: null
 };
 export default (state = initialState, action) => {
@@ -12,15 +19,21 @@ export default (state = initialState, action) => {
         ...state,
         loading: true
       };
-    case LOGS_ERROR:
+    case ERROR:
       return {
         ...state,
         error: action.payload
       };
-    case GET_ALL_ITEMS:
+    case GET_ALL_DOCUMENTS:
       return {
         ...state,
-        allDocuments: action.payload,
+        documents: action.payload,
+        loading: false
+      };
+    case GET_ALL_FOLDERS:
+      return {
+        ...state,
+        folders: action.payload,
         loading: false
       };
     default:

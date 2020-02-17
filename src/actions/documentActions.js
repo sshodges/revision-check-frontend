@@ -1,4 +1,9 @@
-import { GET_ALL_ITEMS, SET_LOADING, LOGS_ERROR } from './types';
+import {
+  GET_ALL_DOCUMENTS,
+  GET_ALL_FOLDERS,
+  SET_LOADING,
+  ERROR
+} from './types';
 import axios from 'axios';
 
 export const getAllDocuments = () => async dispatch => {
@@ -6,18 +11,38 @@ export const getAllDocuments = () => async dispatch => {
     setLoading();
 
     const res = await axios.get(
-      'http://localhost:5000/api/documents/getall/items'
+      process.env.REACT_APP_BASE_API_URL + 'documents'
     );
 
     const data = res.data;
 
     dispatch({
-      type: GET_ALL_ITEMS,
+      type: GET_ALL_DOCUMENTS,
       payload: data
     });
   } catch (error) {
     dispatch({
-      type: LOGS_ERROR,
+      type: ERROR,
+      payload: error
+    });
+  }
+};
+
+export const getAllFolders = () => async dispatch => {
+  try {
+    setLoading();
+
+    const res = await axios.get(process.env.REACT_APP_BASE_API_URL + 'folders');
+
+    const data = res.data;
+
+    dispatch({
+      type: GET_ALL_FOLDERS,
+      payload: data
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
       payload: error
     });
   }

@@ -1,7 +1,8 @@
 export const SET_LOADING = 'SET_LOADING';
-export const LOGS_ERROR = 'LOGS_ERROR';
+export const ERROR = 'ERROR';
 // DOCUMENTS
-export const GET_ALL_ITEMS = 'GET_TOURNAMENT';
+export const GET_ALL_DOCUMENTS = 'GET_ALL_DOCUMENTS';
+export const GET_ALL_FOLDERS = 'GET_ALL_FOLDERS';
 // AUTH
 export const LOAD_USER = 'LOAD_USER';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';

@@ -1,9 +1,11 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 // Other Components
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
+import Documents from '../pages/documents/Documents';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,6 +28,11 @@ export default function Dashboard() {
       <Sidebar />
       <main className={classes.content}>
         <div className={classes.toolbar} />
+        <Router>
+          <Switch>
+            <Route exact path='/' component={Documents} />\{' '}
+          </Switch>
+        </Router>
       </main>
     </div>
   );
