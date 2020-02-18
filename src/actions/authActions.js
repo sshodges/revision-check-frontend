@@ -9,6 +9,7 @@ import setAuthToken from '../utils/setAuthToken';
 import axios from 'axios';
 
 export const getUser = () => async dispatch => {
+  setLoading();
   if (localStorage.token) {
     setAuthToken(localStorage.token);
 

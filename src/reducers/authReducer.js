@@ -10,7 +10,10 @@ import axios from 'axios'
 const initialState = {
   isAuthenticated: null,
   loading: false,
-  user: null,
+  user: {
+    name: '',
+    company: ''
+  },
   error: null
 };
 export default (state = initialState, action) => {

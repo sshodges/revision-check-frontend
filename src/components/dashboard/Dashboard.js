@@ -7,7 +7,8 @@ import io from 'socket.io-client';
 import md5 from 'md5';
 // Actions
 import {
-  getUser
+  getUser,
+  setLoading
 } from '../../actions/authActions';
 // Other Components
 import Sidebar from './components/Sidebar';
@@ -27,19 +28,20 @@ const useStyles = makeStyles(theme => ({
 
 
 const Dashboard = ({auth: {user},
-  getUser
+  setLoading, getUser
 }) => {
 
   useEffect(() => {
     // Check if user already logged in
     async function asyncGetUser() {
+      setLoading();
       await getUser();
     }
     asyncGetUser();
     // eslint-disable-next-line
   }, []);
 
-  if (user) {
+  if (user.id) {
     const socket = io('https://revisioncheck.herokuapp.com/');
       socket.on('connect', function(soc) {
         socket.on('connection:sid', function(socketId) {
@@ -97,5 +99,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getUser,
+  getUser, setLoading
 })(Dashboard);

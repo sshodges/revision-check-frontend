@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Avatar, Typography } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,36 +23,30 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Profile = props => {
-  const { className, ...rest } = props;
+const Profile = ({auth: {user, loading}}) => {
 
   const classes = useStyles();
 
-  const user = {
-    name: 'Sam Hodges',
-    avatar: '/images/avatars/avatar_11.png',
-    company: '4mation Technologies'
-  };
-
   return (
-    <div {...rest} className={clsx(classes.root, className)}>
+    <div className={classes.root}>
       <Avatar
         alt='Person'
         className={classes.avatar}
         component={RouterLink}
-        src={user.avatar}
+        src='/images/avatars/avatar_11.png'
         to='/settings'
       />
       <Typography className={classes.name} variant='h5'>
-        {user.name}
+        {loading ? <CircularProgress  size={22}/> : user.name}
       </Typography>
-      <Typography variant='body2'>{user.company}</Typography>
+      {loading ? <CircularProgress size={14}/> : <Typography variant='body2'>{user.company}</Typography>}
+      
     </div>
   );
 };
 
-Profile.propTypes = {
-  className: PropTypes.string
-};
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
-export default Profile;
+export default connect(mapStateToProps, null)(Profile);
