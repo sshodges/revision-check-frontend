@@ -1,7 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import io from 'socket.io-client';
+import md5 from 'md5';
+// Actions
+import {
+  getUser
+} from '../../actions/authActions';
 // Other Components
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
@@ -18,7 +25,54 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar
 }));
 
-export default function Dashboard() {
+
+const Dashboard = ({auth: {user},
+  getUser
+}) => {
+
+  useEffect(() => {
+    // Check if user already logged in
+    async function asyncGetUser() {
+      await getUser();
+    }
+    asyncGetUser();
+    // eslint-disable-next-line
+  }, []);
+
+  if (user) {
+    const socket = io('https://revisioncheck.herokuapp.com/');
+      socket.on('connect', function(soc) {
+        socket.on('connection:sid', function(socketId) {
+          localStorage.socketId = socketId;
+        });
+      });
+
+      socket.emit('join', md5(user.id));
+      socket.on('add folder', function(folder) {
+        console.log(folder);
+      });
+
+      socket.on('update folder', function(folder) {
+        console.log(folder);
+      });
+
+      socket.on('delete folder', function(folder) {
+        console.log(folder);
+      });
+
+      socket.on('add document', function(folder) {
+        console.log(folder);
+      });
+
+      socket.on('update document', function(folder) {
+        console.log(folder);
+      });
+
+      socket.on('archive document', function(folder) {
+        console.log(folder);
+      });
+  }
+
   const classes = useStyles();
 
   return (
@@ -37,3 +91,11 @@ export default function Dashboard() {
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, {
+  getUser,
+})(Dashboard);
