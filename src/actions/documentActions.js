@@ -2,6 +2,7 @@ import {
   GET_ALL_DOCUMENTS,
   GET_ALL_FOLDERS,
   SET_LOADING,
+  CHANGE_PARENT,
   ERROR
 } from './types';
 import axios from 'axios';
@@ -11,10 +12,14 @@ export const getAllDocuments = () => async dispatch => {
     setLoading();
 
     const res = await axios.get(
-      process.env.REACT_APP_BASE_API_URL + 'documents'
+      process.env.REACT_APP_BASE_API_URL + 'documents/folders'
     );
 
-    const data = res.data;
+    let data = res.data;
+
+    data = data.map(obj =>
+      obj.status ? { ...obj, type: 'document' } : { ...obj, type: 'folder' }
+    );
 
     dispatch({
       type: GET_ALL_DOCUMENTS,
@@ -46,6 +51,13 @@ export const getAllFolders = () => async dispatch => {
       payload: error
     });
   }
+};
+
+export const changeParent = parent => async dispatch => {
+  dispatch({
+    type: CHANGE_PARENT,
+    payload: parent
+  });
 };
 
 export const setLoading = () => dispatch => {

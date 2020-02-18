@@ -1,15 +1,17 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  Redirect,
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import io from 'socket.io-client';
 import md5 from 'md5';
 // Actions
-import {
-  getUser,
-  setLoading
-} from '../../actions/authActions';
+import { getUser, setLoading } from '../../actions/authActions';
 // Other Components
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
@@ -26,11 +28,11 @@ const useStyles = makeStyles(theme => ({
   toolbar: theme.mixins.toolbar
 }));
 
-
-const Dashboard = ({auth: {user},
-  setLoading, getUser
+const Dashboard = ({
+  auth: { user, isAuthenticated, loading },
+  setLoading,
+  getUser
 }) => {
-
   useEffect(() => {
     // Check if user already logged in
     async function asyncGetUser() {
@@ -41,41 +43,46 @@ const Dashboard = ({auth: {user},
     // eslint-disable-next-line
   }, []);
 
+  const classes = useStyles();
+
   if (user.id) {
     const socket = io('https://revisioncheck.herokuapp.com/');
-      socket.on('connect', function(soc) {
-        socket.on('connection:sid', function(socketId) {
-          localStorage.socketId = socketId;
-        });
+    socket.on('connect', function(soc) {
+      socket.on('connection:sid', function(socketId) {
+        localStorage.socketId = socketId;
       });
+    });
 
-      socket.emit('join', md5(user.id));
-      socket.on('add folder', function(folder) {
-        console.log(folder);
-      });
+    socket.emit('join', md5(user.id));
+    socket.on('add folder', function(folder) {
+      console.log(folder);
+    });
 
-      socket.on('update folder', function(folder) {
-        console.log(folder);
-      });
+    socket.on('update folder', function(folder) {
+      console.log(folder);
+    });
 
-      socket.on('delete folder', function(folder) {
-        console.log(folder);
-      });
+    socket.on('delete folder', function(folder) {
+      console.log(folder);
+    });
 
-      socket.on('add document', function(folder) {
-        console.log(folder);
-      });
+    socket.on('add document', function(folder) {
+      console.log(folder);
+    });
 
-      socket.on('update document', function(folder) {
-        console.log(folder);
-      });
+    socket.on('update document', function(folder) {
+      console.log(folder);
+    });
 
-      socket.on('archive document', function(folder) {
-        console.log(folder);
-      });
+    socket.on('archive document', function(folder) {
+      console.log(folder);
+    });
   }
 
-  const classes = useStyles();
+  // Redirect user to login if  not logged in
+  if (!isAuthenticated && !loading) {
+    return <Redirect to='/login' />;
+  }
 
   return (
     <div className={classes.root}>
@@ -92,12 +99,13 @@ const Dashboard = ({auth: {user},
       </main>
     </div>
   );
-}
+};
 
 const mapStateToProps = state => ({
   auth: state.auth
 });
 
 export default connect(mapStateToProps, {
-  getUser, setLoading
+  getUser,
+  setLoading
 })(Dashboard);

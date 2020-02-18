@@ -1,26 +1,22 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 
-const Breadcrumb = () => {
+export default function Breadcrumb({ current, previous, handleBack }) {
   return (
-    <nav style={style}>
-      <div className='nav-wrapper' style={style}>
-        <div className='col s12'>
-          <a href='#!' className='breadcrumb blue-text'>
-            Home
-          </a>
-          <a href='#!' className='breadcrumb grey-text'>
-            Company ABC
-          </a>
-        </div>
-      </div>
-    </nav>
+    <Breadcrumbs aria-label='breadcrumb'>
+      {current.id !== 0 && (
+        <Typography
+          color='primary'
+          variant='text'
+          onClick={() => {
+            handleBack(previous.id);
+          }}
+        >
+          {previous.name}
+        </Typography>
+      )}
+      <Typography color='textPrimary'>{current && current.name}</Typography>
+    </Breadcrumbs>
   );
-};
-
-const style = {
-  backgroundColor: '#fff',
-  boxShadow: 'none',
-  color: '#000'
-};
-
-export default Breadcrumb;
+}

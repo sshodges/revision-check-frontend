@@ -2,13 +2,16 @@ import {
   GET_ALL_DOCUMENTS,
   GET_ALL_FOLDERS,
   SET_LOADING,
+  CHANGE_PARENT,
   ERROR
 } from '../actions/types';
+import findPreviousParent from '../utils/findPreviousParent';
 
 const initialState = {
   documents: [],
   folders: [],
   loading: false,
+  current: 0,
   parent: 0,
   error: null
 };
@@ -35,6 +38,17 @@ export default (state = initialState, action) => {
         ...state,
         folders: action.payload,
         loading: false
+      };
+    case CHANGE_PARENT:
+      const previousParent = findPreviousParent(
+        action.payload,
+        state.documents,
+        state.folders
+      );
+      return {
+        ...state,
+        current: action.payload,
+        parent: previousParent
       };
     default:
       return state;

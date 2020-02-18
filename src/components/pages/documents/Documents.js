@@ -9,11 +9,13 @@ import {
 // Actions
 import {
   getAllDocuments,
-  getAllFolders
+  getAllFolders,
+  changeParent
 } from '../../../actions/documentActions';
 // Images
 import DocumentIcon from '../../../assets/img/document.png';
 import FolderIcon from '../../../assets/img/folder.png';
+import Breadcrumb from './Breadcrumb';
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -44,23 +46,44 @@ const customTheme = createMuiTheme({
 });
 
 const Documents = ({
-  document: { documents, folders, parent },
+  document: { documents, parent, current },
   getAllDocuments,
-  getAllFolders
+  getAllFolders,
+  changeParent
 }) => {
   const classes = useStyles();
 
   const columns = [
     {
-      name: 'status',
+      name: 'id',
+      options: {
+        display: false
+      }
+    },
+    {
+      name: 'parent',
+      options: {
+        display: false
+      }
+    },
+    {
+      name: 'type',
       label: ' ',
       options: {
         sort: false,
         customBodyRender: (value, tableMeta, updateValue) => {
-          if (value) {
-            return <img src={DocumentIcon} className={classes.icon} />;
+          if (value === 'document') {
+            return (
+              <img
+                src={DocumentIcon}
+                className={classes.icon}
+                alt='document icon'
+              />
+            );
           }
-          return <img src={FolderIcon} className={classes.icon} />;
+          return (
+            <img src={FolderIcon} className={classes.icon} alt='folder icon' />
+          );
         }
       }
     },
@@ -72,7 +95,7 @@ const Documents = ({
 
   useEffect(() => {
     getAllDocuments();
-    getAllFolders();
+    // getAllFolders();
   }, [getAllDocuments, getAllFolders]);
 
   const options = {
@@ -82,16 +105,34 @@ const Documents = ({
     filter: false,
     viewColumns: false,
     responsive: 'scrollMaxHeight',
-    selectableRows: 'none'
+    selectableRows: 'none',
+    onRowClick: function(rowData) {
+      changeParent(rowData[0]);
+    }
   };
 
-  let data = folders.concat(documents).filter(item => item.parent === parent);
+  let data = documents.filter(item => item.parent === current);
+
+  let currentItem = documents.filter(item => item.id === current);
+  currentItem =
+    currentItem.length === 0 ? { name: 'Home', id: 0 } : currentItem[0];
+  let previousItem = documents.filter(item => item.id === parent);
+  previousItem =
+    previousItem.length === 0
+      ? { name: 'Home', id: 0, parent: 0 }
+      : previousItem[0];
 
   return (
     <div className='row'>
       <MuiThemeProvider theme={customTheme}>
         <MUIDataTable
-          title={'Folders'}
+          title={
+            <Breadcrumb
+              current={currentItem}
+              previous={previousItem}
+              handleBack={changeParent}
+            />
+          }
           data={data}
           columns={columns}
           options={options}
@@ -105,6 +146,8 @@ const mapStateToProps = state => ({
   document: state.document
 });
 
-export default connect(mapStateToProps, { getAllDocuments, getAllFolders })(
-  Documents
-);
+export default connect(mapStateToProps, {
+  getAllDocuments,
+  getAllFolders,
+  changeParent
+})(Documents);

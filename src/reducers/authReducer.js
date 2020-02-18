@@ -5,11 +5,11 @@ import {
   SET_LOADING,
   CLEAR_ERROR
 } from '../actions/types';
-import axios from 'axios'
+import axios from 'axios';
 
 const initialState = {
   isAuthenticated: null,
-  loading: false,
+  loading: true,
   user: {
     name: '',
     company: ''
