@@ -15,8 +15,6 @@ export const getUser = () => async dispatch => {
     try {
       const res = await axios.get(process.env.REACT_APP_BASE_API_URL + 'users');
 
-      console.log(res);
-
       dispatch({
         type: LOAD_USER,
         payload: res.data
