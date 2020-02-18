@@ -5,6 +5,7 @@ import {
   SET_LOADING,
   CLEAR_ERROR
 } from '../actions/types';
+import axios from 'axios'
 
 const initialState = {
   isAuthenticated: null,
@@ -33,6 +34,7 @@ export default (state = initialState, action) => {
       };
     case LOGIN_SUCCESS:
       localStorage.setItem('token', action.payload.headers.auth);
+      axios.defaults.headers.common['Auth'] = action.payload.headers.auth;
       return {
         ...state,
         user: action.payload.data,
