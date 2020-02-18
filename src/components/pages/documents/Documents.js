@@ -87,10 +87,6 @@ const Documents = ({
 
   let data = folders.concat(documents).filter(item => item.parent === parent);
 
-  if (data.length > 0) {
-    console.log(data);
-  }
-
   return (
     <div className='row'>
       <MuiThemeProvider theme={customTheme}>
