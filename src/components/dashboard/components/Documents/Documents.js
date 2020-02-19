@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 // Actions
 import {
   getAllDocuments
-} from '../../../../actions/documentActions';
+} from 'actions/documentActions';
+// Interal Components
 import DocumentTable from './components/DocumentTable';
 
 const Documents = ({

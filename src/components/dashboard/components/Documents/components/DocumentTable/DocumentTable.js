@@ -1,59 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import MUIDataTable from 'mui-datatables';
-import {
-  makeStyles,
-  createMuiTheme,
-  MuiThemeProvider
-} from '@material-ui/core/styles';
+// Styles
+import { useStyles,customTheme } from './DocumentTable-styles'
 // Actions
 import {
   changeParent
-} from '../../../../../../actions/documentActions';
+} from 'actions/documentActions';
 // Images
-import DocumentIcon from '../../../../../../assets/img/document.png';
-import FolderIcon from '../../../../../../assets/img/folder.png';
+import DocumentIcon from 'assets/img/document.png';
+import FolderIcon from 'assets/img/folder.png';
+// Material UI
 import Breadcrumb from './components/Breadcrumb';
-
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import AddIcon from "@material-ui/icons/Add";
-
-const useStyles = makeStyles(theme => ({
-  icon: {
-    height: 20,
-    width: 20,
-    marginLeft: 15,
-    display: 'inline',
-    verticalAlign: 'middle'
-  },
-  text: {
-    height: '100%',
-    alignItems: 'center',
-    display: 'inline',
-    verticalAlign: 'middle'
-  }
-}));
-
-const customTheme = createMuiTheme({
-  overrides: {
-    MUIDataTableHeadCell: {
-      root: {
-        '&:nth-child(1)': {
-          width: 20
-        }
-      }
-    },
-    MuiTableRow: {
-      root: {
-        cursor: 'pointer'
-      }
-    }
-  }
-});
+import { MuiThemeProvider } from '@material-ui/core/styles';
 
 const DocumentTable = ({
-  document: { documents, parent, current },
+  document: { documents, current },
   changeParent
 }) => {
   const classes = useStyles();
@@ -110,7 +75,8 @@ const DocumentTable = ({
       changeParent(rowData[0]);
     },
     customToolbar: () => {
-      return (<Tooltip title={"custom icon"}>
+      return (
+        <Tooltip title={"custom icon"}>
           <IconButton  >
             <AddIcon/>
           </IconButton>
@@ -120,25 +86,12 @@ const DocumentTable = ({
 
   let data = documents.filter(item => (item.parent === current));
 
-  let currentItem = documents.filter(item => item.id === current);
-  currentItem =
-    currentItem.length === 0 ? { name: 'Home', id: 0 } : currentItem[0];
-  let previousItem = documents.filter(item => item.id === parent);
-  previousItem =
-    previousItem.length === 0
-      ? { name: 'Home', id: 0, parent: 0 }
-      : previousItem[0];
-
   return (
     <div className='row'>
       <MuiThemeProvider theme={customTheme}>
         <MUIDataTable
           title={
-            <Breadcrumb
-              current={currentItem}
-              previous={previousItem}
-              handleBack={changeParent}
-            />
+            <Breadcrumb />
           }
           data={data}
           columns={columns}

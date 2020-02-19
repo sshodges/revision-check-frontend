@@ -1,22 +1,47 @@
 import React from 'react';
+import { connect } from 'react-redux';
+// Actions
+import {
+  changeParent
+} from 'actions/documentActions';
+// Material UI
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 
-export default function Breadcrumb({ current, previous, handleBack }) {
+const Breadcrumb = ({ document: { documents, parent, current }, changeParent}) => {
+
+  let currentItem = documents.filter(item => item.id === current);
+  currentItem =
+    currentItem.length === 0 ? { name: 'Home', id: 0 } : currentItem[0];
+
+  let previousItem = documents.filter(item => item.id === parent);
+  previousItem =
+    previousItem.length === 0
+      ? { name: 'Home', id: 0, parent: 0 }
+      : previousItem[0];
+
   return (
     <Breadcrumbs aria-label='breadcrumb'>
-      {current.id !== 0 && (
+      {currentItem.id !== 0 ? (
         <Typography
           color='primary'
           onClick={() => {
-            handleBack(previous.id);
+            changeParent(previousItem.id);
           }}
           style={{cursor: 'pointer'}}
         >
-          {previous.name}
+          {previousItem.name}
         </Typography>
-      )}
-      <Typography color='textPrimary'>{current && current.name}</Typography>
+      ) : <Typography />}
+      <Typography color='textPrimary'>{currentItem && currentItem.name}</Typography>
     </Breadcrumbs>
   );
 }
+
+const mapStateToProps = state => ({
+  document: state.document
+});
+
+export default connect(mapStateToProps, {
+  changeParent
+})(Breadcrumb);
