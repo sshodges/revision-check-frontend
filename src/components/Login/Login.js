@@ -22,9 +22,9 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 // Other Components
 import Logo from '../../assets/img/logo.png';
-import Copyright from '../layout/Copyright';
-import ErrorMessage from '../layout/ErrorMessage';
-import PageLoading from '../layout/PageLoading';
+import Copyright from '../Dashboard/components/layout/Copyright';
+import ErrorMessage from '../Dashboard/components/layout/ErrorMessage';
+import PageLoading from '../Dashboard/components/layout/PageLoading';
 
 const useStyles = makeStyles(theme => ({
   paper: {

@@ -8,10 +8,10 @@ export default function Breadcrumb({ current, previous, handleBack }) {
       {current.id !== 0 && (
         <Typography
           color='primary'
-          variant='text'
           onClick={() => {
             handleBack(previous.id);
           }}
+          style={{cursor: 'pointer'}}
         >
           {previous.name}
         </Typography>

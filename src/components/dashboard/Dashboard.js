@@ -13,9 +13,9 @@ import md5 from 'md5';
 // Actions
 import { getUser, setLoading } from '../../actions/authActions';
 // Other Components
-import Sidebar from './components/Sidebar';
-import Navbar from './components/Navbar';
-import Documents from '../pages/documents/Documents';
+import Sidebar from './components/layout/Sidebar/Sidebar';
+import Navbar from './components/layout/Navbar/Navbar';
+import Documents from './components/Documents/Documents';
 
 const useStyles = makeStyles(theme => ({
   root: {

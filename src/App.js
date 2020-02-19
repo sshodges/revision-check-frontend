@@ -5,8 +5,8 @@ import store from './store';
 import { Provider } from 'react-redux';
 import axios from 'axios'
 //Components
-import Dashboard from './components/dashboard/Dashboard';
-import Login from './components/auth/Login';
+import Dashboard from './components/Dashboard';
+import Login from './components/Login';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import MUIDataTable from 'mui-datatables';
 import {
@@ -8,14 +8,16 @@ import {
 } from '@material-ui/core/styles';
 // Actions
 import {
-  getAllDocuments,
-  getAllFolders,
   changeParent
-} from '../../../actions/documentActions';
+} from '../../../../../../actions/documentActions';
 // Images
-import DocumentIcon from '../../../assets/img/document.png';
-import FolderIcon from '../../../assets/img/folder.png';
-import Breadcrumb from './Breadcrumb';
+import DocumentIcon from '../../../../../../assets/img/document.png';
+import FolderIcon from '../../../../../../assets/img/folder.png';
+import Breadcrumb from './components/Breadcrumb';
+
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
+import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -41,14 +43,17 @@ const customTheme = createMuiTheme({
           width: 20
         }
       }
+    },
+    MuiTableRow: {
+      root: {
+        cursor: 'pointer'
+      }
     }
   }
 });
 
-const Documents = ({
+const DocumentTable = ({
   document: { documents, parent, current },
-  getAllDocuments,
-  getAllFolders,
   changeParent
 }) => {
   const classes = useStyles();
@@ -93,11 +98,6 @@ const Documents = ({
     }
   ];
 
-  useEffect(() => {
-    getAllDocuments();
-    // getAllFolders();
-  }, [getAllDocuments, getAllFolders]);
-
   const options = {
     filterType: 'checkbox',
     print: false,
@@ -108,10 +108,17 @@ const Documents = ({
     selectableRows: 'none',
     onRowClick: function(rowData) {
       changeParent(rowData[0]);
+    },
+    customToolbar: () => {
+      return (<Tooltip title={"custom icon"}>
+          <IconButton  >
+            <AddIcon/>
+          </IconButton>
+        </Tooltip>)
     }
   };
 
-  let data = documents.filter(item => item.parent === current);
+  let data = documents.filter(item => (item.parent === current));
 
   let currentItem = documents.filter(item => item.id === current);
   currentItem =
@@ -147,7 +154,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getAllDocuments,
-  getAllFolders,
   changeParent
-})(Documents);
+})(DocumentTable);

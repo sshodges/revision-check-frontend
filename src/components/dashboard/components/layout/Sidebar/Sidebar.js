@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import ListItems from './ListItems';
-import Profile from './Profile';
+import ListItems from '../ListItems/ListItems';
+import Profile from '../Profile/Profile';
 
 const drawerWidth = 240;
 
