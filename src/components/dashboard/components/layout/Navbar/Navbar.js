@@ -22,7 +22,7 @@ export default function Navbar() {
     <AppBar position='fixed' className={classes.appBar}>
       <Toolbar>
         <Typography variant='h6' className={classes.title}>
-          Revision Check
+          Revision Check - App
         </Typography>
         <InputIcon color='inherit' />
       </Toolbar>
