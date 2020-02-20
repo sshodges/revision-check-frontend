@@ -6,27 +6,15 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import { useStyles } from './Dashboard-styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import io from 'socket.io-client';
-import md5 from 'md5';
+import Websocket from 'utils/websocket';
 // Actions
 import { getUser, setLoading } from '../../actions/authActions';
 // Other Components
 import Sidebar from './components/layout/Sidebar/Sidebar';
 import Navbar from './components/layout/Navbar/Navbar';
 import Documents from './components/Documents/Documents';
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex'
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3)
-  },
-  toolbar: theme.mixins.toolbar
-}));
 
 const Dashboard = ({
   auth: { user, isAuthenticated, loading },
@@ -46,37 +34,7 @@ const Dashboard = ({
   const classes = useStyles();
 
   if (user.id) {
-    const socket = io('https://revisioncheck.herokuapp.com/');
-    socket.on('connect', function(soc) {
-      socket.on('connection:sid', function(socketId) {
-        localStorage.socketId = socketId;
-      });
-    });
-
-    socket.emit('join', md5(user.id));
-    socket.on('add folder', function(folder) {
-      console.log(folder);
-    });
-
-    socket.on('update folder', function(folder) {
-      console.log(folder);
-    });
-
-    socket.on('delete folder', function(folder) {
-      console.log(folder);
-    });
-
-    socket.on('add document', function(folder) {
-      console.log(folder);
-    });
-
-    socket.on('update document', function(folder) {
-      console.log(folder);
-    });
-
-    socket.on('archive document', function(folder) {
-      console.log(folder);
-    });
+    new Websocket(user.id);
   }
 
   // Redirect user to login if  not logged in

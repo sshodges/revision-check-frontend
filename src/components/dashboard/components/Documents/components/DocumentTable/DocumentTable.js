@@ -31,6 +31,12 @@ const DocumentTable = ({
       }
     },
     {
+      name: 'type',
+      options: {
+        display: false
+      }
+    },
+    {
       name: 'parent',
       options: {
         display: false
@@ -72,7 +78,12 @@ const DocumentTable = ({
     responsive: 'scrollMaxHeight',
     selectableRows: 'none',
     onRowClick: function(rowData) {
-      changeParent(rowData[0]);
+      if (rowData[1] === 'folder'){
+        changeParent(rowData[0]);
+        return;
+      }
+      // Select document
+      // Redirect to revisions
     },
     customToolbar: () => {
       return (

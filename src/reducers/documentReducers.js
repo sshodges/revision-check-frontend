@@ -1,6 +1,9 @@
 import {
   GET_ALL_DOCUMENTS,
   GET_ALL_FOLDERS,
+  ADD_FOLDER,
+  UPDATE_FOLDER,
+  DELETE_FOLDER,
   SET_LOADING,
   CHANGE_PARENT,
   ERROR
@@ -38,6 +41,28 @@ export default (state = initialState, action) => {
         ...state,
         folders: action.payload,
         loading: false
+      };
+    case ADD_FOLDER:
+      return {
+        ...state,
+        documents: [...state.documents, action.payload]
+      };
+    case UPDATE_FOLDER:
+      return {
+        ...state,
+        documents: state.documents.map(doc => {
+          if (doc.type === 'folder' && doc.id === action.payload.id) {
+            return action.payload;
+          }
+          return doc;
+        })
+      };
+    case DELETE_FOLDER:
+      return {
+        ...state,
+        documents: state.documents.filter(
+          doc => doc.type === 'folder' && doc.id === action.payload.id
+        )
       };
     case CHANGE_PARENT:
       const previousParent = findPreviousParent(
