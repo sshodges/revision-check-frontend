@@ -32,7 +32,7 @@ class Websocket {
 
     socket.on('delete folder', function(folder) {
       console.log(folder);
-      // store.dispatch(deleteFolder(folder));
+      store.dispatch(deleteFolder(folder));
     });
 
     socket.on('add document', function(folder) {

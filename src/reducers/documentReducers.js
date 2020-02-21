@@ -61,7 +61,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         documents: state.documents.filter(
-          doc => doc.type === 'folder' && doc.id === action.payload.id
+          doc =>
+            doc.type === 'document' ||
+            (doc.type === 'folder' && doc.id !== action.payload)
         )
       };
     case CHANGE_PARENT:
