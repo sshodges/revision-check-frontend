@@ -14,3 +14,6 @@ export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const ADD_FOLDER = 'ADD_FOLDER';
 export const UPDATE_FOLDER = 'UPDATE_FOLDER';
 export const DELETE_FOLDER = 'DELETE_FOLDER';
+export const ADD_DOCUMENT = 'ADD_DOCUMENT';
+export const UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
+export const ARCHIVE_DOCUMENT = 'ARCHIVE_DOCUMENT';

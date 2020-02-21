@@ -3,7 +3,10 @@ import md5 from 'md5';
 import {
   addFolder,
   updateFolder,
-  deleteFolder
+  deleteFolder,
+  addDocument,
+  archiveDocument,
+  updateDocument
 } from '../actions/socketActions';
 import store from '../store';
 
@@ -18,6 +21,7 @@ class Websocket {
 
     socket.emit('join', md5(user));
 
+    // Folders
     socket.on('add folder', function(folder) {
       folder.type = 'folder';
       console.log(folder);
@@ -32,19 +36,25 @@ class Websocket {
 
     socket.on('delete folder', function(folder) {
       console.log(folder);
-      // store.dispatch(deleteFolder(folder));
+      store.dispatch(deleteFolder(folder));
     });
 
-    socket.on('add document', function(folder) {
-      console.log(folder);
+    // Documents
+    socket.on('add document', function(document) {
+      document.type = 'document';
+      console.log(document);
+      store.dispatch(addDocument(document));
     });
 
-    socket.on('update document', function(folder) {
-      console.log(folder);
-    });
-
-    socket.on('archive document', function(folder) {
-      console.log(folder);
+    socket.on('update document', function(document) {
+      document.type = 'document';
+      console.log(document);
+      // TODO: A bit messy until archive endpoint created in backend, everything done under update
+      if (document.status) {
+        store.dispatch(updateDocument(document));
+      } else {
+        store.dispatch(archiveDocument(document));
+      }
     });
   }
 }

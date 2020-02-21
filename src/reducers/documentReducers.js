@@ -4,6 +4,9 @@ import {
   ADD_FOLDER,
   UPDATE_FOLDER,
   DELETE_FOLDER,
+  ADD_DOCUMENT,
+  UPDATE_DOCUMENT,
+  ARCHIVE_DOCUMENT,
   SET_LOADING,
   CHANGE_PARENT,
   ERROR
@@ -61,7 +64,47 @@ export default (state = initialState, action) => {
       return {
         ...state,
         documents: state.documents.filter(
-          doc => doc.type === 'folder' && doc.id === action.payload.id
+          doc =>
+            doc.type === 'document' ||
+            (doc.type === 'folder' && doc.id !== action.payload)
+        )
+      };
+    case ADD_DOCUMENT:
+      return {
+        ...state,
+        documents: [...state.documents, action.payload]
+      };
+    case UPDATE_DOCUMENT:
+      // TODO: A bit messy until archive endpoint created in backend, everything done under update
+      const docExists = state.documents.filter(
+        doc => doc.type === 'document' && doc.id === action.payload.id
+      );
+
+      if (docExists.length > 0) {
+        return {
+          ...state,
+          documents: state.documents.map(doc => {
+            if (doc.type === 'document' && doc.id === action.payload.id) {
+              return action.payload;
+            }
+            return doc;
+          })
+        };
+      }
+
+      return {
+        ...state,
+        documents: [...state.documents, action.payload]
+      };
+
+    case ARCHIVE_DOCUMENT:
+      console.log(action.payload);
+      return {
+        ...state,
+        documents: state.documents.filter(
+          doc =>
+            doc.type === 'folder' ||
+            (doc.type === 'document' && doc.id !== action.payload.id)
         )
       };
     case CHANGE_PARENT:
