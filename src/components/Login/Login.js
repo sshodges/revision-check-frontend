@@ -19,40 +19,12 @@ import {
   Container,
   CircularProgress
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { useStyles } from './Login-styles';
 // Other Components
 import Logo from '../../assets/img/logo.png';
 import Copyright from '../Dashboard/components/layout/Copyright';
 import ErrorMessage from '../Dashboard/components/layout/ErrorMessage';
 import PageLoading from '../Dashboard/components/layout/PageLoading';
-
-const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  logo: {
-    width: '80%',
-    marginLeft: '10%',
-    marginBottom: 40
-  },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(1)
-  },
-  errorMessage: {
-    color: 'red',
-    fontSize: 12,
-    marginBottom: 10,
-    textAlign: 'center'
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-    minHeight: 40
-  }
-}));
 
 const Login = ({
   auth: { isAuthenticated, loading, error },

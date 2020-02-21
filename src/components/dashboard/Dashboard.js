@@ -10,7 +10,7 @@ import { useStyles } from './Dashboard-styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Websocket from 'utils/websocket';
 // Actions
-import { getUser, setLoading } from '../../actions/authActions';
+import { getUser, setLoading } from 'actions/authActions';
 // Other Components
 import Sidebar from './components/layout/Sidebar/Sidebar';
 import Navbar from './components/layout/Navbar/Navbar';
