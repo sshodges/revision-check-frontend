@@ -1,4 +1,11 @@
-import { ADD_FOLDER, UPDATE_FOLDER, DELETE_FOLDER } from './types';
+import {
+  ADD_FOLDER,
+  UPDATE_FOLDER,
+  DELETE_FOLDER,
+  ADD_DOCUMENT,
+  UPDATE_DOCUMENT,
+  ARCHIVE_DOCUMENT
+} from './types';
 
 export const addFolder = folder => async dispatch => {
   try {
@@ -33,33 +40,33 @@ export const deleteFolder = folder => async dispatch => {
   }
 };
 
-export const addDocument = folder => async dispatch => {
+export const addDocument = document => async dispatch => {
   try {
     dispatch({
-      type: ADD_FOLDER,
-      payload: folder
+      type: ADD_DOCUMENT,
+      payload: document
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const updateDocument = folder => async dispatch => {
+export const updateDocument = document => async dispatch => {
   try {
     dispatch({
-      type: ADD_FOLDER,
-      payload: folder
+      type: UPDATE_DOCUMENT,
+      payload: document
     });
   } catch (error) {
     console.log(error);
   }
 };
 
-export const archiveDocument = folder => async dispatch => {
+export const archiveDocument = document => async dispatch => {
   try {
     dispatch({
-      type: ADD_FOLDER,
-      payload: folder
+      type: ARCHIVE_DOCUMENT,
+      payload: document
     });
   } catch (error) {
     console.log(error);

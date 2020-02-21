@@ -17,6 +17,7 @@ export const getAllDocuments = () => async dispatch => {
 
     let data = res.data;
 
+    // TODO: This data manipulation has to happen until backend response is sorted
     data = data.map(obj =>
       obj.status ? { ...obj, type: 'document' } : { ...obj, type: 'folder' }
     );
