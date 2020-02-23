@@ -1,27 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import MUIDataTable from 'mui-datatables';
 // Styles
-import { useStyles,customTheme } from './DocumentTable-styles'
+import { useStyles, customTheme } from './DocumentTable-styles';
 // Actions
-import {
-  changeParent
-} from 'actions/documentActions';
+import { changeParent } from 'actions/documentActions';
 // Images
 import DocumentIcon from 'assets/img/document.png';
 import FolderIcon from 'assets/img/folder.png';
 // Material UI
 import Breadcrumb from './components/Breadcrumb';
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import AddIcon from "@material-ui/icons/Add";
 import { MuiThemeProvider } from '@material-ui/core/styles';
+// Internal Components
+import Toolbar from './components/Toolbar';
+import AddFolder from './components/AddFolder';
+import AddDocument from './components/AddDocument';
+import Loading from '../../../layout/Loading';
 
 const DocumentTable = ({
-  document: { documents, current },
+  document: { documents, current, loading },
   changeParent
 }) => {
   const classes = useStyles();
+
+  const [addFolderModal, setAddFolderModal] = useState(false);
+  const [addDocumentModal, setAddDocumentModal] = useState(false);
 
   const columns = [
     {
@@ -75,10 +78,10 @@ const DocumentTable = ({
     download: false,
     filter: false,
     viewColumns: false,
-    responsive: 'scrollMaxHeight',
-    selectableRows: 'none',
+    responsive: 'scrollFullHeight',
+    selectableRows: 'single',
     onRowClick: function(rowData) {
-      if (rowData[1] === 'folder'){
+      if (rowData[1] === 'folder') {
         changeParent(rowData[0]);
         return;
       }
@@ -87,28 +90,34 @@ const DocumentTable = ({
     },
     customToolbar: () => {
       return (
-        <Tooltip title={"custom icon"}>
-          <IconButton  >
-            <AddIcon/>
-          </IconButton>
-        </Tooltip>)
+        <Toolbar
+          addFolder={addFolderModal}
+          setAddFolder={setAddFolderModal}
+          addDocument={addDocumentModal}
+          setAddDocument={setAddDocumentModal}
+        />
+      );
     }
   };
 
-  let data = documents.filter(item => (item.parent === current));
+  let data = documents.filter(item => item.parent === current);
 
   return (
     <div className='row'>
-      <MuiThemeProvider theme={customTheme}>
-        <MUIDataTable
-          title={
-            <Breadcrumb />
-          }
-          data={data}
-          columns={columns}
-          options={options}
-        />
-      </MuiThemeProvider>
+      <Loading loading={loading} />
+
+      {!loading && (
+        <MuiThemeProvider theme={customTheme}>
+          <MUIDataTable
+            title={<Breadcrumb />}
+            data={data}
+            columns={columns}
+            options={options}
+          />
+        </MuiThemeProvider>
+      )}
+      <AddFolder open={addFolderModal} setOpen={setAddFolderModal} />
+      <AddDocument open={addDocumentModal} setOpen={setAddDocumentModal} />
     </div>
   );
 };

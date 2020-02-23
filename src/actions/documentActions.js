@@ -36,8 +36,6 @@ export const getAllDocuments = () => async dispatch => {
 
 export const getAllFolders = () => async dispatch => {
   try {
-    setLoading();
-
     const res = await axios.get(process.env.REACT_APP_BASE_API_URL + 'folders');
 
     const data = res.data;
@@ -51,6 +49,34 @@ export const getAllFolders = () => async dispatch => {
       type: ERROR,
       payload: error
     });
+  }
+};
+
+export const addFolder = folder => async dispatch => {
+  try {
+    const res = await axios.post(
+      process.env.REACT_APP_BASE_API_URL + 'folders',
+      folder
+    );
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const addDocument = document => async dispatch => {
+  try {
+    const res = await axios.post(
+      process.env.REACT_APP_BASE_API_URL + 'documents',
+      document
+    );
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return false;
   }
 };
 

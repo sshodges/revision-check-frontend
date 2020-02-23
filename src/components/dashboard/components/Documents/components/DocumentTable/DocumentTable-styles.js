@@ -4,7 +4,7 @@ const useStyles = makeStyles(theme => ({
   icon: {
     height: 20,
     width: 20,
-    marginLeft: 15,
+    marginLeft: 0,
     display: 'inline',
     verticalAlign: 'middle'
   },
@@ -20,7 +20,7 @@ const customTheme = createMuiTheme({
   overrides: {
     MUIDataTableHeadCell: {
       root: {
-        '&:nth-child(1)': {
+        '&:nth-child(2)': {
           width: 20
         }
       }

@@ -3,7 +3,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   SET_LOADING,
-  CLEAR_ERROR
+  CLEAR_ERROR,
+  LOGOUT
 } from '../actions/types';
 import axios from 'axios';
 
@@ -11,6 +12,7 @@ const initialState = {
   isAuthenticated: null,
   loading: true,
   user: {
+    id: null,
     name: '',
     company: ''
   },
@@ -47,11 +49,13 @@ export default (state = initialState, action) => {
       };
     case LOGIN_FAIL:
       return {
-        ...state,
-        user: null,
-        isAuthenticated: false,
+        state: initialState,
         error: action.payload,
         loading: false
+      };
+    case LOGOUT:
+      return {
+        state: initialState
       };
     default:
       return state;

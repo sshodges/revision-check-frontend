@@ -33,13 +33,13 @@ const Dashboard = ({
 
   const classes = useStyles();
 
-  if (user.id) {
-    new Websocket(user.id);
-  }
-
   // Redirect user to login if  not logged in
   if (!isAuthenticated && !loading) {
     return <Redirect to='/login' />;
+  }
+
+  if (user.id) {
+    new Websocket(user.id);
   }
 
   return (

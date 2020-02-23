@@ -3,7 +3,8 @@ import {
   SET_LOADING,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  CLEAR_ERROR
+  CLEAR_ERROR,
+  LOGOUT
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 import axios from 'axios';
@@ -55,6 +56,13 @@ export const loginUser = (email, password) => async dispatch => {
 
     return false;
   }
+};
+
+export const logout = () => dispatch => {
+  localStorage.removeItem('token');
+  return dispatch({
+    type: LOGOUT
+  });
 };
 
 export const clearError = () => dispatch => {
