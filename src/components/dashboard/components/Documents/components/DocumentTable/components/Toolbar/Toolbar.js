@@ -4,6 +4,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
+import AddFolder from '../AddFolder';
+import AddDocument from '../AddDocument';
 
 export default function Toolbar({
   addFolder,
@@ -55,6 +57,9 @@ export default function Toolbar({
           Add Document
         </MenuItem>
       </Menu>
+
+      <AddFolder open={addFolder} setOpen={setAddFolder} />
+      <AddDocument open={addDocument} setOpen={setAddDocument} />
     </span>
   );
 }

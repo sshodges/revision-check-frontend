@@ -66,11 +66,65 @@ export const addFolder = folder => async dispatch => {
   }
 };
 
+export const updateFolder = folder => async dispatch => {
+  try {
+    const res = await axios.put(
+      process.env.REACT_APP_BASE_API_URL + 'folders',
+      folder
+    );
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const deleteFolder = folderId => async dispatch => {
+  try {
+    const res = await axios.delete(
+      process.env.REACT_APP_BASE_API_URL + `folders/${folderId}`
+    );
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 export const addDocument = document => async dispatch => {
   try {
     const res = await axios.post(
       process.env.REACT_APP_BASE_API_URL + 'documents',
       document
+    );
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const updateDocument = document => async dispatch => {
+  try {
+    const res = await axios.put(
+      process.env.REACT_APP_BASE_API_URL + 'documents',
+      document
+    );
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const deleteDocument = documentId => async dispatch => {
+  try {
+    const res = await axios.delete(
+      process.env.REACT_APP_BASE_API_URL + `documents/${documentId}`
     );
 
     return res.data;

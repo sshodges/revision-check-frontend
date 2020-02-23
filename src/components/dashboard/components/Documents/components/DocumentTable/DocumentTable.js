@@ -16,6 +16,7 @@ import Toolbar from './components/Toolbar';
 import AddFolder from './components/AddFolder';
 import AddDocument from './components/AddDocument';
 import Loading from '../../../layout/Loading';
+import SelectToolbar from './components/SelectToolbar';
 
 const DocumentTable = ({
   document: { documents, current, loading },
@@ -97,7 +98,10 @@ const DocumentTable = ({
           setAddDocument={setAddDocumentModal}
         />
       );
-    }
+    },
+    customToolbarSelect: (row, displayData, test) => (
+      <SelectToolbar selectedRow={displayData[row.data[0].index]} />
+    )
   };
 
   let data = documents.filter(item => item.parent === current);
@@ -116,8 +120,6 @@ const DocumentTable = ({
           />
         </MuiThemeProvider>
       )}
-      <AddFolder open={addFolderModal} setOpen={setAddFolderModal} />
-      <AddDocument open={addDocumentModal} setOpen={setAddDocumentModal} />
     </div>
   );
 };
