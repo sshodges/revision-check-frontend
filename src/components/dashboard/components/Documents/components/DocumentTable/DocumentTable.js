@@ -13,8 +13,6 @@ import Breadcrumb from './components/Breadcrumb';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 // Internal Components
 import Toolbar from './components/Toolbar';
-import AddFolder from './components/AddFolder';
-import AddDocument from './components/AddDocument';
 import Loading from '../../../layout/Loading';
 import SelectToolbar from './components/SelectToolbar';
 

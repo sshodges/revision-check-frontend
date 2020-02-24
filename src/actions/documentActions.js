@@ -66,10 +66,10 @@ export const addFolder = folder => async dispatch => {
   }
 };
 
-export const updateFolder = folder => async dispatch => {
+export const updateFolder = (id, folder) => async dispatch => {
   try {
     const res = await axios.put(
-      process.env.REACT_APP_BASE_API_URL + 'folders',
+      process.env.REACT_APP_BASE_API_URL + `folders/${id}`,
       folder
     );
 
@@ -107,10 +107,10 @@ export const addDocument = document => async dispatch => {
   }
 };
 
-export const updateDocument = document => async dispatch => {
+export const updateDocument = (id, document) => async dispatch => {
   try {
     const res = await axios.put(
-      process.env.REACT_APP_BASE_API_URL + 'documents',
+      process.env.REACT_APP_BASE_API_URL + `documents/${id}`,
       document
     );
 
