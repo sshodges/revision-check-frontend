@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { addDocument } from 'actions/documentActions';
+import { updateDocument } from 'actions/documentActions';
 // Material UI
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -10,29 +10,25 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
-  const [documentName, setDocumentName] = useState('');
+const EditDocument = ({ rowData, updateDocument, open, setOpen }) => {
+  const [documentName, setDocumentName] = useState(rowData[4]);
   const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const saveDocument = async () => {
+  const editDocument = async () => {
     if (documentName === '') {
       return;
     }
     setLoading(true);
 
-    let folder = {
-      name: documentName,
-      parent: current
+    let document = {
+      name: documentName
     };
 
-    await addDocument(folder);
-
-    setLoading(false);
-    setOpen(false);
+    await updateDocument(rowData[0], document);
   };
 
   return (
@@ -42,7 +38,7 @@ const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
         onClose={handleClose}
         aria-labelledby='form-dialog-title'
       >
-        <DialogTitle id='form-dialog-title'>Add Document</DialogTitle>
+        <DialogTitle id='form-dialog-title'>Edit Document</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -52,14 +48,15 @@ const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
             type='text'
             fullWidth
             onChange={e => setDocumentName(e.target.value)}
+            value={documentName}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color='primary'>
             Cancel
           </Button>
-          <Button onClick={saveDocument} color='primary'>
-            {loading ? <CircularProgress size={18} /> : 'Save'}
+          <Button onClick={editDocument} color='primary'>
+            {loading ? <CircularProgress size={18} /> : 'Edit'}
           </Button>
         </DialogActions>
       </Dialog>
@@ -67,10 +64,6 @@ const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  document: state.document
-});
-
-export default connect(mapStateToProps, {
-  addDocument
-})(AddDocument);
+export default connect(null, {
+  updateDocument
+})(EditDocument);

@@ -28,9 +28,7 @@ const EditFolder = ({ rowData, updateFolder, open, setOpen }) => {
       name: folderName
     };
 
-    await updateFolder(rowData[0], folder);
-
-    setOpen(false);
+    await updateFolder(rowData[0], folder).then(() => {});
   };
 
   return (
