@@ -5,21 +5,41 @@ import { updateDocument, deleteFolder } from 'actions/documentActions';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+// Internal Components
 import EditFolder from '../EditFolder/EditFolder';
 import EditDocument from '../EditDocument/EditDocument';
+import DeleteConfirm from '../DeleteConfirm';
 
-const SelectToolbar = ({ deleteFolder, updateDocument, selectedRow }) => {
-  const [rowData] = useState(selectedRow.data);
+const SelectToolbar = ({ deleteFolder, updateDocument, rowData }) => {
   const [editFolder, setEditFolder] = useState(false);
   const [editDocument, setEditDocument] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteInfo, setDeleteInfo] = useState({});
 
   const onDelete = async () => {
     let id = rowData[0];
+    let title = rowData[4];
+    let info = {};
     if (rowData[1] === 'folder') {
-      await deleteFolder(id);
+      info.heading = `Are you sure you want to delete ${title}?`;
+      info.text =
+        'Deleting this folder will delete all sub-folders and move all documents to the home directory.';
+      info.deleteFunction = () => deleteFolder(id);
     } else {
-      await updateDocument(id, { status: false });
+      info.heading = `Are you sure you want to archive ${title}?`;
+      info.text = (
+        <span>
+          Documents cannot be permanently deleted.
+          <br />
+          <br />
+          Pressing delete will move this document to the archive folder. You can
+          reactivate a document at any time.
+        </span>
+      );
+      info.deleteFunction = () => updateDocument(id, { status: false });
     }
+    setDeleteInfo(info);
+    setDeleteOpen(true);
   };
 
   const onEdit = async () => {
@@ -38,6 +58,11 @@ const SelectToolbar = ({ deleteFolder, updateDocument, selectedRow }) => {
       <IconButton onClick={onDelete}>
         <DeleteIcon />
       </IconButton>
+      <DeleteConfirm
+        open={deleteOpen}
+        setOpen={setDeleteOpen}
+        deleteInfo={deleteInfo}
+      />
       <EditFolder open={editFolder} setOpen={setEditFolder} rowData={rowData} />
       <EditDocument
         open={editDocument}

@@ -14,8 +14,13 @@ const EditDocument = ({ rowData, updateDocument, open, setOpen }) => {
   const [documentName, setDocumentName] = useState(rowData[4]);
   const [loading, setLoading] = useState(false);
 
+  const handleOpen = () => {
+    setDocumentName(rowData[4]);
+  };
+
   const handleClose = () => {
     setOpen(false);
+    setDocumentName('');
   };
 
   const editDocument = async () => {
@@ -36,6 +41,7 @@ const EditDocument = ({ rowData, updateDocument, open, setOpen }) => {
       <Dialog
         open={open}
         onClose={handleClose}
+        onEnter={handleOpen}
         aria-labelledby='form-dialog-title'
       >
         <DialogTitle id='form-dialog-title'>Edit Document</DialogTitle>

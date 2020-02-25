@@ -14,8 +14,13 @@ const EditFolder = ({ rowData, updateFolder, open, setOpen }) => {
   const [folderName, setFolderName] = useState(rowData[4]);
   const [loading, setLoading] = useState(false);
 
+  const handleOpen = () => {
+    setFolderName(rowData[4]);
+  };
+
   const handleClose = () => {
     setOpen(false);
+    setFolderName('');
   };
 
   const editFolder = async () => {
@@ -36,6 +41,7 @@ const EditFolder = ({ rowData, updateFolder, open, setOpen }) => {
       <Dialog
         open={open}
         onClose={handleClose}
+        onEnter={handleOpen}
         aria-labelledby='form-dialog-title'
       >
         <DialogTitle id='form-dialog-title'>Edit Folder</DialogTitle>

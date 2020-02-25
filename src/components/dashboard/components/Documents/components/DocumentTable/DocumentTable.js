@@ -97,8 +97,8 @@ const DocumentTable = ({
         />
       );
     },
-    customToolbarSelect: (row, displayData, test) => (
-      <SelectToolbar selectedRow={displayData[row.data[0].index]} />
+    customToolbarSelect: (row, displayData) => (
+      <SelectToolbar rowData={displayData[row.data[0].index].data} />
     )
   };
 
