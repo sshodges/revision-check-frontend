@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { updateDocument, deleteFolder } from 'actions/documentActions';
 // Material UI
 import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
+import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
+import Tooltip from '@material-ui/core/Tooltip';
 // Internal Components
 import EditFolder from '../EditFolder/EditFolder';
 import EditDocument from '../EditDocument/EditDocument';
@@ -52,12 +54,23 @@ const SelectToolbar = ({ deleteFolder, updateDocument, rowData }) => {
 
   return (
     <span style={{ marginRight: 20 }}>
-      <IconButton onClick={onEdit}>
-        <EditIcon />
-      </IconButton>
-      <IconButton onClick={onDelete}>
-        <DeleteIcon />
-      </IconButton>
+      <Tooltip title='Edit'>
+        <IconButton onClick={onEdit}>
+          <EditOutlinedIcon style={{ color: '#547CB3' }} />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title='Delete'>
+        <IconButton onClick={onDelete}>
+          <DeleteOutlineOutlinedIcon style={{ color: '#B35454' }} />
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip title='Cancel'>
+        <IconButton onClick={onDelete}>
+          <ClearOutlinedIcon />
+        </IconButton>
+      </Tooltip>
+
       <DeleteConfirm
         open={deleteOpen}
         setOpen={setDeleteOpen}

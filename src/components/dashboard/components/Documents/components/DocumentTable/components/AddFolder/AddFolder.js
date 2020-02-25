@@ -35,6 +35,12 @@ const AddFolder = ({ document: { current }, addFolder, open, setOpen }) => {
     setOpen(false);
   };
 
+  const keyPressed = event => {
+    if (event.key === 'Enter') {
+      saveFolder();
+    }
+  };
+
   return (
     <div>
       <Dialog
@@ -51,6 +57,7 @@ const AddFolder = ({ document: { current }, addFolder, open, setOpen }) => {
             label='Folder Name'
             type='text'
             fullWidth
+            onKeyPress={keyPressed}
             onChange={e => setFolderName(e.target.value)}
           />
         </DialogContent>

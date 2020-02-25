@@ -36,6 +36,12 @@ const EditFolder = ({ rowData, updateFolder, open, setOpen }) => {
     await updateFolder(rowData[0], folder).then(() => {});
   };
 
+  const keyPressed = event => {
+    if (event.key === 'Enter') {
+      editFolder();
+    }
+  };
+
   return (
     <div>
       <Dialog
@@ -53,6 +59,7 @@ const EditFolder = ({ rowData, updateFolder, open, setOpen }) => {
             label='Folder Name'
             type='text'
             fullWidth
+            onKeyPress={keyPressed}
             onChange={e => setFolderName(e.target.value)}
             value={folderName}
           />

@@ -9,9 +9,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
+// Internal Components
+import ErrorMessage from 'components/Dashboard/components/layout/ErrorMessage';
 
 const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
   const [documentName, setDocumentName] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
@@ -29,10 +32,22 @@ const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
       parent: current
     };
 
-    await addDocument(folder);
+    const res = await addDocument(folder);
 
     setLoading(false);
+
+    if (res === 'duplicate') {
+      setErrorMessage('A document with that name already exists');
+      return;
+    }
+
     setOpen(false);
+  };
+
+  const keyPressed = event => {
+    if (event.key === 'Enter') {
+      saveDocument();
+    }
   };
 
   return (
@@ -51,6 +66,7 @@ const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
             label='Document Name'
             type='text'
             fullWidth
+            onKeyPress={keyPressed}
             onChange={e => setDocumentName(e.target.value)}
           />
         </DialogContent>
@@ -62,6 +78,13 @@ const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
             {loading ? <CircularProgress size={18} /> : 'Save'}
           </Button>
         </DialogActions>
+
+        {errorMessage && (
+          <ErrorMessage
+            message={errorMessage}
+            clearError={() => setErrorMessage('')}
+          />
+        )}
       </Dialog>
     </div>
   );

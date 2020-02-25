@@ -21,7 +21,7 @@ import {
 } from '@material-ui/core';
 import { useStyles } from './Login-styles';
 // Other Components
-import Logo from '../../assets/img/logo.png';
+import Logo from 'assets/img/logo.png';
 import Copyright from '../Dashboard/components/layout/Copyright';
 import ErrorMessage from '../Dashboard/components/layout/ErrorMessage';
 import PageLoading from '../Dashboard/components/layout/PageLoading';

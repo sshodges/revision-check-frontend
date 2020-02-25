@@ -102,7 +102,9 @@ export const addDocument = document => async dispatch => {
 
     return res.data;
   } catch (error) {
-    console.log(error);
+    if (error.response.status) {
+      return 'duplicate';
+    }
     return false;
   }
 };
@@ -116,7 +118,9 @@ export const updateDocument = (id, document) => async dispatch => {
 
     return res.data;
   } catch (error) {
-    console.log(error);
+    if (error.response.status) {
+      return 'duplicate';
+    }
     return false;
   }
 };
