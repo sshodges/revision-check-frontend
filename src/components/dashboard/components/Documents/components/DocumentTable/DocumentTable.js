@@ -24,6 +24,15 @@ const DocumentTable = ({
 
   const [addFolderModal, setAddFolderModal] = useState(false);
   const [addDocumentModal, setAddDocumentModal] = useState(false);
+  const [searching, setSearching] = useState(false);
+  const [searchText, setSearchText] = useState('');
+
+  let data;
+  if (searching) {
+    data = documents;
+  } else {
+    data = documents.filter(item => item.parent === current);
+  }
 
   const columns = [
     {
@@ -49,7 +58,7 @@ const DocumentTable = ({
       label: ' ',
       options: {
         sort: false,
-        customBodyRender: (value, tableMeta, updateValue) => {
+        customBodyRender: value => {
           if (value === 'document') {
             return (
               <img
@@ -79,7 +88,32 @@ const DocumentTable = ({
     viewColumns: false,
     responsive: 'scrollFullHeight',
     selectableRows: 'single',
-    onRowClick: function(rowData) {
+    textLabels: {
+      body: {
+        noMatch: 'No items in folder'
+      }
+    },
+    onSearchChange: (searchQuery, currentRow, columns) => {
+      if (searchQuery) {
+        setSearching(true);
+        setSearchText(searchQuery);
+        return;
+      }
+
+      setSearching(false);
+      setSearchText('');
+    },
+    searchText,
+    onRowClick: rowData => {
+      // Dirty hack to close search when clicking row, not native to MUI Datables
+      // TODO: find cleaner solution
+      const clearButton = document.querySelectorAll(
+        '[class*=MUIDataTableSearch-clearIcon-]'
+      )[0];
+      if (clearButton) {
+        clearButton.click();
+      }
+
       if (rowData[1] === 'folder') {
         changeParent(rowData[0]);
         return;
@@ -101,8 +135,6 @@ const DocumentTable = ({
       <SelectToolbar rowData={displayData[row.data[0].index].data} />
     )
   };
-
-  let data = documents.filter(item => item.parent === current);
 
   return (
     <div className='row'>
