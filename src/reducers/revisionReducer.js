@@ -1,4 +1,10 @@
-import { GET_REVISIONS, SET_LOADING, ERROR } from '../actions/types';
+import {
+  GET_REVISIONS,
+  SET_LOADING_REVISIONS,
+  ERROR,
+  CLEAR_REVISIONS,
+  ADD_REVISION
+} from '../actions/types';
 
 const initialState = {
   revisions: [],
@@ -7,7 +13,7 @@ const initialState = {
 };
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_LOADING:
+    case SET_LOADING_REVISIONS:
       return {
         ...state,
         loading: true
@@ -22,6 +28,22 @@ export default (state = initialState, action) => {
         ...state,
         revisions: action.payload,
         loading: false
+      };
+    case ADD_REVISION:
+      return {
+        ...state,
+        revisions: [
+          action.payload,
+          ...state.revisions.map(revision => {
+            revision.latest = false;
+            return revision;
+          })
+        ]
+      };
+    case CLEAR_REVISIONS:
+      return {
+        ...state,
+        revisions: []
       };
     default:
       return state;

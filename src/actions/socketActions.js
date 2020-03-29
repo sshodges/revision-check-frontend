@@ -1,5 +1,6 @@
 import {
   ADD_FOLDER,
+  ADD_REVISION,
   UPDATE_FOLDER,
   DELETE_FOLDER,
   ADD_DOCUMENT,
@@ -12,6 +13,17 @@ export const addFolder = folder => async dispatch => {
     dispatch({
       type: ADD_FOLDER,
       payload: folder
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addRevision = revision => async dispatch => {
+  try {
+    dispatch({
+      type: ADD_REVISION,
+      payload: revision
     });
   } catch (error) {
     console.log(error);

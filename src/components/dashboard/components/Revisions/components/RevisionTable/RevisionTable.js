@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import MUIDataTable from 'mui-datatables';
 // Styles
-import { useStyles, customTheme } from './RevisionTable-styles';
+import { customTheme } from './RevisionTable-styles';
 // Actions
-
+import { clearRevisions } from 'actions/revisionActions';
 // Material UI
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CheckIcon from '@material-ui/icons/Check';
@@ -15,10 +15,12 @@ import TableCell from '@material-ui/core/TableCell';
 // Internal Components
 import Loading from '../../../layout/Loading';
 import { BackButton } from './components/BackButton/BackButton';
+import { RevisionToolbar } from './components/RevisionToolbar/RevisionToolbar';
 
 const RevisionTable = ({
   document: { selectedDocument },
-  revision: { revisions, loading }
+  revision: { revisions, loading },
+  clearRevisions
 }) => {
   let history = useHistory();
   let title = selectedDocument.name;
@@ -66,6 +68,9 @@ const RevisionTable = ({
         noMatch: 'No revisions created'
       }
     },
+    customToolbar: () => {
+      return <RevisionToolbar />;
+    },
     expandableRows: true,
     expandableRowsOnClick: true,
     renderExpandableRow: (rowData, rowMeta) => {
@@ -81,6 +86,7 @@ const RevisionTable = ({
   };
 
   const goBack = () => {
+    clearRevisions();
     history.push('/');
   };
 
@@ -107,4 +113,4 @@ const mapStateToProps = state => ({
   revision: state.revision
 });
 
-export default connect(mapStateToProps, {})(RevisionTable);
+export default connect(mapStateToProps, { clearRevisions })(RevisionTable);

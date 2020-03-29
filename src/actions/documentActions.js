@@ -1,7 +1,7 @@
 import {
   GET_ALL_DOCUMENTS,
   GET_ALL_FOLDERS,
-  SET_LOADING,
+  SET_LOADING_DOCUMENTS,
   CHANGE_PARENT,
   ERROR,
   SELECT_DOCUMENT
@@ -155,6 +155,6 @@ export const selectDocument = document => async dispatch => {
 
 export const setLoading = () => dispatch => {
   dispatch({
-    type: SET_LOADING
+    type: SET_LOADING_DOCUMENTS
   });
 };

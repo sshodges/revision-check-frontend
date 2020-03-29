@@ -2,7 +2,7 @@ import {
   LOAD_USER,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  SET_LOADING,
+  SET_LOADING_AUTH,
   CLEAR_ERROR,
   LOGOUT
 } from '../actions/types';
@@ -20,7 +20,7 @@ const initialState = {
 };
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_LOADING:
+    case SET_LOADING_AUTH:
       return {
         ...state,
         loading: true

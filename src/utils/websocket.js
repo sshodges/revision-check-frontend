@@ -2,6 +2,7 @@ import io from 'socket.io-client';
 import md5 from 'md5';
 import {
   addFolder,
+  addRevision,
   updateFolder,
   deleteFolder,
   addDocument,
@@ -55,6 +56,12 @@ class Websocket {
       } else {
         store.dispatch(archiveDocument(document));
       }
+    });
+
+    // Revision
+    socket.on('add revision', function(revision) {
+      console.log(revision);
+      store.dispatch(addRevision(revision));
     });
   }
 }

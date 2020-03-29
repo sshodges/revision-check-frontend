@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 // Actions
-import { getAllDocuments } from 'actions/documentActions';
+import { getAllDocuments, setLoading } from 'actions/documentActions';
 // Interal Components
 import DocumentTable from './components/DocumentTable';
 
-const Documents = ({ getAllDocuments }) => {
+const Documents = ({ getAllDocuments, setLoading }) => {
   useEffect(() => {
+    setLoading();
     getAllDocuments();
-  }, [getAllDocuments]);
+  }, [getAllDocuments, setLoading]);
 
   return <DocumentTable />;
 };
@@ -18,5 +19,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getAllDocuments
+  getAllDocuments,
+  setLoading
 })(Documents);

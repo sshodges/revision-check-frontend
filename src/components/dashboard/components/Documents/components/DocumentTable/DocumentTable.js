@@ -3,15 +3,14 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import MUIDataTable from 'mui-datatables';
 // Styles
-import { useStyles, customTheme } from './DocumentTable-styles';
+import { customTheme } from './DocumentTable-styles';
 // Actions
 import { changeParent, selectDocument } from 'actions/documentActions';
-// Images
-import DocumentIcon from 'assets/img/document.png';
-import FolderIcon from 'assets/img/folder.png';
 // Material UI
 import Breadcrumb from './components/Breadcrumb';
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import FolderIcon from '@material-ui/icons/Folder';
 // Internal Components
 import Toolbar from './components/Toolbar';
 import Loading from '../../../layout/Loading';
@@ -22,7 +21,6 @@ const DocumentTable = ({
   changeParent,
   selectDocument
 }) => {
-  const classes = useStyles();
   let history = useHistory();
 
   const [addFolderModal, setAddFolderModal] = useState(false);
@@ -63,17 +61,9 @@ const DocumentTable = ({
         sort: false,
         customBodyRender: value => {
           if (value === 'document') {
-            return (
-              <img
-                src={DocumentIcon}
-                className={classes.icon}
-                alt='document icon'
-              />
-            );
+            return <AssignmentIcon style={{ color: '#DE5145' }} />;
           }
-          return (
-            <img src={FolderIcon} className={classes.icon} alt='folder icon' />
-          );
+          return <FolderIcon style={{ color: '#1793C2' }} />;
         }
       }
     },

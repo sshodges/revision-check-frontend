@@ -7,7 +7,7 @@ import {
   ADD_DOCUMENT,
   UPDATE_DOCUMENT,
   ARCHIVE_DOCUMENT,
-  SET_LOADING,
+  SET_LOADING_DOCUMENTS,
   SELECT_DOCUMENT,
   CHANGE_PARENT,
   ERROR
@@ -28,7 +28,7 @@ const initialState = {
 };
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_LOADING:
+    case SET_LOADING_DOCUMENTS:
       return {
         ...state,
         loading: true

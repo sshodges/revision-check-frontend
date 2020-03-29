@@ -1,6 +1,6 @@
 import {
   LOAD_USER,
-  SET_LOADING,
+  SET_LOADING_AUTH,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   CLEAR_ERROR,
@@ -73,6 +73,6 @@ export const clearError = () => dispatch => {
 
 export const setLoading = () => dispatch => {
   return dispatch({
-    type: SET_LOADING
+    type: SET_LOADING_AUTH
   });
 };
