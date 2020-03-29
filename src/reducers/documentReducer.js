@@ -8,6 +8,7 @@ import {
   UPDATE_DOCUMENT,
   ARCHIVE_DOCUMENT,
   SET_LOADING,
+  SELECT_DOCUMENT,
   CHANGE_PARENT,
   ERROR
 } from '../actions/types';
@@ -19,6 +20,10 @@ const initialState = {
   loading: false,
   current: 0,
   parent: 0,
+  selectedDocument: {
+    id: null,
+    name: null
+  },
   error: null
 };
 export default (state = initialState, action) => {
@@ -117,6 +122,11 @@ export default (state = initialState, action) => {
         ...state,
         current: action.payload,
         parent: previousParent
+      };
+    case SELECT_DOCUMENT:
+      return {
+        ...state,
+        selectedDocument: action.payload
       };
     default:
       return state;

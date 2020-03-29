@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import store from './store';
 import { Provider } from 'react-redux';
-import axios from 'axios'
+import axios from 'axios';
 //Components
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
@@ -27,8 +27,8 @@ const App = () => {
         <Router>
           <Fragment>
             <Switch>
-              <Route exact path='/' component={Dashboard} />
               <Route exact path='/login' component={Login} />
+              <Dashboard />
             </Switch>
           </Fragment>
         </Router>

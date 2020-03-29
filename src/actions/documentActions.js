@@ -3,7 +3,8 @@ import {
   GET_ALL_FOLDERS,
   SET_LOADING,
   CHANGE_PARENT,
-  ERROR
+  ERROR,
+  SELECT_DOCUMENT
 } from './types';
 import axios from 'axios';
 
@@ -142,6 +143,13 @@ export const changeParent = parent => async dispatch => {
   dispatch({
     type: CHANGE_PARENT,
     payload: parent
+  });
+};
+
+export const selectDocument = document => async dispatch => {
+  dispatch({
+    type: SELECT_DOCUMENT,
+    payload: document
   });
 };
 

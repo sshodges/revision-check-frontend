@@ -15,6 +15,7 @@ import { getUser, setLoading } from 'actions/authActions';
 import Sidebar from './components/layout/Sidebar/Sidebar';
 import Navbar from './components/layout/Navbar/Navbar';
 import Documents from './components/Documents/Documents';
+import Revisions from './components/Revisions';
 
 const Dashboard = ({
   auth: { user, isAuthenticated, loading },
@@ -43,19 +44,20 @@ const Dashboard = ({
   }
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <Navbar />
-      <Sidebar />
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Router>
+    <Router>
+      <div className={classes.root}>
+        <CssBaseline />
+        <Navbar />
+        <Sidebar />
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
           <Switch>
-            <Route exact path='/' component={Documents} />\{' '}
+            <Route exact path='/' component={Documents} />
+            <Route exact path='/revisions' component={Revisions} />
           </Switch>
-        </Router>
-      </main>
-    </div>
+        </main>
+      </div>
+    </Router>
   );
 };
 

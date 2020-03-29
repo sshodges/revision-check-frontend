@@ -4,6 +4,7 @@ export const ERROR = 'ERROR';
 export const GET_ALL_DOCUMENTS = 'GET_ALL_DOCUMENTS';
 export const GET_ALL_FOLDERS = 'GET_ALL_FOLDERS';
 export const CHANGE_PARENT = 'CHANGE_PARENT';
+export const SELECT_DOCUMENT = 'SELECT_DOCUMENT';
 // AUTH
 export const LOAD_USER = 'LOAD_USER';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -11,6 +12,8 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 export const LOGOUT = 'LOGOUT';
+// REVISIONS
+export const GET_REVISIONS = 'GET_REVISIONS';
 // SOCKET
 export const ADD_FOLDER = 'ADD_FOLDER';
 export const UPDATE_FOLDER = 'UPDATE_FOLDER';

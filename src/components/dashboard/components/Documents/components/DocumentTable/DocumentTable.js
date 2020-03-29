@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import MUIDataTable from 'mui-datatables';
 // Styles
 import { useStyles, customTheme } from './DocumentTable-styles';
 // Actions
-import { changeParent } from 'actions/documentActions';
+import { changeParent, selectDocument } from 'actions/documentActions';
 // Images
 import DocumentIcon from 'assets/img/document.png';
 import FolderIcon from 'assets/img/folder.png';
@@ -17,10 +18,12 @@ import Loading from '../../../layout/Loading';
 import SelectToolbar from './components/SelectToolbar';
 
 const DocumentTable = ({
-  document: { documents, current, loading },
-  changeParent
+  document: { documents, current, loading, selectedDocument },
+  changeParent,
+  selectDocument
 }) => {
   const classes = useStyles();
+  let history = useHistory();
 
   const [addFolderModal, setAddFolderModal] = useState(false);
   const [addDocumentModal, setAddDocumentModal] = useState(false);
@@ -118,8 +121,13 @@ const DocumentTable = ({
         changeParent(rowData[0]);
         return;
       }
-      // Select document
-      // Redirect to revisions
+
+      selectDocument({
+        id: rowData[0],
+        name: rowData[4]
+      });
+
+      history.push('/revisions');
     },
     customToolbar: () => {
       return (
@@ -159,5 +167,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  changeParent
+  changeParent,
+  selectDocument
 })(DocumentTable);
