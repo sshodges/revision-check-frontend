@@ -4,22 +4,22 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   CLEAR_ERROR,
-  LOGOUT
+  LOGOUT,
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 import axios from 'axios';
 
-export const getUser = () => async dispatch => {
+export const getUser = () => async (dispatch) => {
   setLoading();
   if (localStorage.token) {
     setAuthToken(localStorage.token);
 
     try {
-      const res = await axios.get(process.env.REACT_APP_BASE_API_URL + 'users');
+      const res = await axios.get(process.env.REACT_APP_BASE_API_URL + 'auth');
 
       dispatch({
         type: LOAD_USER,
-        payload: res.data
+        payload: res.data,
       });
       return true;
     } catch (error) {
@@ -32,47 +32,51 @@ export const getUser = () => async dispatch => {
   return false;
 };
 
-export const loginUser = (email, password) => async dispatch => {
+export const loginUser = (email, password) => async (dispatch) => {
   try {
+    console.log(process.env.REACT_APP_BASE_API_URL + 'auth');
+
     const response = await axios.post(
-      process.env.REACT_APP_BASE_API_URL + 'users/login',
+      process.env.REACT_APP_BASE_API_URL + 'auth',
       {
         email,
-        password
+        password,
       }
     );
+    console.log(response);
 
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: response
+      payload: response,
     });
 
     return true;
   } catch (error) {
+    console.log(error);
     dispatch({
       type: LOGIN_FAIL,
-      payload: error.response.data.message
+      payload: error.response.data.message,
     });
 
     return false;
   }
 };
 
-export const logout = () => dispatch => {
+export const logout = () => (dispatch) => {
   localStorage.removeItem('token');
   return dispatch({
-    type: LOGOUT
+    type: LOGOUT,
   });
 };
 
-export const clearError = () => dispatch => {
+export const clearError = () => (dispatch) => {
   return dispatch({
-    type: CLEAR_ERROR
+    type: CLEAR_ERROR,
   });
 };
 
-export const setLoading = () => dispatch => {
+export const setLoading = () => (dispatch) => {
   return dispatch({
-    type: SET_LOADING_AUTH
+    type: SET_LOADING_AUTH,
   });
 };

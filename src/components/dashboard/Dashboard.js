@@ -4,7 +4,7 @@ import {
   Redirect,
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
 } from 'react-router-dom';
 import { useStyles } from './Dashboard-styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,7 +20,7 @@ import Revisions from './components/Revisions';
 const Dashboard = ({
   auth: { user, isAuthenticated, loading },
   setLoading,
-  getUser
+  getUser,
 }) => {
   useEffect(() => {
     // Check if user already logged in
@@ -39,8 +39,8 @@ const Dashboard = ({
     return <Redirect to='/login' />;
   }
 
-  if (user.id) {
-    new Websocket(user.id);
+  if (user._id) {
+    new Websocket(user._id);
   }
 
   return (
@@ -61,11 +61,11 @@ const Dashboard = ({
   );
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
   getUser,
-  setLoading
+  setLoading,
 })(Dashboard);

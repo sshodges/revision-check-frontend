@@ -2,34 +2,35 @@ import {
   SET_LOADING_REVISIONS,
   ERROR,
   GET_REVISIONS,
-  CLEAR_REVISIONS
+  CLEAR_REVISIONS,
 } from './types';
 import axios from 'axios';
 
-export const getRevisions = documentId => async dispatch => {
+export const getRevisions = (documentId) => async (dispatch) => {
   try {
     const res = await axios.get(
-      process.env.REACT_APP_BASE_API_URL + `revisions/${documentId}`
+      process.env.REACT_APP_BASE_API_URL + `revisions/document/${documentId}`
     );
 
     const data = res.data;
 
     dispatch({
       type: GET_REVISIONS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
       type: ERROR,
-      payload: error
+      payload: error,
     });
   }
 };
 
-export const addRevision = (revision, documentId) => async dispatch => {
+export const addRevision = (revision) => async (dispatch) => {
   try {
+    console.log(revision);
     const res = await axios.post(
-      process.env.REACT_APP_BASE_API_URL + `revisions/${documentId}`,
+      process.env.REACT_APP_BASE_API_URL + `revisions`,
       revision
     );
 
@@ -40,14 +41,14 @@ export const addRevision = (revision, documentId) => async dispatch => {
   }
 };
 
-export const clearRevisions = () => dispatch => {
+export const clearRevisions = () => (dispatch) => {
   dispatch({
-    type: CLEAR_REVISIONS
+    type: CLEAR_REVISIONS,
   });
 };
 
-export const setLoading = () => dispatch => {
+export const setLoading = () => (dispatch) => {
   dispatch({
-    type: SET_LOADING_REVISIONS
+    type: SET_LOADING_REVISIONS,
   });
 };

@@ -4,38 +4,38 @@ import {
   SET_LOADING_DOCUMENTS,
   CHANGE_PARENT,
   ERROR,
-  SELECT_DOCUMENT
+  SELECT_DOCUMENT,
 } from './types';
 import axios from 'axios';
 
-export const getAllDocuments = () => async dispatch => {
+export const getAllDocuments = () => async (dispatch) => {
   try {
     setLoading();
 
     const res = await axios.get(
-      process.env.REACT_APP_BASE_API_URL + 'documents/folders'
+      process.env.REACT_APP_BASE_API_URL + 'documents/getall/items'
     );
 
     let data = res.data;
 
     // TODO: This data manipulation has to happen until backend response is sorted
-    data = data.map(obj =>
+    data = data.map((obj) =>
       obj.status ? { ...obj, type: 'document' } : { ...obj, type: 'folder' }
     );
 
     dispatch({
       type: GET_ALL_DOCUMENTS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
       type: ERROR,
-      payload: error
+      payload: error,
     });
   }
 };
 
-export const getAllFolders = () => async dispatch => {
+export const getAllFolders = () => async (dispatch) => {
   try {
     const res = await axios.get(process.env.REACT_APP_BASE_API_URL + 'folders');
 
@@ -43,17 +43,17 @@ export const getAllFolders = () => async dispatch => {
 
     dispatch({
       type: GET_ALL_FOLDERS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
       type: ERROR,
-      payload: error
+      payload: error,
     });
   }
 };
 
-export const addFolder = folder => async dispatch => {
+export const addFolder = (folder) => async (dispatch) => {
   try {
     const res = await axios.post(
       process.env.REACT_APP_BASE_API_URL + 'folders',
@@ -67,7 +67,7 @@ export const addFolder = folder => async dispatch => {
   }
 };
 
-export const updateFolder = (id, folder) => async dispatch => {
+export const updateFolder = (id, folder) => async (dispatch) => {
   try {
     const res = await axios.put(
       process.env.REACT_APP_BASE_API_URL + `folders/${id}`,
@@ -81,7 +81,7 @@ export const updateFolder = (id, folder) => async dispatch => {
   }
 };
 
-export const deleteFolder = folderId => async dispatch => {
+export const deleteFolder = (folderId) => async (dispatch) => {
   try {
     const res = await axios.delete(
       process.env.REACT_APP_BASE_API_URL + `folders/${folderId}`
@@ -94,7 +94,7 @@ export const deleteFolder = folderId => async dispatch => {
   }
 };
 
-export const addDocument = document => async dispatch => {
+export const addDocument = (document) => async (dispatch) => {
   try {
     const res = await axios.post(
       process.env.REACT_APP_BASE_API_URL + 'documents',
@@ -110,7 +110,7 @@ export const addDocument = document => async dispatch => {
   }
 };
 
-export const updateDocument = (id, document) => async dispatch => {
+export const updateDocument = (id, document) => async (dispatch) => {
   try {
     const res = await axios.put(
       process.env.REACT_APP_BASE_API_URL + `documents/${id}`,
@@ -126,7 +126,7 @@ export const updateDocument = (id, document) => async dispatch => {
   }
 };
 
-export const deleteDocument = documentId => async dispatch => {
+export const deleteDocument = (documentId) => async (dispatch) => {
   try {
     const res = await axios.delete(
       process.env.REACT_APP_BASE_API_URL + `documents/${documentId}`
@@ -139,22 +139,22 @@ export const deleteDocument = documentId => async dispatch => {
   }
 };
 
-export const changeParent = parent => async dispatch => {
+export const changeParent = (parent) => async (dispatch) => {
   dispatch({
     type: CHANGE_PARENT,
-    payload: parent
+    payload: parent,
   });
 };
 
-export const selectDocument = document => async dispatch => {
+export const selectDocument = (document) => async (dispatch) => {
   dispatch({
     type: SELECT_DOCUMENT,
-    payload: document
+    payload: document,
   });
 };
 
-export const setLoading = () => dispatch => {
+export const setLoading = () => (dispatch) => {
   dispatch({
-    type: SET_LOADING_DOCUMENTS
+    type: SET_LOADING_DOCUMENTS,
   });
 };

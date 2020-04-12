@@ -10,7 +10,7 @@ import {
   SET_LOADING_DOCUMENTS,
   SELECT_DOCUMENT,
   CHANGE_PARENT,
-  ERROR
+  ERROR,
 } from '../actions/types';
 import findPreviousParent from '../utils/findPreviousParent';
 
@@ -18,88 +18,89 @@ const initialState = {
   documents: [],
   folders: [],
   loading: false,
-  current: 0,
-  parent: 0,
+  current: null,
+  parent: null,
   selectedDocument: {
-    id: null,
-    name: null
+    _id: null,
+    name: null,
   },
-  error: null
+  error: null,
 };
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_LOADING_DOCUMENTS:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case ERROR:
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
       };
     case GET_ALL_DOCUMENTS:
       return {
         ...state,
         documents: action.payload,
-        loading: false
+        loading: false,
       };
     case GET_ALL_FOLDERS:
       return {
         ...state,
         folders: action.payload,
-        loading: false
+        loading: false,
       };
     case ADD_FOLDER:
       return {
         ...state,
-        documents: [...state.documents, action.payload]
+        documents: [...state.documents, action.payload],
       };
     case UPDATE_FOLDER:
       return {
         ...state,
-        documents: state.documents.map(doc => {
-          if (doc.type === 'folder' && doc.id === action.payload.id) {
+        documents: state.documents.map((doc) => {
+          if (doc.type === 'folder' && doc._id === action.payload._id) {
             return action.payload;
           }
           return doc;
-        })
+        }),
       };
     case DELETE_FOLDER:
+      console.log(action.payload);
       return {
         ...state,
         documents: state.documents.filter(
-          doc =>
+          (doc) =>
             doc.type === 'document' ||
-            (doc.type === 'folder' && doc.id !== action.payload)
-        )
+            (doc.type === 'folder' && doc._id !== action.payload._id)
+        ),
       };
     case ADD_DOCUMENT:
       return {
         ...state,
-        documents: [...state.documents, action.payload]
+        documents: [...state.documents, action.payload],
       };
     case UPDATE_DOCUMENT:
       // TODO: A bit messy until archive endpoint created in backend, everything done under update
       const docExists = state.documents.filter(
-        doc => doc.type === 'document' && doc.id === action.payload.id
+        (doc) => doc.type === 'document' && doc._id === action.payload._id
       );
 
       if (docExists.length > 0) {
         return {
           ...state,
-          documents: state.documents.map(doc => {
-            if (doc.type === 'document' && doc.id === action.payload.id) {
+          documents: state.documents.map((doc) => {
+            if (doc.type === 'document' && doc._id === action.payload._id) {
               return action.payload;
             }
             return doc;
-          })
+          }),
         };
       }
 
       return {
         ...state,
-        documents: [...state.documents, action.payload]
+        documents: [...state.documents, action.payload],
       };
 
     case ARCHIVE_DOCUMENT:
@@ -107,10 +108,10 @@ export default (state = initialState, action) => {
       return {
         ...state,
         documents: state.documents.filter(
-          doc =>
+          (doc) =>
             doc.type === 'folder' ||
-            (doc.type === 'document' && doc.id !== action.payload.id)
-        )
+            (doc.type === 'document' && doc._id !== action.payload._id)
+        ),
       };
     case CHANGE_PARENT:
       const previousParent = findPreviousParent(
@@ -121,12 +122,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         current: action.payload,
-        parent: previousParent
+        parent: previousParent,
       };
     case SELECT_DOCUMENT:
       return {
         ...state,
-        selectedDocument: action.payload
+        selectedDocument: action.payload,
       };
     default:
       return state;

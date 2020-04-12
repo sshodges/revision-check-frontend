@@ -20,7 +20,7 @@ import { RevisionToolbar } from './components/RevisionToolbar/RevisionToolbar';
 const RevisionTable = ({
   document: { selectedDocument },
   revision: { revisions, loading },
-  clearRevisions
+  clearRevisions,
 }) => {
   let history = useHistory();
   let title = selectedDocument.name;
@@ -28,31 +28,31 @@ const RevisionTable = ({
 
   const columns = [
     {
-      name: 'id',
+      name: '_id',
       options: {
-        display: false
-      }
+        display: false,
+      },
     },
     {
       name: 'name',
-      label: 'Revision'
+      label: 'Revision',
     },
     {
-      name: 'uniqueCode',
-      label: 'Rev Code'
+      name: 'revcode',
+      label: 'Rev Code',
     },
     {
       name: 'latest',
       label: 'Status',
       options: {
-        customBodyRender: value => {
+        customBodyRender: (value) => {
           if (value) {
             return <CheckIcon style={{ color: 'green' }} />;
           }
           return <CloseIcon style={{ color: 'red' }} />;
-        }
-      }
-    }
+        },
+      },
+    },
   ];
 
   const options = {
@@ -65,8 +65,8 @@ const RevisionTable = ({
     responsive: 'scrollFullHeight',
     textLabels: {
       body: {
-        noMatch: 'No revisions created'
-      }
+        noMatch: 'No revisions created',
+      },
     },
     customToolbar: () => {
       return <RevisionToolbar />;
@@ -82,7 +82,7 @@ const RevisionTable = ({
       );
     },
     onRowsExpand: (curExpanded, allExpanded) =>
-      console.log(curExpanded, allExpanded)
+      console.log(curExpanded, allExpanded),
   };
 
   const goBack = () => {
@@ -108,9 +108,9 @@ const RevisionTable = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   document: state.document,
-  revision: state.revision
+  revision: state.revision,
 });
 
 export default connect(mapStateToProps, { clearRevisions })(RevisionTable);

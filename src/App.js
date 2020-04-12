@@ -11,13 +11,13 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
 const theme = createMuiTheme({
-  palette: {}
+  palette: {},
 });
 
 if (localStorage.token) {
-  axios.defaults.headers.common['Auth'] = localStorage.token;
+  axios.defaults.headers.common['auth-token'] = localStorage.token;
 } else {
-  delete axios.defaults.headers.common['Auth'];
+  delete axios.defaults.headers.common['auth-token'];
 }
 
 const App = () => {

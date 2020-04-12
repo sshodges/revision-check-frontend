@@ -14,7 +14,7 @@ const AddRevision = ({
   document: { selectedDocument },
   addRevision,
   open,
-  setOpen
+  setOpen,
 }) => {
   const [revisionName, setRevisionName] = useState('');
   const [revisionNote, setRevisionNote] = useState('');
@@ -30,17 +30,18 @@ const AddRevision = ({
     }
     const revision = {
       name: revisionName,
-      note: revisionNote
+      note: revisionNote,
+      document: selectedDocument._id,
     };
     setLoading(true);
 
-    await addRevision(revision, selectedDocument.id);
+    await addRevision(revision);
 
     setLoading(false);
     setOpen(false);
   };
 
-  const keyPressed = event => {
+  const keyPressed = (event) => {
     if (event.key === 'Enter') {
       saveRevision();
     }
@@ -63,15 +64,14 @@ const AddRevision = ({
             type='text'
             fullWidth
             onKeyPress={keyPressed}
-            onChange={e => setRevisionName(e.target.value)}
+            onChange={(e) => setRevisionName(e.target.value)}
           />
           <TextField
-            autoFocus
             id='note'
             label='Note'
             multiline
             fullWidth
-            onChange={e => setRevisionNote(e.target.value)}
+            onChange={(e) => setRevisionNote(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
@@ -87,10 +87,10 @@ const AddRevision = ({
   );
 };
 
-const mapStateToProps = state => ({
-  document: state.document
+const mapStateToProps = (state) => ({
+  document: state.document,
 });
 
 export default connect(mapStateToProps, {
-  addRevision
+  addRevision,
 })(AddRevision);

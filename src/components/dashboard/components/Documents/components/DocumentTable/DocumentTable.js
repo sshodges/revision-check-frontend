@@ -19,7 +19,7 @@ import SelectToolbar from './components/SelectToolbar';
 const DocumentTable = ({
   document: { documents, current, loading, selectedDocument },
   changeParent,
-  selectDocument
+  selectDocument,
 }) => {
   let history = useHistory();
 
@@ -32,45 +32,45 @@ const DocumentTable = ({
   if (searching) {
     data = documents;
   } else {
-    data = documents.filter(item => item.parent === current);
+    data = documents.filter((item) => item.parent === current);
   }
 
   const columns = [
     {
-      name: 'id',
+      name: '_id',
       options: {
-        display: false
-      }
+        display: false,
+      },
     },
     {
       name: 'type',
       options: {
-        display: false
-      }
+        display: false,
+      },
     },
     {
       name: 'parent',
       options: {
-        display: false
-      }
+        display: false,
+      },
     },
     {
       name: 'type',
       label: ' ',
       options: {
         sort: false,
-        customBodyRender: value => {
+        customBodyRender: (value) => {
           if (value === 'document') {
             return <AssignmentIcon style={{ color: '#DE5145' }} />;
           }
           return <FolderIcon style={{ color: '#1793C2' }} />;
-        }
-      }
+        },
+      },
     },
     {
       name: 'name',
-      label: 'Name'
-    }
+      label: 'Name',
+    },
   ];
 
   const options = {
@@ -83,8 +83,8 @@ const DocumentTable = ({
     selectableRows: 'single',
     textLabels: {
       body: {
-        noMatch: 'No items in folder'
-      }
+        noMatch: 'No items in folder',
+      },
     },
     onSearchChange: (searchQuery, currentRow, columns) => {
       if (searchQuery) {
@@ -97,7 +97,7 @@ const DocumentTable = ({
       setSearchText('');
     },
     searchText,
-    onRowClick: rowData => {
+    onRowClick: (rowData) => {
       // Dirty hack to close search when clicking row, not native to MUI Datables
       // TODO: find cleaner solution
       const clearButton = document.querySelectorAll(
@@ -113,8 +113,8 @@ const DocumentTable = ({
       }
 
       selectDocument({
-        id: rowData[0],
-        name: rowData[4]
+        _id: rowData[0],
+        name: rowData[4],
       });
 
       history.push('/revisions');
@@ -131,7 +131,7 @@ const DocumentTable = ({
     },
     customToolbarSelect: (row, displayData) => (
       <SelectToolbar rowData={displayData[row.data[0].index].data} />
-    )
+    ),
   };
 
   return (
@@ -152,11 +152,11 @@ const DocumentTable = ({
   );
 };
 
-const mapStateToProps = state => ({
-  document: state.document
+const mapStateToProps = (state) => ({
+  document: state.document,
 });
 
 export default connect(mapStateToProps, {
   changeParent,
-  selectDocument
+  selectDocument,
 })(DocumentTable);

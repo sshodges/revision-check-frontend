@@ -18,7 +18,11 @@ const Profile = ({ auth: { user, loading } }) => {
         to='/settings'
       />
       <Typography className={classes.name} variant='h5'>
-        {loading ? <CircularProgress size={22} /> : user.name}
+        {loading ? (
+          <CircularProgress size={22} />
+        ) : (
+          `${user.firstName} ${user.lastName}`
+        )}
       </Typography>
       {loading ? (
         <CircularProgress size={14} />
@@ -29,8 +33,8 @@ const Profile = ({ auth: { user, loading } }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, null)(Profile);
