@@ -10,7 +10,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const EditFolder = ({ rowData, updateFolder, open, setOpen }) => {
+const EditFolder = ({
+  rowData,
+  updateFolder,
+  open,
+  setOpen,
+  handleSuccess,
+}) => {
   const [folderName, setFolderName] = useState(rowData[4]);
   const [loading, setLoading] = useState(false);
 
@@ -30,13 +36,16 @@ const EditFolder = ({ rowData, updateFolder, open, setOpen }) => {
     setLoading(true);
 
     let folder = {
-      name: folderName
+      name: folderName,
     };
+    handleSuccess('Folder updated');
 
-    await updateFolder(rowData[0], folder).then(() => {});
+    await updateFolder(rowData[0], folder);
+
+    handleSuccess('Folder updated');
   };
 
-  const keyPressed = event => {
+  const keyPressed = (event) => {
     if (event.key === 'Enter') {
       editFolder();
     }
@@ -60,7 +69,7 @@ const EditFolder = ({ rowData, updateFolder, open, setOpen }) => {
             type='text'
             fullWidth
             onKeyPress={keyPressed}
-            onChange={e => setFolderName(e.target.value)}
+            onChange={(e) => setFolderName(e.target.value)}
             value={folderName}
           />
         </DialogContent>
@@ -78,5 +87,5 @@ const EditFolder = ({ rowData, updateFolder, open, setOpen }) => {
 };
 
 export default connect(null, {
-  updateFolder
+  updateFolder,
 })(EditFolder);

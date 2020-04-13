@@ -12,7 +12,13 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 // Internal Components
 import ErrorMessage from 'components/Dashboard/components/layout/ErrorMessage';
 
-const EditDocument = ({ rowData, updateDocument, open, setOpen }) => {
+const EditDocument = ({
+  rowData,
+  updateDocument,
+  open,
+  setOpen,
+  handleSuccess,
+}) => {
   const [documentName, setDocumentName] = useState(rowData[4]);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -33,8 +39,9 @@ const EditDocument = ({ rowData, updateDocument, open, setOpen }) => {
     setLoading(true);
 
     let document = {
-      name: documentName
+      name: documentName,
     };
+    handleSuccess('Document updated');
 
     const res = await updateDocument(rowData[0], document);
 
@@ -44,9 +51,11 @@ const EditDocument = ({ rowData, updateDocument, open, setOpen }) => {
       setErrorMessage('A document with that name already exists');
       return;
     }
+
+    handleSuccess('Document updated');
   };
 
-  const keyPressed = event => {
+  const keyPressed = (event) => {
     if (event.key === 'Enter') {
       editDocument();
     }
@@ -70,7 +79,7 @@ const EditDocument = ({ rowData, updateDocument, open, setOpen }) => {
             type='text'
             fullWidth
             onKeyPress={keyPressed}
-            onChange={e => setDocumentName(e.target.value)}
+            onChange={(e) => setDocumentName(e.target.value)}
             value={documentName}
           />
         </DialogContent>
@@ -95,5 +104,5 @@ const EditDocument = ({ rowData, updateDocument, open, setOpen }) => {
 };
 
 export default connect(null, {
-  updateDocument
+  updateDocument,
 })(EditDocument);

@@ -9,6 +9,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
+// Internal Components
+import SuccessMessage from 'components/Dashboard/components/layout/SuccessMessage';
 
 const AddRevision = ({
   document: { selectedDocument },
@@ -19,6 +21,7 @@ const AddRevision = ({
   const [revisionName, setRevisionName] = useState('');
   const [revisionNote, setRevisionNote] = useState('');
   const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleClose = () => {
     setOpen(false);
@@ -39,6 +42,7 @@ const AddRevision = ({
 
     setLoading(false);
     setOpen(false);
+    setSuccessMessage('Revision added');
   };
 
   const keyPressed = (event) => {
@@ -64,13 +68,16 @@ const AddRevision = ({
             type='text'
             fullWidth
             onKeyPress={keyPressed}
+            variant='outlined'
             onChange={(e) => setRevisionName(e.target.value)}
           />
           <TextField
             id='note'
             label='Note'
+            rows={4}
             multiline
             fullWidth
+            variant='outlined'
             onChange={(e) => setRevisionNote(e.target.value)}
           />
         </DialogContent>
@@ -83,6 +90,12 @@ const AddRevision = ({
           </Button>
         </DialogActions>
       </Dialog>
+      {successMessage && (
+        <SuccessMessage
+          message={successMessage}
+          clearMessage={() => setSuccessMessage('')}
+        />
+      )}
     </div>
   );
 };

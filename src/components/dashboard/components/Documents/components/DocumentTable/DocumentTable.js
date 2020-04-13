@@ -15,6 +15,7 @@ import FolderIcon from '@material-ui/icons/Folder';
 import Toolbar from './components/Toolbar';
 import Loading from '../../../layout/Loading';
 import SelectToolbar from './components/SelectToolbar';
+import SuccessMessage from 'components/Dashboard/components/layout/SuccessMessage';
 
 const DocumentTable = ({
   document: { documents, current, loading, selectedDocument },
@@ -27,6 +28,7 @@ const DocumentTable = ({
   const [addDocumentModal, setAddDocumentModal] = useState(false);
   const [searching, setSearching] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const [successMessage, setSuccessMessage] = useState(false);
 
   let data;
   if (searching) {
@@ -112,12 +114,11 @@ const DocumentTable = ({
         return;
       }
 
-      selectDocument({
-        _id: rowData[0],
-        name: rowData[4],
-      });
+      let selectedDoc = documents.filter((doc) => doc._id === rowData[0])[0];
 
-      history.push('/revisions');
+      selectDocument(selectedDoc);
+
+      history.push('/document');
     },
     customToolbar: () => {
       return (
@@ -129,8 +130,12 @@ const DocumentTable = ({
         />
       );
     },
-    customToolbarSelect: (row, displayData) => (
-      <SelectToolbar rowData={displayData[row.data[0].index].data} />
+    customToolbarSelect: (row, displayData, setSelectedRows) => (
+      <SelectToolbar
+        rowData={displayData[row.data[0].index].data}
+        handleSuccess={setSuccessMessage}
+        setSelectedRows={setSelectedRows}
+      />
     ),
   };
 
@@ -147,6 +152,13 @@ const DocumentTable = ({
             options={options}
           />
         </MuiThemeProvider>
+      )}
+
+      {successMessage && (
+        <SuccessMessage
+          message={successMessage}
+          clearMessage={() => setSuccessMessage('')}
+        />
       )}
     </div>
   );

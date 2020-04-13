@@ -9,10 +9,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
+// Internal Components
+import SuccessMessage from 'components/Dashboard/components/layout/SuccessMessage';
 
 const AddFolder = ({ document: { current }, addFolder, open, setOpen }) => {
   const [folderName, setFolderName] = useState('');
   const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleClose = () => {
     setOpen(false);
@@ -26,16 +29,17 @@ const AddFolder = ({ document: { current }, addFolder, open, setOpen }) => {
 
     let folder = {
       name: folderName,
-      parent: current
+      parent: current,
     };
 
     await addFolder(folder);
 
     setLoading(false);
     setOpen(false);
+    setSuccessMessage('Folder added');
   };
 
-  const keyPressed = event => {
+  const keyPressed = (event) => {
     if (event.key === 'Enter') {
       saveFolder();
     }
@@ -58,7 +62,7 @@ const AddFolder = ({ document: { current }, addFolder, open, setOpen }) => {
             type='text'
             fullWidth
             onKeyPress={keyPressed}
-            onChange={e => setFolderName(e.target.value)}
+            onChange={(e) => setFolderName(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
@@ -70,14 +74,20 @@ const AddFolder = ({ document: { current }, addFolder, open, setOpen }) => {
           </Button>
         </DialogActions>
       </Dialog>
+      {successMessage && (
+        <SuccessMessage
+          message={successMessage}
+          clearMessage={() => setSuccessMessage('')}
+        />
+      )}
     </div>
   );
 };
 
-const mapStateToProps = state => ({
-  document: state.document
+const mapStateToProps = (state) => ({
+  document: state.document,
 });
 
 export default connect(mapStateToProps, {
-  addFolder
+  addFolder,
 })(AddFolder);

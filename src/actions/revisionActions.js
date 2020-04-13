@@ -41,6 +41,20 @@ export const addRevision = (revision) => async (dispatch) => {
   }
 };
 
+export const updateRevision = (revision, revisionId) => async (dispatch) => {
+  try {
+    const res = await axios.put(
+      process.env.REACT_APP_BASE_API_URL + `revisions/${revisionId}`,
+      revision
+    );
+
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 export const clearRevisions = () => (dispatch) => {
   dispatch({
     type: CLEAR_REVISIONS,

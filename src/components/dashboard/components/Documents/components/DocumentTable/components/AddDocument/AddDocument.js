@@ -11,11 +11,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 // Internal Components
 import ErrorMessage from 'components/Dashboard/components/layout/ErrorMessage';
+import SuccessMessage from 'components/Dashboard/components/layout/SuccessMessage';
 
 const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
   const [documentName, setDocumentName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleClose = () => {
     setOpen(false);
@@ -29,7 +31,7 @@ const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
 
     let folder = {
       name: documentName,
-      parent: current
+      parent: current,
     };
 
     const res = await addDocument(folder);
@@ -42,9 +44,10 @@ const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
     }
 
     setOpen(false);
+    setSuccessMessage('Document added');
   };
 
-  const keyPressed = event => {
+  const keyPressed = (event) => {
     if (event.key === 'Enter') {
       saveDocument();
     }
@@ -67,7 +70,7 @@ const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
             type='text'
             fullWidth
             onKeyPress={keyPressed}
-            onChange={e => setDocumentName(e.target.value)}
+            onChange={(e) => setDocumentName(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
@@ -86,14 +89,20 @@ const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
           />
         )}
       </Dialog>
+      {successMessage && (
+        <SuccessMessage
+          message={successMessage}
+          clearMessage={() => setSuccessMessage('')}
+        />
+      )}
     </div>
   );
 };
 
-const mapStateToProps = state => ({
-  document: state.document
+const mapStateToProps = (state) => ({
+  document: state.document,
 });
 
 export default connect(mapStateToProps, {
-  addDocument
+  addDocument,
 })(AddDocument);

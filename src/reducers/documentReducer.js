@@ -81,26 +81,21 @@ export default (state = initialState, action) => {
         documents: [...state.documents, action.payload],
       };
     case UPDATE_DOCUMENT:
-      // TODO: A bit messy until archive endpoint created in backend, everything done under update
-      const docExists = state.documents.filter(
-        (doc) => doc.type === 'document' && doc._id === action.payload._id
-      );
+      let selectedDoc = state.selectedDocument;
 
-      if (docExists.length > 0) {
-        return {
-          ...state,
-          documents: state.documents.map((doc) => {
-            if (doc.type === 'document' && doc._id === action.payload._id) {
-              return action.payload;
-            }
-            return doc;
-          }),
-        };
+      if (state.selectedDocument._id === action.payload._id) {
+        selectedDoc = action.payload;
       }
 
       return {
         ...state,
-        documents: [...state.documents, action.payload],
+        documents: state.documents.map((doc) => {
+          if (doc.type === 'document' && doc._id === action.payload._id) {
+            return action.payload;
+          }
+          return doc;
+        }),
+        selectedDocument: selectedDoc,
       };
 
     case ARCHIVE_DOCUMENT:

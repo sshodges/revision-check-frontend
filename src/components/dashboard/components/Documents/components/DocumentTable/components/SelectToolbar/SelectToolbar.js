@@ -12,7 +12,13 @@ import EditFolder from '../EditFolder/EditFolder';
 import EditDocument from '../EditDocument/EditDocument';
 import DeleteConfirm from '../DeleteConfirm';
 
-const SelectToolbar = ({ deleteFolder, updateDocument, rowData }) => {
+const SelectToolbar = ({
+  deleteFolder,
+  updateDocument,
+  rowData,
+  handleSuccess,
+  setSelectedRows,
+}) => {
   const [editFolder, setEditFolder] = useState(false);
   const [editDocument, setEditDocument] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -66,7 +72,7 @@ const SelectToolbar = ({ deleteFolder, updateDocument, rowData }) => {
       </Tooltip>
 
       <Tooltip title='Cancel'>
-        <IconButton onClick={onDelete}>
+        <IconButton onClick={() => setSelectedRows([])}>
           <ClearOutlinedIcon />
         </IconButton>
       </Tooltip>
@@ -76,21 +82,29 @@ const SelectToolbar = ({ deleteFolder, updateDocument, rowData }) => {
         setOpen={setDeleteOpen}
         deleteInfo={deleteInfo}
       />
-      <EditFolder open={editFolder} setOpen={setEditFolder} rowData={rowData} />
+
+      <EditFolder
+        open={editFolder}
+        setOpen={setEditFolder}
+        rowData={rowData}
+        handleSuccess={handleSuccess}
+      />
+
       <EditDocument
         open={editDocument}
         setOpen={setEditDocument}
         rowData={rowData}
+        handleSuccess={handleSuccess}
       />
     </span>
   );
 };
 
-const mapStateToProps = state => ({
-  document: state.document
+const mapStateToProps = (state) => ({
+  document: state.document,
 });
 
 export default connect(mapStateToProps, {
   updateDocument,
-  deleteFolder
+  deleteFolder,
 })(SelectToolbar);

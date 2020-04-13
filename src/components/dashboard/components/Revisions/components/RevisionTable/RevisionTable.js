@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import MUIDataTable from 'mui-datatables';
@@ -10,25 +10,36 @@ import { clearRevisions } from 'actions/revisionActions';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
 // Internal Components
 import Loading from '../../../layout/Loading';
-import { BackButton } from './components/BackButton/BackButton';
+import TitleBar from './components/TitleBar';
 import { RevisionToolbar } from './components/RevisionToolbar/RevisionToolbar';
+import RevisionAccordion from './components/RevisionAccordion';
+import SuccessMessage from '../../../layout/SuccessMessage';
 
 const RevisionTable = ({
-  document: { selectedDocument },
   revision: { revisions, loading },
   clearRevisions,
 }) => {
+  const [successMessage, setSuccessMessage] = useState(false);
   let history = useHistory();
-  let title = selectedDocument.name;
   let data = revisions;
 
   const columns = [
     {
       name: '_id',
+      options: {
+        display: false,
+      },
+    },
+    {
+      name: 'note',
+      options: {
+        display: false,
+      },
+    },
+    {
+      name: 'documentLocation',
       options: {
         display: false,
       },
@@ -40,6 +51,14 @@ const RevisionTable = ({
     {
       name: 'revcode',
       label: 'Rev Code',
+    },
+    {
+      name: 'scans',
+      label: 'Scans',
+    },
+    {
+      name: 'createdAt',
+      label: 'Created',
     },
     {
       name: 'latest',
@@ -74,11 +93,11 @@ const RevisionTable = ({
     expandableRows: true,
     expandableRowsOnClick: true,
     renderExpandableRow: (rowData, rowMeta) => {
-      const colSpan = rowData.length + 1;
       return (
-        <TableRow>
-          <TableCell colSpan={colSpan}>Custom expandable row option</TableCell>
-        </TableRow>
+        <RevisionAccordion
+          selectedRevision={rowData}
+          handleSuccess={setSuccessMessage}
+        />
       );
     },
     onRowsExpand: (curExpanded, allExpanded) =>
@@ -97,12 +116,19 @@ const RevisionTable = ({
       {!loading && (
         <MuiThemeProvider theme={customTheme}>
           <MUIDataTable
-            title={<BackButton backFunction={goBack} title={title} />}
+            title={<TitleBar backFunction={goBack} />}
             data={data}
             columns={columns}
             options={options}
           />
         </MuiThemeProvider>
+      )}
+
+      {successMessage && (
+        <SuccessMessage
+          message={successMessage}
+          clearMessage={() => setSuccessMessage('')}
+        />
       )}
     </div>
   );

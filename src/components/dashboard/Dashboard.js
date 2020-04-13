@@ -53,7 +53,7 @@ const Dashboard = ({
           <div className={classes.toolbar} />
           <Switch>
             <Route exact path='/' component={Documents} />
-            <Route exact path='/revisions' component={Revisions} />
+            <Route exact path='/document' component={Revisions} />
           </Switch>
         </main>
       </div>
