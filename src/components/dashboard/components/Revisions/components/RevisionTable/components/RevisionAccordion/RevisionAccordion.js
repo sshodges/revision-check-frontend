@@ -164,11 +164,13 @@ const RevisionAccordion = ({
                       accept='application/pdf'
                       style={{ display: 'none' }}
                       onChange={(e) => {
-                        console.log(e.target.files[0]);
                         let data = new FormData();
-                        let name = `${selectedDocument.name}-${revcode}`;
+                        let name = e.target.files[0].name;
+                        const location = `${selectedDocument.account}/${revcode}/${name}`;
+
+                        console.log(location);
                         data.append('file', e.target.files[0]);
-                        data.append('name', name);
+                        data.append('name', location);
                         data.append('revisionId', revisionId);
 
                         axios.post(
