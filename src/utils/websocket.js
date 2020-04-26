@@ -13,8 +13,8 @@ import {
 import store from '../store';
 
 class Websocket {
-  constructor(user) {
-    console.log(user);
+  constructor(account) {
+    console.log(account);
     const socket = io('http://localhost:5000');
     socket.on('connect', function () {
       socket.on('connection:sid', function (socketId) {
@@ -22,7 +22,7 @@ class Websocket {
       });
     });
 
-    socket.emit('join', md5(user));
+    socket.emit('join', md5(account));
 
     // Folders
     socket.on('add folder', function (folder) {

@@ -38,9 +38,9 @@ const Dashboard = ({
   if (!isAuthenticated && !loading) {
     return <Redirect to='/login' />;
   }
-
-  if (user._id) {
-    new Websocket(user._id);
+  console.log(user);
+  if (user.account) {
+    new Websocket(user.account);
   }
 
   return (

@@ -13,6 +13,7 @@ const initialState = {
   loading: true,
   user: {
     _id: null,
+    account: null,
     firstName: '',
     lastName: '',
     company: '',
