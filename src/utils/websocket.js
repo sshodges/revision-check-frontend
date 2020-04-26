@@ -22,7 +22,13 @@ class Websocket {
       });
     });
 
-    socket.emit('join', md5(account));
+    socket.emit('join', md5(account) + process.env.REACT_APP_SOCKET_HASH);
+
+    // rejoin if there's a disconnect
+    socket.on('reconnect', () => {
+      console.log('RECONNECTING...');
+      socket.emit('join', md5(account) + process.env.REACT_APP_SOCKET_HASH);
+    });
 
     // Folders
     socket.on('add folder', function (folder) {
