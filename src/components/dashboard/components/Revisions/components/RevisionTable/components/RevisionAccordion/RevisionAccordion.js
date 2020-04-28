@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { updateRevision } from 'actions/revisionActions';
+import { updateRevision, uploadDocument } from 'actions/revisionActions';
 import { useStyles } from './RevisionAccordion-styles';
-import axios from 'axios';
 import QRCode from 'qrcode.react';
 import {
   Grid,
@@ -19,6 +18,7 @@ import { ViewQR } from './components/ViewQR/ViewQR';
 const RevisionAccordion = ({
   selectedRevision,
   updateRevision,
+  uploadDocument,
   handleSuccess,
   document: { selectedDocument },
 }) => {
@@ -32,8 +32,6 @@ const RevisionAccordion = ({
   const revcode = selectedRevision[4];
   const revisionId = selectedRevision[0];
   const documentLocation = selectedRevision[2];
-
-  console.log(selectedRevision[2]);
 
   const update = async () => {
     if (revision === '') {
@@ -50,6 +48,18 @@ const RevisionAccordion = ({
     handleSuccess('Revision updated');
 
     setLoading(false);
+  };
+
+  const upload = async (e) => {
+    let data = new FormData();
+    let name = e.target.files[0].name;
+    const location = `${selectedDocument.account}/${revcode}/${name}`;
+
+    data.append('file', e.target.files[0]);
+    data.append('name', location);
+    data.append('revisionId', revisionId);
+
+    return await uploadDocument(data);
   };
 
   const downloadQR = () => {
@@ -163,22 +173,7 @@ const RevisionAccordion = ({
                       type='file'
                       accept='application/pdf'
                       style={{ display: 'none' }}
-                      onChange={(e) => {
-                        let data = new FormData();
-                        let name = e.target.files[0].name;
-                        const location = `${selectedDocument.account}/${revcode}/${name}`;
-
-                        console.log(location);
-                        data.append('file', e.target.files[0]);
-                        data.append('name', location);
-                        data.append('revisionId', revisionId);
-
-                        axios.post(
-                          process.env.REACT_APP_BASE_API_URL +
-                            'revisions/upload',
-                          data
-                        );
-                      }}
+                      onChange={upload}
                     />
                   </Button>
                 </Grid>
@@ -197,4 +192,6 @@ const mapStateToProps = (state) => ({
   document: state.document,
 });
 
-export default connect(mapStateToProps, { updateRevision })(RevisionAccordion);
+export default connect(mapStateToProps, { updateRevision, uploadDocument })(
+  RevisionAccordion
+);
