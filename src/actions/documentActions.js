@@ -1,6 +1,7 @@
 import {
   GET_ALL_DOCUMENTS,
   GET_ALL_FOLDERS,
+  GET_ARCHIVES,
   SET_LOADING_DOCUMENTS,
   CHANGE_PARENT,
   ERROR,
@@ -25,6 +26,28 @@ export const getAllDocuments = () => async (dispatch) => {
 
     dispatch({
       type: GET_ALL_DOCUMENTS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ERROR,
+      payload: error,
+    });
+  }
+};
+
+export const getArchives = () => async (dispatch) => {
+  try {
+    setLoading();
+
+    const res = await axios.get(
+      process.env.REACT_APP_BASE_API_URL + 'documents/archive/all'
+    );
+
+    let data = res.data;
+
+    dispatch({
+      type: GET_ARCHIVES,
       payload: data,
     });
   } catch (error) {

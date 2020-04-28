@@ -1,6 +1,8 @@
 import {
   GET_ALL_DOCUMENTS,
   GET_ALL_FOLDERS,
+  GET_ARCHIVES,
+  UPDATE_ARCHIVES,
   ADD_FOLDER,
   UPDATE_FOLDER,
   DELETE_FOLDER,
@@ -17,6 +19,7 @@ import findPreviousParent from '../utils/findPreviousParent';
 const initialState = {
   documents: [],
   folders: [],
+  archives: [],
   loading: false,
   current: null,
   parent: null,
@@ -42,6 +45,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         documents: action.payload,
+        loading: false,
+      };
+    case GET_ARCHIVES:
+      return {
+        ...state,
+        archives: action.payload,
         loading: false,
       };
     case GET_ALL_FOLDERS:
@@ -96,6 +105,16 @@ export default (state = initialState, action) => {
           return doc;
         }),
         selectedDocument: selectedDoc,
+      };
+    case UPDATE_ARCHIVES:
+      return {
+        ...state,
+        archives: state.archives.filter((doc) => {
+          if (doc._id === action.payload._id && action.payload.status) {
+            return false;
+          }
+          return true;
+        }),
       };
 
     case ARCHIVE_DOCUMENT:

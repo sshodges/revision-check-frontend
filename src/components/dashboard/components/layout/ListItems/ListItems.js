@@ -17,7 +17,7 @@ const ListItems = () => {
         </ListItemIcon>
         <ListItemText primary='Home' />
       </ListItem>
-      <ListItem button>
+      <ListItem button component={Link} to='/archive'>
         <ListItemIcon>
           <BarChartIcon />
         </ListItemIcon>

@@ -44,7 +44,8 @@ const SelectToolbar = ({
           reactivate a document at any time.
         </span>
       );
-      info.deleteFunction = () => updateDocument(id, { status: false });
+      info.deleteFunction = () =>
+        updateDocument(id, { status: false, parent: null });
     }
     setDeleteInfo(info);
     setDeleteOpen(true);

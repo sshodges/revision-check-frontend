@@ -6,6 +6,7 @@ import {
   DELETE_FOLDER,
   ADD_DOCUMENT,
   UPDATE_DOCUMENT,
+  UPDATE_ARCHIVES,
   ARCHIVE_DOCUMENT,
 } from './types';
 
@@ -79,6 +80,11 @@ export const updateDocument = (document) => async (dispatch) => {
   try {
     dispatch({
       type: UPDATE_DOCUMENT,
+      payload: document,
+    });
+
+    dispatch({
+      type: UPDATE_ARCHIVES,
       payload: document,
     });
   } catch (error) {

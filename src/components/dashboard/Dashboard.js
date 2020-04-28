@@ -16,6 +16,7 @@ import Sidebar from './components/layout/Sidebar/Sidebar';
 import Navbar from './components/layout/Navbar/Navbar';
 import Documents from './components/Documents/Documents';
 import Revisions from './components/Revisions';
+import Archive from './components/Archive/Archive';
 
 const Dashboard = ({
   auth: { user, isAuthenticated, loading },
@@ -54,6 +55,7 @@ const Dashboard = ({
           <Switch>
             <Route exact path='/' component={Documents} />
             <Route exact path='/document' component={Revisions} />
+            <Route exact path='/archive' component={Archive} />
           </Switch>
         </main>
       </div>
