@@ -11,8 +11,6 @@ import axios from 'axios';
 
 export const getAllDocuments = () => async (dispatch) => {
   try {
-    setLoading();
-
     const res = await axios.get(
       process.env.REACT_APP_BASE_API_URL + 'documents/getall/items'
     );
@@ -38,8 +36,6 @@ export const getAllDocuments = () => async (dispatch) => {
 
 export const getArchives = () => async (dispatch) => {
   try {
-    setLoading();
-
     const res = await axios.get(
       process.env.REACT_APP_BASE_API_URL + 'documents/archive/all'
     );
@@ -176,7 +172,7 @@ export const selectDocument = (document) => async (dispatch) => {
   });
 };
 
-export const setLoading = () => (dispatch) => {
+export const setDocumentLoading = () => (dispatch) => {
   dispatch({
     type: SET_LOADING_DOCUMENTS,
   });

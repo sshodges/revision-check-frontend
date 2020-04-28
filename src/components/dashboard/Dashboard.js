@@ -11,6 +11,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Websocket from 'utils/websocket';
 // Actions
 import { getUser, setLoading } from 'actions/authActions';
+import {
+  getAllDocuments,
+  getArchives,
+  setDocumentLoading,
+} from 'actions/documentActions';
 // Other Components
 import Sidebar from './components/layout/Sidebar/Sidebar';
 import Navbar from './components/layout/Navbar/Navbar';
@@ -22,6 +27,9 @@ const Dashboard = ({
   auth: { user, isAuthenticated, loading },
   setLoading,
   getUser,
+  getAllDocuments,
+  getArchives,
+  setDocumentLoading,
 }) => {
   useEffect(() => {
     // Check if user already logged in
@@ -30,8 +38,16 @@ const Dashboard = ({
       await getUser();
     }
     asyncGetUser();
+
+    //Get all Documents
+    setDocumentLoading();
+    getAllDocuments();
+    getArchives();
+    // Get all revisions
+
+    // Get all Archives
     // eslint-disable-next-line
-  }, []);
+  }, [getAllDocuments, setDocumentLoading]);
 
   const classes = useStyles();
 
@@ -69,5 +85,8 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps, {
   getUser,
+  getAllDocuments,
+  getArchives,
+  setDocumentLoading,
   setLoading,
 })(Dashboard);
