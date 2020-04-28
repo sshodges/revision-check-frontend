@@ -40,7 +40,6 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case LOGIN_SUCCESS:
-      console.log(action.payload.data.token);
       localStorage.setItem('token', action.payload.data.token.token);
       axios.defaults.headers.common['auth-token'] =
         action.payload.data.token.token;

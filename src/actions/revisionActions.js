@@ -28,7 +28,6 @@ export const getRevisions = (documentId) => async (dispatch) => {
 
 export const addRevision = (revision) => async (dispatch) => {
   try {
-    console.log(revision);
     const res = await axios.post(
       process.env.REACT_APP_BASE_API_URL + `revisions`,
       revision

@@ -34,8 +34,6 @@ export const getUser = () => async (dispatch) => {
 
 export const loginUser = (email, password) => async (dispatch) => {
   try {
-    console.log(process.env.REACT_APP_BASE_API_URL + 'auth');
-
     const response = await axios.post(
       process.env.REACT_APP_BASE_API_URL + 'auth',
       {
@@ -43,7 +41,6 @@ export const loginUser = (email, password) => async (dispatch) => {
         password,
       }
     );
-    console.log(response);
 
     dispatch({
       type: LOGIN_SUCCESS,

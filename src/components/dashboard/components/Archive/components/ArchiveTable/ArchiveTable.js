@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import MUIDataTable from 'mui-datatables';
 // Styles
-import { customTheme } from './ArchiveTable-styles';
+import { lightTheme, darkTheme } from './ArchiveTable-styles';
 // Actions
 import { changeParent, selectDocument } from 'actions/documentActions';
 // Material UI
@@ -13,8 +13,12 @@ import Loading from '../../../layout/Loading';
 import SuccessMessage from 'components/Dashboard/components/layout/SuccessMessage';
 import ArchiveSelectToolbar from './components/ArchiveSelectToolbar/ArchiveSelectToolbar';
 
-const ArchiveTable = ({ document: { archives, loading } }) => {
+const ArchiveTable = ({
+  document: { archives, loading },
+  layout: { preferredTheme },
+}) => {
   const [successMessage, setSuccessMessage] = useState(false);
+  const theme = preferredTheme === 'light' ? lightTheme : darkTheme;
 
   let data = archives;
 
@@ -80,7 +84,7 @@ const ArchiveTable = ({ document: { archives, loading } }) => {
       <Loading loading={loading} />
 
       {!loading && (
-        <MuiThemeProvider theme={customTheme}>
+        <MuiThemeProvider theme={theme}>
           <MUIDataTable
             title={'Archived Documents'}
             data={data}
@@ -102,6 +106,7 @@ const ArchiveTable = ({ document: { archives, loading } }) => {
 
 const mapStateToProps = (state) => ({
   document: state.document,
+  layout: state.layout,
 });
 
 export default connect(mapStateToProps, {

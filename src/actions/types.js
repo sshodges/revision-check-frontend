@@ -1,4 +1,6 @@
 export const ERROR = 'ERROR';
+// LAYOUT
+export const CHANGE_COLOR_THEME = 'CHANGE_COLOR_THEME';
 // DOCUMENTS
 export const GET_ALL_DOCUMENTS = 'GET_ALL_DOCUMENTS';
 export const GET_ALL_FOLDERS = 'GET_ALL_FOLDERS';

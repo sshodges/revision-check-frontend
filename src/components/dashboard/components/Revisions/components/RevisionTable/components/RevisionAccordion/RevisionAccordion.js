@@ -21,6 +21,7 @@ const RevisionAccordion = ({
   uploadDocument,
   handleSuccess,
   document: { selectedDocument },
+  layout: { preferredTheme },
 }) => {
   const [revision, setRevision] = useState(selectedRevision[3]);
   const [note, setNote] = useState(selectedRevision[1]);
@@ -76,7 +77,11 @@ const RevisionAccordion = ({
   };
 
   return (
-    <TableRow style={{ backgroundColor: '#FBFBFB' }}>
+    <TableRow
+      style={{
+        backgroundColor: preferredTheme === 'light' ? '#FBFBFB' : '#383838',
+      }}
+    >
       <TableCell colSpan={colSpan}>
         <Grid container spacing={2} className={classes.gridContainer}>
           <Grid item xs={4}>
@@ -190,6 +195,7 @@ const RevisionAccordion = ({
 const mapStateToProps = (state) => ({
   revision: state.revision,
   document: state.document,
+  layout: state.layout,
 });
 
 export default connect(mapStateToProps, { updateRevision, uploadDocument })(

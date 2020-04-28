@@ -16,7 +16,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const customTheme = createMuiTheme({
+const darkTheme = createMuiTheme({
+  palette: {
+    type: 'dark',
+    primary: { main: '#2196f3' },
+  },
   overrides: {
     MUIDataTableHeadCell: {
       root: {
@@ -33,4 +37,24 @@ const customTheme = createMuiTheme({
   },
 });
 
-export { useStyles, customTheme };
+const lightTheme = createMuiTheme({
+  palette: {
+    type: 'light',
+  },
+  overrides: {
+    MUIDataTableHeadCell: {
+      root: {
+        '&:nth-child(2)': {
+          width: 20,
+        },
+      },
+    },
+    MuiTableRow: {
+      root: {
+        cursor: 'pointer',
+      },
+    },
+  },
+});
+
+export { useStyles, lightTheme, darkTheme };

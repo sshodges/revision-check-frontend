@@ -55,7 +55,7 @@ const Dashboard = ({
   if (!isAuthenticated && !loading) {
     return <Redirect to='/login' />;
   }
-  console.log(user);
+
   if (user.account) {
     new Websocket(user.account);
   }

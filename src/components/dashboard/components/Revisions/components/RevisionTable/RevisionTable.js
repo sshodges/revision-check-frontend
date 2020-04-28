@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import MUIDataTable from 'mui-datatables';
 // Styles
-import { customTheme } from './RevisionTable-styles';
+import { lightTheme, darkTheme } from './RevisionTable-styles';
 // Actions
 import { clearRevisions } from 'actions/revisionActions';
 // Material UI
@@ -19,10 +19,13 @@ import SuccessMessage from '../../../layout/SuccessMessage';
 
 const RevisionTable = ({
   revision: { revisions, loading },
+  layout: { preferredTheme },
   clearRevisions,
 }) => {
   const [successMessage, setSuccessMessage] = useState(false);
   let history = useHistory();
+  const theme = preferredTheme === 'light' ? lightTheme : darkTheme;
+
   let data = revisions;
 
   const columns = [
@@ -100,8 +103,6 @@ const RevisionTable = ({
         />
       );
     },
-    onRowsExpand: (curExpanded, allExpanded) =>
-      console.log(curExpanded, allExpanded),
   };
 
   const goBack = () => {
@@ -114,7 +115,7 @@ const RevisionTable = ({
       <Loading loading={loading} />
 
       {!loading && (
-        <MuiThemeProvider theme={customTheme}>
+        <MuiThemeProvider theme={theme}>
           <MUIDataTable
             title={<TitleBar backFunction={goBack} />}
             data={data}
@@ -137,6 +138,7 @@ const RevisionTable = ({
 const mapStateToProps = (state) => ({
   document: state.document,
   revision: state.revision,
+  layout: state.layout,
 });
 
 export default connect(mapStateToProps, { clearRevisions })(RevisionTable);

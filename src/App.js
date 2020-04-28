@@ -1,18 +1,17 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import store from './store';
 import { Provider } from 'react-redux';
 import axios from 'axios';
-//Components
+// Actions
+import { updateColorPreference } from './actions/layoutActions';
+// Components
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
-
-const theme = createMuiTheme({
-  palette: {},
-});
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 if (localStorage.token) {
   axios.defaults.headers.common['auth-token'] = localStorage.token;
@@ -20,19 +19,51 @@ if (localStorage.token) {
   delete axios.defaults.headers.common['auth-token'];
 }
 
+const ThemedApp = ({ layout: { preferredTheme }, updateColorPreference }) => {
+  const computerThemePreference = useMediaQuery('(prefers-color-scheme: dark)')
+    ? 'dark'
+    : 'light';
+
+  useEffect(() => {
+    const userThemePreference = localStorage.preferredTheme
+      ? localStorage.preferredTheme
+      : computerThemePreference;
+
+    updateColorPreference(userThemePreference);
+  }, [preferredTheme, computerThemePreference, updateColorPreference]);
+
+  const theme = createMuiTheme({
+    palette: {
+      type: preferredTheme,
+    },
+  });
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Fragment>
+          <Switch>
+            <Route exact path='/login' component={Login} />
+            <Dashboard />
+          </Switch>
+        </Fragment>
+      </Router>
+    </ThemeProvider>
+  );
+};
+
+const mapStateToProps = (state) => ({
+  layout: state.layout,
+});
+
+const ConnectedThemedApp = connect(mapStateToProps, {
+  updateColorPreference,
+})(ThemedApp);
+
 const App = () => {
   return (
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <Router>
-          <Fragment>
-            <Switch>
-              <Route exact path='/login' component={Login} />
-              <Dashboard />
-            </Switch>
-          </Fragment>
-        </Router>
-      </ThemeProvider>
+      <ConnectedThemedApp />
     </Provider>
   );
 };

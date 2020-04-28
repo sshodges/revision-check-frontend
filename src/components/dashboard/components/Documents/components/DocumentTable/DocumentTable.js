@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import MUIDataTable from 'mui-datatables';
 // Styles
-import { customTheme } from './DocumentTable-styles';
+import { lightTheme, darkTheme } from './DocumentTable-styles';
 // Actions
 import { changeParent, selectDocument } from 'actions/documentActions';
 // Material UI
@@ -19,10 +19,13 @@ import SuccessMessage from 'components/Dashboard/components/layout/SuccessMessag
 
 const DocumentTable = ({
   document: { documents, current, loading, selectedDocument },
+  layout: { preferredTheme },
   changeParent,
   selectDocument,
 }) => {
   let history = useHistory();
+
+  const theme = preferredTheme === 'light' ? lightTheme : darkTheme;
 
   const [addFolderModal, setAddFolderModal] = useState(false);
   const [addDocumentModal, setAddDocumentModal] = useState(false);
@@ -144,7 +147,7 @@ const DocumentTable = ({
       <Loading loading={loading} />
 
       {!loading && (
-        <MuiThemeProvider theme={customTheme}>
+        <MuiThemeProvider theme={theme}>
           <MUIDataTable
             title={<Breadcrumb />}
             data={data}
@@ -166,6 +169,7 @@ const DocumentTable = ({
 
 const mapStateToProps = (state) => ({
   document: state.document,
+  layout: state.layout,
 });
 
 export default connect(mapStateToProps, {

@@ -75,7 +75,6 @@ export default (state = initialState, action) => {
         }),
       };
     case DELETE_FOLDER:
-      console.log(action.payload);
       return {
         ...state,
         documents: state.documents.filter(
@@ -118,7 +117,6 @@ export default (state = initialState, action) => {
       };
 
     case ARCHIVE_DOCUMENT:
-      console.log(action.payload);
       return {
         ...state,
         documents: state.documents.filter(
