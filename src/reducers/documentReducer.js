@@ -36,34 +36,40 @@ export default (state = initialState, action) => {
         ...state,
         loading: true,
       };
+
     case ERROR:
       return {
         ...state,
         error: action.payload,
       };
+
     case GET_ALL_DOCUMENTS:
       return {
         ...state,
         documents: action.payload,
         loading: false,
       };
+
     case GET_ARCHIVES:
       return {
         ...state,
         archives: action.payload,
         loading: false,
       };
+
     case GET_ALL_FOLDERS:
       return {
         ...state,
         folders: action.payload,
         loading: false,
       };
+
     case ADD_FOLDER:
       return {
         ...state,
         documents: [...state.documents, action.payload],
       };
+
     case UPDATE_FOLDER:
       return {
         ...state,
@@ -74,6 +80,7 @@ export default (state = initialState, action) => {
           return doc;
         }),
       };
+
     case DELETE_FOLDER:
       return {
         ...state,
@@ -83,12 +90,25 @@ export default (state = initialState, action) => {
             (doc.type === 'folder' && doc._id !== action.payload._id)
         ),
       };
+
     case ADD_DOCUMENT:
       return {
         ...state,
         documents: [...state.documents, action.payload],
       };
+
     case UPDATE_DOCUMENT:
+      // Check if document exists, if not its an archive document getting activated
+      const docExists = state.documents.filter(
+        (doc) => doc._id === action.payload._id
+      );
+      if (docExists.length === 0) {
+        return {
+          ...state,
+          documents: [...state.documents, action.payload],
+        };
+      }
+
       let selectedDoc = state.selectedDocument;
 
       if (state.selectedDocument._id === action.payload._id) {
@@ -105,6 +125,7 @@ export default (state = initialState, action) => {
         }),
         selectedDocument: selectedDoc,
       };
+
     case UPDATE_ARCHIVES:
       return {
         ...state,
@@ -117,14 +138,21 @@ export default (state = initialState, action) => {
       };
 
     case ARCHIVE_DOCUMENT:
+      // Find document from ID
+      const archivedDoc = state.documents.filter(
+        (doc) => doc._id === action.payload
+      )[0];
+
       return {
         ...state,
         documents: state.documents.filter(
           (doc) =>
             doc.type === 'folder' ||
-            (doc.type === 'document' && doc._id !== action.payload._id)
+            (doc.type === 'document' && doc._id !== archivedDoc._id)
         ),
+        archives: [...state.archives, archivedDoc],
       };
+
     case CHANGE_PARENT:
       const previousParent = findPreviousParent(
         action.payload,
@@ -136,11 +164,13 @@ export default (state = initialState, action) => {
         current: action.payload,
         parent: previousParent,
       };
+
     case SELECT_DOCUMENT:
       return {
         ...state,
         selectedDocument: action.payload,
       };
+
     default:
       return state;
   }

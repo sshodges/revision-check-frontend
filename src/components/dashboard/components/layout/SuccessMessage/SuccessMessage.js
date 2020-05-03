@@ -21,7 +21,7 @@ export default function SuccessMessage({ message, clearMessage }) {
 
   return (
     <div className={classes.root}>
-      <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+      <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
         <Alert onClose={handleClose} severity='success'>
           {message}
         </Alert>

@@ -60,6 +60,13 @@ export const deleteFolder = (folder) => async (dispatch) => {
       type: DELETE_FOLDER,
       payload: folder,
     });
+
+    folder.deletedDocuments.forEach((doc) => {
+      dispatch({
+        type: ARCHIVE_DOCUMENT,
+        payload: doc,
+      });
+    });
   } catch (error) {
     console.log(error);
   }
@@ -96,7 +103,7 @@ export const archiveDocument = (document) => async (dispatch) => {
   try {
     dispatch({
       type: ARCHIVE_DOCUMENT,
-      payload: document,
+      payload: document._id,
     });
   } catch (error) {
     console.log(error);

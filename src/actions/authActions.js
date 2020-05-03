@@ -59,6 +59,32 @@ export const loginUser = (email, password) => async (dispatch) => {
   }
 };
 
+export const registerUser = (payload) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+      process.env.REACT_APP_BASE_API_URL + 'users',
+      payload
+    );
+
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: response,
+    });
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    console.log(error.errorMessage);
+    console.log(error.errorMessage.errors);
+    dispatch({
+      type: LOGIN_FAIL,
+      payload: error.errorMessage.errors,
+    });
+
+    return false;
+  }
+};
+
 export const logout = () => (dispatch) => {
   localStorage.removeItem('token');
   return dispatch({

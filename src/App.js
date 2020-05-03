@@ -12,6 +12,7 @@ import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import Register from './components/Register/Register';
 
 if (localStorage.token) {
   axios.defaults.headers.common['auth-token'] = localStorage.token;
@@ -44,6 +45,7 @@ const ThemedApp = ({ layout: { preferredTheme }, updateColorPreference }) => {
         <Fragment>
           <Switch>
             <Route exact path='/login' component={Login} />
+            <Route exact path='/register' component={Register} />
             <Dashboard />
           </Switch>
         </Fragment>

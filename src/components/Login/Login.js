@@ -6,7 +6,7 @@ import {
   loginUser,
   setLoading,
   clearError,
-  getUser
+  getUser,
 } from '../../actions/authActions';
 // Material UI Components
 import {
@@ -17,7 +17,7 @@ import {
   Grid,
   Box,
   Container,
-  CircularProgress
+  CircularProgress,
 } from '@material-ui/core';
 import { useStyles } from './Login-styles';
 // Other Components
@@ -31,7 +31,7 @@ const Login = ({
   loginUser,
   getUser,
   setLoading,
-  clearError
+  clearError,
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -49,7 +49,7 @@ const Login = ({
 
   const classes = useStyles();
 
-  const login = async e => {
+  const login = async (e) => {
     e.preventDefault();
 
     setLoading();
@@ -86,7 +86,7 @@ const Login = ({
               type='email'
               autoComplete='email'
               autoFocus
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               variant='outlined'
@@ -96,7 +96,7 @@ const Login = ({
               label='Password'
               type='password'
               autoComplete='current-password'
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
 
             <Button
@@ -124,8 +124,8 @@ const Login = ({
                 </Link>
               </Grid>
               <Grid item>
-                <Link href='#' variant='body2'>
-                  {"Don't have an account? Sign Up"}
+                <Link href='/register' variant='body2'>
+                  Don't have an account? Register
                 </Link>
               </Grid>
             </Grid>
@@ -140,13 +140,13 @@ const Login = ({
   return <PageLoading />;
 };
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, {
   loginUser,
   getUser,
   setLoading,
-  clearError
+  clearError,
 })(Login);
