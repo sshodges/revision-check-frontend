@@ -3,10 +3,6 @@ import { Snackbar } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useStyles } from './ErrorMessage-styles';
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant='filled' {...props} />;
-}
-
 export default function ErrorMessage({ message, clearError }) {
   const classes = useStyles();
   const [open, setOpen] = useState(true);
@@ -22,9 +18,14 @@ export default function ErrorMessage({ message, clearError }) {
   return (
     <div className={classes.root}>
       <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity='error'>
+        <MuiAlert
+          elevation={6}
+          variant='filled'
+          onClose={handleClose}
+          severity='error'
+        >
           {message}
-        </Alert>
+        </MuiAlert>
       </Snackbar>
     </div>
   );

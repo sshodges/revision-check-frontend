@@ -1,5 +1,6 @@
 import {
   LOAD_USER,
+  UPDATE_USER,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   SET_LOADING_AUTH,
@@ -13,10 +14,11 @@ const initialState = {
   loading: true,
   user: {
     _id: null,
-    account: null,
     firstName: '',
     lastName: '',
-    company: '',
+    account: {
+      companyName: '',
+    },
   },
   error: null,
 };
@@ -36,6 +38,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: true,
+        user: action.payload,
+        loading: false,
+      };
+    case UPDATE_USER:
+      return {
+        ...state,
         user: action.payload,
         loading: false,
       };

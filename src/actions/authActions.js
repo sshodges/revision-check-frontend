@@ -1,5 +1,6 @@
 import {
   LOAD_USER,
+  UPDATE_USER,
   SET_LOADING_AUTH,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -32,6 +33,28 @@ export const getUser = () => async (dispatch) => {
   return false;
 };
 
+export const updateUser = (payload) => async (dispatch) => {
+  setLoading();
+  try {
+    const res = await axios.put(
+      process.env.REACT_APP_BASE_API_URL + 'users',
+      payload
+    );
+
+    console.log(res.data);
+
+    dispatch({
+      type: UPDATE_USER,
+      payload: res.data,
+    });
+    return true;
+  } catch (error) {
+    console.log('err:', error);
+    dispatch({ type: LOGIN_FAIL, payload: '' });
+    return false;
+  }
+};
+
 export const loginUser = (email, password) => async (dispatch) => {
   try {
     const response = await axios.post(
@@ -52,7 +75,7 @@ export const loginUser = (email, password) => async (dispatch) => {
     console.log(error);
     dispatch({
       type: LOGIN_FAIL,
-      payload: error.response.data.message,
+      payload: error.message,
     });
 
     return false;

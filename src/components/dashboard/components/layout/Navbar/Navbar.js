@@ -2,18 +2,20 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { updateColorPreference } from 'actions/layoutActions';
 import { useStylesLight, useStylesDark } from './Navbar-styles';
-import AppBar from '@material-ui/core/AppBar';
-import InputIcon from '@material-ui/icons/Input';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { logout } from 'actions/authActions';
 import store from 'store';
-import { IconButton, Tooltip } from '@material-ui/core';
+import {
+  IconButton,
+  Tooltip,
+  AppBar,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
+import InputIcon from '@material-ui/icons/Input';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 
-const Navbar = ({
-  props,
+export const Navbar = ({
   layout: { preferredTheme },
   updateColorPreference,
 }) => {
@@ -34,11 +36,17 @@ const Navbar = ({
         </Typography>
         <Tooltip title='Toggle light/dark theme'>
           {preferredTheme === 'dark' ? (
-            <IconButton onClick={() => updateTeme('light')}>
+            <IconButton
+              onClick={() => updateTeme('light')}
+              className='toggle-theme'
+            >
               <Brightness4Icon color='inherit' className={classes.logout} />
             </IconButton>
           ) : (
-            <IconButton onClick={() => updateTeme('dark')}>
+            <IconButton
+              onClick={() => updateTeme('dark')}
+              className='toggle-theme'
+            >
               <Brightness7Icon color='inherit' className={classes.logout} />
             </IconButton>
           )}

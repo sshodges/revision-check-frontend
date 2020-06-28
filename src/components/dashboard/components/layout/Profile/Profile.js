@@ -5,7 +5,7 @@ import { useStyles } from './Profile-styles';
 import { Avatar, Typography } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-const Profile = ({ auth: { user, loading } }) => {
+export const Profile = ({ auth: { user, loading } }) => {
   const classes = useStyles();
 
   return (
@@ -27,7 +27,7 @@ const Profile = ({ auth: { user, loading } }) => {
       {loading ? (
         <CircularProgress size={14} />
       ) : (
-        <Typography variant='body2'>{user.company}</Typography>
+        <Typography variant='body2'>{user.account.companyName}</Typography>
       )}
     </div>
   );

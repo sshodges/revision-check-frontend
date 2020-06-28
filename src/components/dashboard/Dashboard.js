@@ -17,11 +17,12 @@ import {
   setDocumentLoading,
 } from 'actions/documentActions';
 // Other Components
-import Sidebar from './components/layout/Sidebar/Sidebar';
-import Navbar from './components/layout/Navbar/Navbar';
-import Documents from './components/Documents/Documents';
+import Sidebar from './components/layout/Sidebar';
+import Navbar from './components/layout/Navbar';
+import Documents from './components/Documents';
 import Revisions from './components/Revisions';
-import Archive from './components/Archive/Archive';
+import Archive from './components/Archive';
+import Settings from './components/Settings';
 
 const Dashboard = ({
   auth: { user, isAuthenticated, loading },
@@ -72,6 +73,7 @@ const Dashboard = ({
             <Route exact path='/' component={Documents} />
             <Route exact path='/document' component={Revisions} />
             <Route exact path='/archive' component={Archive} />
+            <Route exact path='/settings' component={Settings} />
           </Switch>
         </main>
       </div>
