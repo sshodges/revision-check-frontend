@@ -11,16 +11,17 @@ import {
   Grid,
   Button,
   TextField,
+  CircularProgress,
 } from '@material-ui/core';
 
 const Profile = ({ auth: { user, loading }, updateUser, setLoading }) => {
   const [values, setValues] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    phone: user.phone,
     account: {
-      companyName: '',
+      companyName: user.account?.companyName,
     },
   });
 
@@ -46,11 +47,13 @@ const Profile = ({ auth: { user, loading }, updateUser, setLoading }) => {
 
   const update = async () => {
     setUpdating(true);
-
     await updateUser(values);
-
     setUpdating(false);
   };
+
+  if (loading) {
+    return <CircularProgress />;
+  }
 
   return (
     <Card>
@@ -102,7 +105,6 @@ const Profile = ({ auth: { user, loading }, updateUser, setLoading }) => {
                 margin='dense'
                 name='phone'
                 onChange={handleChange}
-                type='phone'
                 value={values.phone}
                 variant='outlined'
               />

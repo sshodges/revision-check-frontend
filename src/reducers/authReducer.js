@@ -16,7 +16,9 @@ const initialState = {
     _id: null,
     firstName: '',
     lastName: '',
+    email: '',
     account: {
+      _id: null,
       companyName: '',
     },
   },

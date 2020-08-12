@@ -57,8 +57,11 @@ const Dashboard = ({
     return <Redirect to='/login' />;
   }
 
-  if (user.account) {
-    new Websocket(user.account);
+  if (user.account?._id) {
+    new Websocket(user.account._id);
+    console.log(user.account._id);
+  } else {
+    console.log(user);
   }
 
   return (

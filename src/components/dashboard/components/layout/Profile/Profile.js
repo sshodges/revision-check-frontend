@@ -27,7 +27,7 @@ export const Profile = ({ auth: { user, loading } }) => {
       {loading ? (
         <CircularProgress size={14} />
       ) : (
-        <Typography variant='body2'>{user.account.companyName}</Typography>
+        <Typography variant='body2'>{user.account?.companyName}</Typography>
       )}
     </div>
   );
