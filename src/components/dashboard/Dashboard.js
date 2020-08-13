@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {
   Redirect,
@@ -32,36 +32,39 @@ const Dashboard = ({
   getArchives,
   setDocumentLoading,
 }) => {
+  const [userLoading, setUserLoading] = useState(true);
   useEffect(() => {
     // Check if user already logged in
     async function asyncGetUser() {
-      setLoading();
-      await getUser();
+      await setLoading();
+      await getUser().catch((err) => {
+        console.log(err);
+      });
+      setUserLoading(false);
+      setLoading(false);
+      //Get all Documents
+      await setDocumentLoading();
+      await getAllDocuments();
+      await getArchives();
     }
     asyncGetUser();
 
-    //Get all Documents
-    setDocumentLoading();
-    getAllDocuments();
-    getArchives();
     // Get all revisions
 
     // Get all Archives
     // eslint-disable-next-line
-  }, [getAllDocuments, setDocumentLoading]);
+  }, [getAllDocuments, setDocumentLoading, setLoading]);
 
   const classes = useStyles();
 
   // Redirect user to login if  not logged in
-  if (!isAuthenticated && !loading) {
+  if (!isAuthenticated && !loading && !userLoading) {
+    console.log(loading);
     return <Redirect to='/login' />;
   }
 
   if (user.account?._id) {
     new Websocket(user.account._id);
-    console.log(user.account._id);
-  } else {
-    console.log(user);
   }
 
   return (

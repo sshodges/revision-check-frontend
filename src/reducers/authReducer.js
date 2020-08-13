@@ -11,16 +11,17 @@ import axios from 'axios';
 
 const initialState = {
   isAuthenticated: null,
-  loading: true,
+  loading: false,
   user: {
-    _id: null,
+    sub: '',
     firstName: '',
     lastName: '',
     email: '',
+    companyName: '',
     account: {
       _id: null,
-      companyName: '',
     },
+    emailVerified: '',
   },
   error: null,
 };
@@ -29,7 +30,7 @@ export default (state = initialState, action) => {
     case SET_LOADING_AUTH:
       return {
         ...state,
-        loading: true,
+        loading: action.payload,
       };
     case CLEAR_ERROR:
       return {
@@ -37,10 +38,24 @@ export default (state = initialState, action) => {
         error: null,
       };
     case LOAD_USER:
+      axios.defaults.headers.common['auth-token'] = localStorage.getItem(
+        'idToken'
+      );
+
       return {
         ...state,
         isAuthenticated: true,
-        user: action.payload,
+        user: {
+          sub: action.payload.sub,
+          firstName: action.payload.name,
+          lastName: action.payload.given_name,
+          email: action.payload.email,
+          companyName: action.payload['custom:company'],
+          account: {
+            _id: action.payload.accountId,
+          },
+          emailVerified: action.payload.email_verified,
+        },
         loading: false,
       };
     case UPDATE_USER:
@@ -50,12 +65,13 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case LOGIN_SUCCESS:
-      localStorage.setItem('token', action.payload.data.token.token);
+      localStorage.setItem('accessToken', action.payload.accessToken.jwtToken);
+      localStorage.setItem('idToken', action.payload.idToken.jwtToken);
+      localStorage.setItem('refreshToken', action.payload.refreshToken.token);
       axios.defaults.headers.common['auth-token'] =
-        action.payload.data.token.token;
+        action.payload.idToken.jwtToken;
       return {
         ...state,
-        user: action.payload.data,
         isAuthenticated: true,
         error: null,
         loading: false,
@@ -67,9 +83,7 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case LOGOUT:
-      return {
-        state: initialState,
-      };
+      return initialState;
     default:
       return state;
   }

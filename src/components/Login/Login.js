@@ -40,8 +40,9 @@ const Login = ({
   useEffect(() => {
     // Check if user already logged in
     async function asyncGetUser() {
-      await getUser();
+      await getUser().catch((err) => console.log(err));
       setLoadingPage(false);
+      setLoading(false);
     }
     asyncGetUser();
     // eslint-disable-next-line

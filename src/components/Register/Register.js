@@ -37,10 +37,11 @@ const Register = ({
   const [companyName, setCompanyName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   // Validation Messages
   const [showPasswordError, setShowPasswordError] = useState(false);
   const [passwordError, setPasswordError] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [showConfirmPasswordError, setShowConfirmPasswordError] = useState(
     false
   );
@@ -64,16 +65,15 @@ const Register = ({
     };
 
     setLoading();
-    const res = await registerUser(payload);
+    const res = await registerUser(payload).catch((err) => {
+      setRegisterError(err.message);
+    });
 
-    if (res.status === 200) {
+    if (res) {
+      console.log(res);
       setRegistered(true);
       return;
     }
-
-    setRegisterError(res.data.errorMessage);
-
-    console.log(res);
   };
 
   // Validate password on blur
@@ -155,6 +155,7 @@ const Register = ({
                 name='lastName'
                 autoComplete='last-name'
                 onChange={(e) => setLastName(e.target.value)}
+                value='ss'
               />
             </Grid>
             <Grid item xs={12}>

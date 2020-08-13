@@ -6,6 +6,7 @@ import {
   CHANGE_PARENT,
   ERROR,
   SELECT_DOCUMENT,
+  CLEAR_DOCUMENT,
 } from './types';
 import axios from 'axios';
 
@@ -175,5 +176,11 @@ export const selectDocument = (document) => async (dispatch) => {
 export const setDocumentLoading = () => (dispatch) => {
   dispatch({
     type: SET_LOADING_DOCUMENTS,
+  });
+};
+
+export const clearDocuments = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_DOCUMENT,
   });
 };

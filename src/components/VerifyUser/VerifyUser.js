@@ -20,7 +20,7 @@ import {
 const VerifyUser = ({ verifyUser, resendVerifyCode, match }) => {
   const classes = useStyles();
   const [verified, setVerified] = useState(false);
-  const [confirmCode, setConfirmCode] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
 
@@ -29,18 +29,18 @@ const VerifyUser = ({ verifyUser, resendVerifyCode, match }) => {
   const sendConfirmationCode = async () => {
     const payload = {
       email,
-      confirmCode,
+      verificationCode,
     };
 
-    const res = await verifyUser(payload);
-
-    if (res.data?.errorMessage) {
+    const res = await verifyUser(payload).catch((err) => {
+      console.log(err);
       setMessage('');
-      setError(res.data.errorMessage);
-      return;
-    }
+      setError(err.message);
+    });
 
-    setVerified(true);
+    if (res) {
+      setVerified(true);
+    }
   };
 
   const resendCode = async () => {
@@ -48,16 +48,18 @@ const VerifyUser = ({ verifyUser, resendVerifyCode, match }) => {
       email,
     };
 
-    const res = await resendVerifyCode(payload);
-    if (res.status === 200) {
+    const res = await resendVerifyCode(payload).catch((err) => {
+      console.log(err);
+      setMessage('');
+      setError(err.message);
+      return;
+    });
+
+    if (res) {
       setError('');
       setMessage(`A new verification code has been sent`);
       return;
     }
-    setMessage('');
-    setError(res.data.message);
-
-    console.log(res);
   };
 
   // Redirect to login screen if no email passed in
@@ -80,7 +82,10 @@ const VerifyUser = ({ verifyUser, resendVerifyCode, match }) => {
           <ErrorMessage message={error} clearError={() => setError('')} />
         )}
         {message && (
-          <SuccessMessage message={message} clearError={() => setMessage('')} />
+          <SuccessMessage
+            message={message}
+            clearMessage={() => setMessage('')}
+          />
         )}
 
         <Grid container spacing={2}>
@@ -89,7 +94,7 @@ const VerifyUser = ({ verifyUser, resendVerifyCode, match }) => {
               variant='outlined'
               fullWidth
               label='Verification Code'
-              onChange={(e) => setConfirmCode(e.target.value)}
+              onChange={(e) => setVerificationCode(e.target.value)}
             />
           </Grid>
         </Grid>

@@ -21,8 +21,6 @@ class Websocket {
       });
     });
 
-    console.log('has', md5(account) + process.env.REACT_APP_SOCKET_HASH);
-
     socket.emit('join', md5(account) + process.env.REACT_APP_SOCKET_HASH);
 
     // rejoin if there's a disconnect

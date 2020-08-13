@@ -13,6 +13,7 @@ import {
   SELECT_DOCUMENT,
   CHANGE_PARENT,
   ERROR,
+  CLEAR_DOCUMENT,
 } from '../actions/types';
 import findPreviousParent from '../utils/findPreviousParent';
 
@@ -20,7 +21,7 @@ const initialState = {
   documents: [],
   folders: [],
   archives: [],
-  loading: false,
+  loading: true,
   current: null,
   parent: null,
   selectedDocument: {
@@ -170,6 +171,9 @@ export default (state = initialState, action) => {
         ...state,
         selectedDocument: action.payload,
       };
+
+    case CLEAR_DOCUMENT:
+      return initialState;
 
     default:
       return state;
