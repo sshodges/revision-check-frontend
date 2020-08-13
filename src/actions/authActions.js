@@ -84,27 +84,57 @@ export const loginUser = (email, password) => async (dispatch) => {
 
 export const registerUser = (payload) => async (dispatch) => {
   try {
-    const response = await axios.post(
+    const res = await axios.post(
       process.env.REACT_APP_BASE_API_URL + 'users',
       payload
     );
 
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: response,
-    });
-
-    return true;
+    return res;
   } catch (error) {
     console.log(error);
-    console.log(error.errorMessage);
-    console.log(error.errorMessage.errors);
+
     dispatch({
       type: LOGIN_FAIL,
       payload: error.errorMessage.errors,
     });
 
     return false;
+  }
+};
+
+export const verifyUser = (payload) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      process.env.REACT_APP_BASE_API_URL + 'auth/verify-user',
+      payload
+    );
+
+    // dispatch({
+    //   type: LOGIN_SUCCESS,
+    //   payload: response,
+    // });
+
+    return res;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const resendVerifyCode = (payload) => async (dispatch) => {
+  try {
+    const res = await axios.post(
+      process.env.REACT_APP_BASE_API_URL + 'auth/resend-verify-user',
+      payload
+    );
+
+    // dispatch({
+    //   type: LOGIN_SUCCESS,
+    //   payload: response,
+    // });
+
+    return res;
+  } catch (error) {
+    return error.response;
   }
 };
 

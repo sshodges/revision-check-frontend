@@ -31,12 +31,13 @@ const Register = ({
   clearError,
 }) => {
   const classes = useStyles();
-
+  // Form Fields
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  // Validation Messages
   const [showPasswordError, setShowPasswordError] = useState(false);
   const [passwordError, setPasswordError] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -44,6 +45,9 @@ const Register = ({
     false
   );
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  // Confirm User
+  const [registerError, setRegisterError] = useState('');
+  const [registered, setRegistered] = useState(false);
 
   const register = async (e) => {
     e.preventDefault();
@@ -60,7 +64,16 @@ const Register = ({
     };
 
     setLoading();
-    await registerUser(payload);
+    const res = await registerUser(payload);
+
+    if (res.status === 200) {
+      setRegistered(true);
+      return;
+    }
+
+    setRegisterError(res.data.errorMessage);
+
+    console.log(res);
   };
 
   // Validate password on blur
@@ -106,9 +119,9 @@ const Register = ({
     clearError();
   };
 
-  // Redirect user to dashboard if logged in
-  if (isAuthenticated && !loading) {
-    return <Redirect to='/' />;
+  // Redirect verify user on register
+  if (registered) {
+    return <Redirect to={`/verify/${email}`} />;
   }
 
   return (
@@ -217,8 +230,11 @@ const Register = ({
             Register
           </Button>
 
-          {error && (
-            <ErrorMessage message={error} clearError={handleClearError} />
+          {registerError && (
+            <ErrorMessage
+              message={registerError}
+              clearError={handleClearError}
+            />
           )}
 
           <Grid container justify='flex-end'>
