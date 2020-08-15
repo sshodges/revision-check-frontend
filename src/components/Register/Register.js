@@ -13,9 +13,8 @@ import {
 } from '@material-ui/core';
 import { useStyles } from './Register-styles';
 import Container from '@material-ui/core/Container';
-import Copyright from '../Dashboard/components/layout/Copyright';
-import Logo from 'assets/img/logo.png';
-import ErrorMessage from '../Dashboard/components/layout/ErrorMessage';
+import Copyright from '../Layout/Copyright';
+import ErrorMessage from '../Layout/ErrorMessage';
 // Actions
 import {
   registerUser,
@@ -23,6 +22,7 @@ import {
   clearError,
   getUser,
 } from '../../actions/authActions';
+import Logo from '../Layout/Logo';
 
 const Register = ({
   auth: { isAuthenticated, loading, error },
@@ -128,7 +128,9 @@ const Register = ({
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
-        <img src={Logo} className={classes.logo} alt='Revision Check logo' />
+        <a href='/login'>
+          <Logo logoClass={classes.logo} />
+        </a>
 
         <form className={classes.form} onSubmit={register}>
           <Grid container spacing={2}>

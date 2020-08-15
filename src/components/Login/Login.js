@@ -21,17 +21,16 @@ import {
 } from '@material-ui/core';
 import { useStyles } from './Login-styles';
 // Other Components
-import Logo from 'assets/img/logo.png';
-import Copyright from '../Dashboard/components/layout/Copyright';
-import ErrorMessage from '../Dashboard/components/layout/ErrorMessage';
-import PageLoading from '../Dashboard/components/layout/PageLoading';
+import Copyright from '../Layout/Copyright';
+import ErrorMessage from '../Layout/ErrorMessage';
+import PageLoading from '../Layout/PageLoading';
+import Logo from '../Layout/Logo';
 
 const Login = ({
   auth: { isAuthenticated, loading },
   loginUser,
   getUser,
   setLoading,
-  clearError,
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -57,6 +56,9 @@ const Login = ({
     setLoading();
     await loginUser(email, password).catch((err) => setError(err.message));
   };
+  let inputStyle = {};
+  if (localStorage.preferredTheme === 'dark')
+    inputStyle = { WebkitBoxShadow: '0 0 0 1000px #6aa9da inset' };
 
   // Redirect user to dashboard if logged in
   if (isAuthenticated && !loading) {
@@ -69,11 +71,7 @@ const Login = ({
         <CssBaseline />
         <div className={classes.paper}>
           <form className={classes.form} onSubmit={login}>
-            <img
-              src={Logo}
-              className={classes.logo}
-              alt='Revision Check logo'
-            />
+            <Logo logoClass={classes.logo} />
             <TextField
               variant='outlined'
               margin='normal'
@@ -84,6 +82,7 @@ const Login = ({
               autoComplete='email'
               autoFocus
               onChange={(e) => setEmail(e.target.value)}
+              inputProps={{ style: inputStyle }}
             />
             <TextField
               variant='outlined'
@@ -94,6 +93,7 @@ const Login = ({
               type='password'
               autoComplete='current-password'
               onChange={(e) => setPassword(e.target.value)}
+              inputProps={{ style: inputStyle }}
             />
 
             <Button

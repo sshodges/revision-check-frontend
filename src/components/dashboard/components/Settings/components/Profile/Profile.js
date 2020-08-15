@@ -13,8 +13,8 @@ import {
   TextField,
   CircularProgress,
 } from '@material-ui/core';
-import ErrorMessage from '../../../layout/ErrorMessage';
-import SuccessMessage from '../../../layout/SuccessMessage';
+import ErrorMessage from '../../../../../Layout/ErrorMessage';
+import SuccessMessage from '../../../../../Layout/SuccessMessage';
 
 const Profile = ({ auth: { user, loading }, updateUser, setLoading }) => {
   const [values, setValues] = useState({

@@ -11,8 +11,8 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import { changePassword } from 'actions/authActions';
-import ErrorMessage from '../../../layout/ErrorMessage';
-import SuccessMessage from '../../../layout/SuccessMessage';
+import ErrorMessage from '../../../../../Layout/ErrorMessage';
+import SuccessMessage from '../../../../../Layout/SuccessMessage';
 
 const ChangePassword = ({ auth: { user, loading }, changePassword }) => {
   const [values, setValues] = useState({

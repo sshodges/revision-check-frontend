@@ -13,7 +13,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import FolderIcon from '@material-ui/icons/Folder';
 // Internal Components
 import Toolbar from './components/Toolbar';
-import Loading from '../../../layout/Loading';
+import Loading from '../../../../../Layout/Loading';
 import SelectToolbar from './components/SelectToolbar';
 import SuccessMessage from 'components/Dashboard/components/layout/SuccessMessage';
 

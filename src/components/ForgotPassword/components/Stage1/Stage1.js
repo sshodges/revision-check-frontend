@@ -9,8 +9,8 @@ import {
   Container,
   CircularProgress,
 } from '@material-ui/core';
-import Logo from 'assets/img/logo.png';
-import Copyright from '../../../Dashboard/components/layout/Copyright';
+import Copyright from 'components/Layout/Copyright';
+import Logo from 'components/Layout/Logo';
 
 export const Stage1 = ({ setEmail, sendCode, loading }) => {
   const classes = useStyles();
@@ -20,11 +20,7 @@ export const Stage1 = ({ setEmail, sendCode, loading }) => {
       <div className={classes.paper}>
         <form className={classes.form} onSubmit={sendCode}>
           <a href='/login'>
-            <img
-              src={Logo}
-              className={classes.logo}
-              alt='Revision Check logo'
-            />
+            <Logo logoClass={classes.logo} />
           </a>
 
           <TextField

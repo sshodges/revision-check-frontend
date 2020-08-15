@@ -4,10 +4,9 @@ import { connect } from 'react-redux';
 import { Button, CssBaseline, TextField, Grid, Box } from '@material-ui/core';
 import { useStyles } from '../Register/Register-styles';
 import Container from '@material-ui/core/Container';
-import Copyright from '../Dashboard/components/layout/Copyright';
-import Logo from 'assets/img/logo.png';
-import SuccessMessage from '../Dashboard/components/layout/SuccessMessage';
-import ErrorMessage from '../Dashboard/components/layout/ErrorMessage';
+import Copyright from '../Layout/Copyright';
+import SuccessMessage from '../Layout/SuccessMessage';
+import ErrorMessage from '../Layout/ErrorMessage';
 // Actions
 import {
   resendVerifyCode,
@@ -16,6 +15,7 @@ import {
   clearError,
   getUser,
 } from '../../actions/authActions';
+import Logo from '../Layout/Logo';
 
 const VerifyUser = ({ verifyUser, resendVerifyCode, match }) => {
   const classes = useStyles();
@@ -76,7 +76,9 @@ const VerifyUser = ({ verifyUser, resendVerifyCode, match }) => {
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <div className={classes.paper}>
-        <img src={Logo} className={classes.logo} alt='Revision Check logo' />
+        <a href='/login'>
+          <Logo logoClass={classes.logo} />
+        </a>
         <h4>A verification code was sent to: {email}</h4>
         {error && (
           <ErrorMessage message={error} clearError={() => setError('')} />

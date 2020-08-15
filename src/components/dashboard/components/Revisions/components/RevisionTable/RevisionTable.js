@@ -11,11 +11,11 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 // Internal Components
-import Loading from '../../../layout/Loading';
+import Loading from '../../../../../Layout/Loading';
 import TitleBar from './components/TitleBar';
 import { RevisionToolbar } from './components/RevisionToolbar/RevisionToolbar';
 import RevisionAccordion from './components/RevisionAccordion';
-import SuccessMessage from '../../../layout/SuccessMessage';
+import SuccessMessage from '../../../../../Layout/SuccessMessage';
 
 const RevisionTable = ({
   revision: { revisions, loading },

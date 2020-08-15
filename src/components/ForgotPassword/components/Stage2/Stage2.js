@@ -9,8 +9,8 @@ import {
   Container,
   CircularProgress,
 } from '@material-ui/core';
-import Logo from 'assets/img/logo.png';
-import Copyright from '../../../Dashboard/components/layout/Copyright';
+import Copyright from '../../../Layout/Copyright';
+import Logo from '../../../Layout/Logo';
 
 export const Stage2 = ({
   setVerifyCode,
@@ -26,11 +26,7 @@ export const Stage2 = ({
       <div className={classes.paper}>
         <form className={classes.form} onSubmit={sendResetPassword}>
           <a href='/login'>
-            <img
-              src={Logo}
-              className={classes.logo}
-              alt='Revision Check logo'
-            />
+            <Logo logoClass={classes.logo} />
           </a>
 
           <TextField

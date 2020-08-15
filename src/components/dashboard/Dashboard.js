@@ -17,7 +17,7 @@ import {
   setDocumentLoading,
 } from 'actions/documentActions';
 // Other Components
-import Sidebar from './components/layout/Sidebar';
+import Sidebar from '../Layout/Sidebar';
 import Navbar from './components/layout/Navbar';
 import Documents from './components/Documents';
 import Revisions from './components/Revisions';

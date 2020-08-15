@@ -9,7 +9,7 @@ import { changeParent, selectDocument } from 'actions/documentActions';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import ArchiveIcon from '@material-ui/icons/Archive';
 // Internal Components
-import Loading from '../../../layout/Loading';
+import Loading from '../../../../../Layout/Loading';
 import SuccessMessage from 'components/Dashboard/components/layout/SuccessMessage';
 import ArchiveSelectToolbar from './components/ArchiveSelectToolbar/ArchiveSelectToolbar';
 

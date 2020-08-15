@@ -9,7 +9,7 @@ import {
 import { Stage2 } from './components/Stage2/Stage2';
 import { Stage1 } from './components/Stage1/Stage1';
 import { Redirect } from 'react-router-dom';
-import ErrorMessage from '../Dashboard/components/layout/ErrorMessage';
+import ErrorMessage from '../Layout/ErrorMessage';
 
 const ForgotPassword = ({ sendForgotPasswordCode, resetPassword }) => {
   const [email, setEmail] = useState('');

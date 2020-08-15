@@ -14,7 +14,7 @@ export default function ClippedDrawer() {
       className={classes.drawer}
       variant='permanent'
       classes={{
-        paper: classes.drawerPaper
+        paper: classes.drawerPaper,
       }}
     >
       <div className={classes.toolbar} />
