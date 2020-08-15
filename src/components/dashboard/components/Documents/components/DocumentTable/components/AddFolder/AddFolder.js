@@ -63,6 +63,9 @@ const AddFolder = ({ document: { current }, addFolder, open, setOpen }) => {
             fullWidth
             onKeyPress={keyPressed}
             onChange={(e) => setFolderName(e.target.value)}
+            inputProps={{
+              autoComplete: 'off',
+            }}
           />
         </DialogContent>
         <DialogActions>

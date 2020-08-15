@@ -71,6 +71,9 @@ const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
             fullWidth
             onKeyPress={keyPressed}
             onChange={(e) => setDocumentName(e.target.value)}
+            inputProps={{
+              autoComplete: 'off',
+            }}
           />
         </DialogContent>
         <DialogActions>

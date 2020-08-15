@@ -71,6 +71,9 @@ const EditFolder = ({
             onKeyPress={keyPressed}
             onChange={(e) => setFolderName(e.target.value)}
             value={folderName}
+            inputProps={{
+              autoComplete: 'off',
+            }}
           />
         </DialogContent>
         <DialogActions>

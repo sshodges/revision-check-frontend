@@ -81,6 +81,9 @@ const EditDocument = ({
             onKeyPress={keyPressed}
             onChange={(e) => setDocumentName(e.target.value)}
             value={documentName}
+            inputProps={{
+              autoComplete: 'off',
+            }}
           />
         </DialogContent>
         <DialogActions>

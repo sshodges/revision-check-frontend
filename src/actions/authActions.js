@@ -1,6 +1,5 @@
 import {
   LOAD_USER,
-  UPDATE_USER,
   SET_LOADING_AUTH,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -15,7 +14,6 @@ import {
   AuthenticationDetails,
   CognitoUserAttribute,
 } from 'amazon-cognito-identity-js';
-import store from 'store';
 
 const poolData = {
   UserPoolId: process.env.REACT_APP_COGNITO_USER_POOL_ID,
@@ -28,49 +26,53 @@ export const getUser = () => async (dispatch) => {
   await new Promise((resolve, reject) => {
     const user = Pool.getCurrentUser();
     if (user) {
-      user.getSession(async (err, session) => {
-        if (err) {
+      user
+        .getSession(async (err, session) => {
+          if (err) {
+            reject(err);
+          } else {
+            const attributes = await new Promise((resolve, reject) => {
+              user.getUserAttributes((err, attributes) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  const results = {};
+
+                  for (let attribute of attributes) {
+                    const { Name, Value } = attribute;
+                    results[Name] = Value;
+                  }
+
+                  resolve(results);
+                }
+              });
+            });
+
+            axios.defaults.headers.common['auth-token'] =
+              session.idToken.jwtToken;
+
+            const res = await axios.get(
+              process.env.REACT_APP_BASE_API_URL + 'auth'
+            );
+
+            if (res) {
+              attributes.accountId = res.data.account._id;
+            }
+
+            if (attributes) {
+              dispatch({
+                type: LOAD_USER,
+                payload: attributes,
+              });
+            }
+
+            resolve(session);
+          }
+        })
+        .catch((err) => {
           console.log(err);
           reject(err);
-        } else {
-          const attributes = await new Promise((resolve, reject) => {
-            user.getUserAttributes((err, attributes) => {
-              if (err) {
-                reject(err);
-              } else {
-                const results = {};
-
-                for (let attribute of attributes) {
-                  const { Name, Value } = attribute;
-                  results[Name] = Value;
-                }
-
-                resolve(results);
-              }
-            });
-          });
-
-          axios.defaults.headers.common['auth-token'] =
-            session.idToken.jwtToken;
-
-          const res = await axios.get(
-            process.env.REACT_APP_BASE_API_URL + 'auth'
-          );
-
-          if (res) {
-            attributes.accountId = res.data.account._id;
-          }
-
-          if (attributes) {
-            dispatch({
-              type: LOAD_USER,
-              payload: attributes,
-            });
-          }
-
-          resolve(session);
-        }
-      });
+        });
     } else {
       reject();
     }
@@ -81,24 +83,50 @@ export const getUser = () => async (dispatch) => {
 
 export const updateUser = (payload) => async (dispatch) => {
   setLoading();
-  try {
-    const res = await axios.put(
-      process.env.REACT_APP_BASE_API_URL + 'users',
-      payload
-    );
+  const { firstName, lastName, phone, companyName } = payload;
+  return new Promise((resolve, reject) => {
+    const user = Pool.getCurrentUser();
+    if (user) {
+      user.getSession(async (err, session) => {
+        if (err) {
+          reject(err);
+        }
 
-    console.log(res.data);
+        var attributeList = [];
+        attributeList.push(
+          new CognitoUserAttribute({
+            Name: 'name',
+            Value: firstName,
+          })
+        );
+        attributeList.push(
+          new CognitoUserAttribute({
+            Name: 'given_name',
+            Value: lastName,
+          })
+        );
+        attributeList.push(
+          new CognitoUserAttribute({
+            Name: 'custom:phone',
+            Value: phone,
+          })
+        );
+        attributeList.push(
+          new CognitoUserAttribute({
+            Name: 'custom:company',
+            Value: companyName,
+          })
+        );
 
-    dispatch({
-      type: UPDATE_USER,
-      payload: res.data,
-    });
-    return true;
-  } catch (error) {
-    console.log('err:', error);
-    dispatch({ type: LOGIN_FAIL, payload: '' });
-    return false;
-  }
+        user.updateAttributes(attributeList, (err, result) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(result);
+        });
+      });
+    }
+  });
 };
 
 export const loginUser = (email, password) => async (dispatch) => {
@@ -111,7 +139,6 @@ export const loginUser = (email, password) => async (dispatch) => {
 
     user.authenticateUser(authDetails, {
       onSuccess: (data) => {
-        console.log('onSuccess:', data);
         dispatch({
           type: LOGIN_SUCCESS,
           payload: data,
@@ -120,7 +147,9 @@ export const loginUser = (email, password) => async (dispatch) => {
       },
 
       onFailure: (err) => {
-        console.error('onFailure:', err);
+        dispatch({
+          type: LOGIN_FAIL,
+        });
         reject(err);
       },
 
@@ -212,6 +241,66 @@ export const resendVerifyCode = (payload) => async (dispatch) => {
       resolve(result);
     })
   );
+};
+
+export const sendForgotPasswordCode = (email) => async (dispatch) => {
+  const user = new CognitoUser({ Username: email.toLowerCase(), Pool });
+
+  return new Promise((resolve, reject) =>
+    user.forgotPassword({
+      onSuccess: (data) => {
+        console.log('onSuccess', data);
+        resolve(data);
+      },
+      onFailure: (err) => {
+        console.log('onfaliure', err);
+        reject(err);
+      },
+      inputVerificationCode: (data) => {
+        console.log('input code', data);
+        resolve(data);
+      },
+    })
+  );
+};
+
+export const resetPassword = (payload) => async (dispatch) => {
+  const { email, verifyCode, password } = payload;
+  console.log(payload);
+  const user = new CognitoUser({ Username: email.toLowerCase(), Pool });
+
+  return new Promise((resolve, reject) =>
+    user.confirmPassword(verifyCode, password, {
+      onSuccess: () => {
+        resolve(true);
+      },
+      onFailure: (err) => {
+        reject(err);
+      },
+    })
+  );
+};
+
+export const changePassword = (email, password, newPassword) => async (
+  dispatch
+) => {
+  return new Promise((resolve, reject) => {
+    const user = Pool.getCurrentUser();
+    if (user) {
+      user.getSession(async (err, session) => {
+        if (err) {
+          reject(err);
+        }
+
+        user.changePassword(password, newPassword, (err, result) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(result);
+        });
+      });
+    }
+  });
 };
 
 export const logout = () => (dispatch) => {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import {
   Card,
   CardHeader,
@@ -7,14 +8,20 @@ import {
   Divider,
   Button,
   TextField,
+  CircularProgress,
 } from '@material-ui/core';
+import { changePassword } from 'actions/authActions';
+import ErrorMessage from '../../../layout/ErrorMessage';
+import SuccessMessage from '../../../layout/SuccessMessage';
 
-const ChangePassword = () => {
+const ChangePassword = ({ auth: { user, loading }, changePassword }) => {
   const [values, setValues] = useState({
     currentPassword: '',
     password: '',
     confirm: '',
   });
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleChange = (event) => {
     setValues({
@@ -22,6 +29,42 @@ const ChangePassword = () => {
       [event.target.name]: event.target.value,
     });
   };
+
+  const submitChangePassword = async () => {
+    const { currentPassword, password, confirm } = values;
+    if (password !== confirm) {
+      setError('passwords do not match');
+    }
+
+    if (!currentPassword) {
+      setError('Please enter your current password');
+    }
+
+    if (password.length < 6) {
+      setError('New password must be at least 6 characters long');
+    }
+
+    const res = await changePassword(
+      user.email,
+      currentPassword,
+      password
+    ).catch((err) => {
+      setError(err.message);
+    });
+
+    if (res) {
+      setValues({
+        currentPassword: '',
+        password: '',
+        confirm: '',
+      });
+      setMessage('Password successfully changed');
+    }
+  };
+
+  if (loading) {
+    return <CircularProgress />;
+  }
 
   return (
     <Card>
@@ -61,13 +104,27 @@ const ChangePassword = () => {
         </CardContent>
         <Divider />
         <CardActions>
-          <Button color='primary' variant='contained'>
+          <Button
+            color='primary'
+            variant='contained'
+            onClick={() => submitChangePassword()}
+          >
             Update
           </Button>
         </CardActions>
       </form>
+      {error && (
+        <ErrorMessage message={error} clearError={() => setError('')} />
+      )}
+      {message && (
+        <SuccessMessage message={message} clearMessage={() => setMessage('')} />
+      )}
     </Card>
   );
 };
 
-export default ChangePassword;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { changePassword })(ChangePassword);

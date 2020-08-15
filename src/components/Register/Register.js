@@ -155,7 +155,6 @@ const Register = ({
                 name='lastName'
                 autoComplete='last-name'
                 onChange={(e) => setLastName(e.target.value)}
-                value='ss'
               />
             </Grid>
             <Grid item xs={12}>

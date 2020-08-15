@@ -70,6 +70,9 @@ const AddRevision = ({
             onKeyPress={keyPressed}
             variant='outlined'
             onChange={(e) => setRevisionName(e.target.value)}
+            inputProps={{
+              autoComplete: 'off',
+            }}
           />
           <TextField
             id='note'
@@ -79,6 +82,9 @@ const AddRevision = ({
             fullWidth
             variant='outlined'
             onChange={(e) => setRevisionNote(e.target.value)}
+            inputProps={{
+              autoComplete: 'off',
+            }}
           />
         </DialogContent>
         <DialogActions>

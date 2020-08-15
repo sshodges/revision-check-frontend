@@ -15,6 +15,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import Register from './components/Register/Register';
 import { lightTheme, darkTheme } from './theme';
 import VerifyUser from './components/VerifyUser';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 
 if (localStorage.token) {
   axios.defaults.headers.common['auth-token'] = localStorage.token;
@@ -45,6 +46,7 @@ const ThemedApp = ({ layout: { preferredTheme }, updateColorPreference }) => {
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/verify/:email' component={VerifyUser} />
+            <Route exact path='/forgot-password' component={ForgotPassword} />
             <Dashboard />
           </Switch>
         </Fragment>

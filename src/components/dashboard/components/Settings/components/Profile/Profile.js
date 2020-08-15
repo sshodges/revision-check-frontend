@@ -13,18 +13,19 @@ import {
   TextField,
   CircularProgress,
 } from '@material-ui/core';
+import ErrorMessage from '../../../layout/ErrorMessage';
+import SuccessMessage from '../../../layout/SuccessMessage';
 
 const Profile = ({ auth: { user, loading }, updateUser, setLoading }) => {
   const [values, setValues] = useState({
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    phone: user.phone,
-    account: {
-      companyName: user.account?.companyName,
-    },
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    companyName: '',
   });
-
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const Profile = ({ auth: { user, loading }, updateUser, setLoading }) => {
       lastName: user.lastName,
       email: user.email,
       phone: user.phone,
-      companyName: user.account.companyName,
+      companyName: user.companyName,
     });
     // eslint-disable-next-line
   }, [!loading, user]);
@@ -47,7 +48,11 @@ const Profile = ({ auth: { user, loading }, updateUser, setLoading }) => {
 
   const update = async () => {
     setUpdating(true);
-    await updateUser(values);
+    const res = await updateUser(values).catch((err) => console.log(err));
+
+    if (res) {
+      setMessage('User profile updated');
+    }
     setUpdating(false);
   };
 
@@ -96,6 +101,7 @@ const Profile = ({ auth: { user, loading }, updateUser, setLoading }) => {
                 required
                 value={values.email}
                 variant='outlined'
+                disabled
               />
             </Grid>
             <Grid item md={6} xs={12}>
@@ -109,15 +115,36 @@ const Profile = ({ auth: { user, loading }, updateUser, setLoading }) => {
                 variant='outlined'
               />
             </Grid>
+            <Grid item md={6} xs={12}>
+              <TextField
+                fullWidth
+                label='Company Name'
+                margin='dense'
+                name='companyName'
+                onChange={handleChange}
+                value={values.companyName}
+                variant='outlined'
+              />
+            </Grid>
           </Grid>
         </CardContent>
         <Divider />
         <CardActions>
           <Button color='primary' variant='contained' onClick={() => update()}>
-            Save details
+            {updating ? (
+              <CircularProgress size={20} color='inherit' />
+            ) : (
+              'Save Details'
+            )}
           </Button>
         </CardActions>
       </form>
+      {error && (
+        <ErrorMessage message={error} clearError={() => setError('')} />
+      )}
+      {message && (
+        <SuccessMessage message={message} clearMessage={() => setMessage('')} />
+      )}
     </Card>
   );
 };

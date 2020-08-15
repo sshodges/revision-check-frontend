@@ -27,7 +27,7 @@ import ErrorMessage from '../Dashboard/components/layout/ErrorMessage';
 import PageLoading from '../Dashboard/components/layout/PageLoading';
 
 const Login = ({
-  auth: { isAuthenticated, loading, error },
+  auth: { isAuthenticated, loading },
   loginUser,
   getUser,
   setLoading,
@@ -36,6 +36,7 @@ const Login = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loadingPage, setLoadingPage] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     // Check if user already logged in
@@ -54,11 +55,7 @@ const Login = ({
     e.preventDefault();
 
     setLoading();
-    await loginUser(email, password);
-  };
-
-  const handleClearError = () => {
-    clearError();
+    await loginUser(email, password).catch((err) => setError(err.message));
   };
 
   // Redirect user to dashboard if logged in
@@ -77,7 +74,6 @@ const Login = ({
               className={classes.logo}
               alt='Revision Check logo'
             />
-
             <TextField
               variant='outlined'
               margin='normal'
@@ -115,12 +111,12 @@ const Login = ({
             </Button>
 
             {error && (
-              <ErrorMessage message={error} clearError={handleClearError} />
+              <ErrorMessage message={error} clearError={() => setError('')} />
             )}
 
             <Grid container>
               <Grid item xs>
-                <Link href='#' variant='body2'>
+                <Link href='/forgot-password' variant='body2'>
                   Forgot password?
                 </Link>
               </Grid>

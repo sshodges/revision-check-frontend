@@ -90,6 +90,9 @@ const RevisionAccordion = ({
               defaultValue={revision}
               className={classes.revision}
               onChange={(e) => setRevision(e.target.value)}
+              inputProps={{
+                autoComplete: 'off',
+              }}
             />
 
             <TextField
@@ -101,6 +104,9 @@ const RevisionAccordion = ({
               defaultValue={note}
               variant='outlined'
               onChange={(e) => setNote(e.target.value)}
+              inputProps={{
+                autoComplete: 'off',
+              }}
             />
 
             <Button

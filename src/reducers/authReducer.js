@@ -1,6 +1,5 @@
 import {
   LOAD_USER,
-  UPDATE_USER,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   SET_LOADING_AUTH,
@@ -18,6 +17,7 @@ const initialState = {
     lastName: '',
     email: '',
     companyName: '',
+    phone: '',
     account: {
       _id: null,
     },
@@ -51,17 +51,12 @@ export default (state = initialState, action) => {
           lastName: action.payload.given_name,
           email: action.payload.email,
           companyName: action.payload['custom:company'],
+          phone: action.payload['custom:phone'],
           account: {
             _id: action.payload.accountId,
           },
           emailVerified: action.payload.email_verified,
         },
-        loading: false,
-      };
-    case UPDATE_USER:
-      return {
-        ...state,
-        user: action.payload,
         loading: false,
       };
     case LOGIN_SUCCESS:
@@ -77,11 +72,7 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case LOGIN_FAIL:
-      return {
-        state: initialState,
-        error: action.payload,
-        loading: false,
-      };
+      return initialState;
     case LOGOUT:
       return initialState;
     default:
