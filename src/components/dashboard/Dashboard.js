@@ -18,7 +18,7 @@ import {
 } from 'actions/documentActions';
 // Other Components
 import Sidebar from '../Layout/Sidebar';
-import Navbar from './components/layout/Navbar';
+import Navbar from 'components/Layout/Navbar';
 import Documents from './components/Documents';
 import Revisions from './components/Revisions';
 import Archive from './components/Archive';
@@ -33,6 +33,7 @@ const Dashboard = ({
   setDocumentLoading,
 }) => {
   const [userLoading, setUserLoading] = useState(true);
+  const [socketConnected, setSocketConnected] = useState(false);
   useEffect(() => {
     // Check if user already logged in
     async function asyncGetUser() {
@@ -63,7 +64,8 @@ const Dashboard = ({
     return <Redirect to='/login' />;
   }
 
-  if (user.account?._id) {
+  if (user.account?._id && !socketConnected) {
+    setSocketConnected(true);
     new Websocket(user.account._id);
   }
 

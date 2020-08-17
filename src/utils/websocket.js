@@ -31,7 +31,6 @@ class Websocket {
     // Folders
     socket.on('add folder', function (folder) {
       folder.type = 'folder';
-      console.log(folder);
       store.dispatch(addFolder(folder));
     });
 

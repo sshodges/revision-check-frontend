@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { updateDocument } from 'actions/documentActions';
-import SuccessMessage from 'components/Dashboard/components/layout/SuccessMessage';
+import SuccessMessage from 'components/Layout/SuccessMessage';
 
 // Material UI
 import {

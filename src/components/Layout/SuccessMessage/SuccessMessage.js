@@ -9,14 +9,13 @@ function Alert(props) {
 
 export default function SuccessMessage({ message, clearMessage }) {
   const classes = useStyles();
-  const [open, setOpen] = useState(true);
+  const [open] = useState(true);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     clearMessage();
-    setOpen(false);
   };
 
   return (

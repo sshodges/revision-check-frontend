@@ -45,7 +45,6 @@ export const updateRevision = (revision) => async (dispatch) => {
 
 export const updateFolder = (folder) => async (dispatch) => {
   try {
-    console.log(folder);
     dispatch({
       type: UPDATE_FOLDER,
       payload: folder,

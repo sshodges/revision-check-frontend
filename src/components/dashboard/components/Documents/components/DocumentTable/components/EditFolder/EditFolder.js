@@ -17,7 +17,7 @@ const EditFolder = ({
   setOpen,
   handleSuccess,
 }) => {
-  const [folderName, setFolderName] = useState(rowData[4]);
+  const [folderName, setFolderName] = useState(rowData ? rowData[4] : '');
   const [loading, setLoading] = useState(false);
 
   const handleOpen = () => {
@@ -73,6 +73,11 @@ const EditFolder = ({
             value={folderName}
             inputProps={{
               autoComplete: 'off',
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                editFolder();
+              }
             }}
           />
         </DialogContent>

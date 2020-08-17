@@ -10,8 +10,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 // Internal Components
-import ErrorMessage from 'components/Dashboard/components/layout/ErrorMessage';
-import SuccessMessage from 'components/Dashboard/components/layout/SuccessMessage';
+import ErrorMessage from 'components/Layout/ErrorMessage';
+import SuccessMessage from 'components/Layout/SuccessMessage';
 
 const AddDocument = ({ document: { current }, addDocument, open, setOpen }) => {
   const [documentName, setDocumentName] = useState('');

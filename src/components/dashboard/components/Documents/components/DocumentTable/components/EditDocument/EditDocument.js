@@ -10,7 +10,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 // Internal Components
-import ErrorMessage from 'components/Dashboard/components/layout/ErrorMessage';
+import ErrorMessage from 'components/Layout/ErrorMessage';
 
 const EditDocument = ({
   rowData,
@@ -19,7 +19,7 @@ const EditDocument = ({
   setOpen,
   handleSuccess,
 }) => {
-  const [documentName, setDocumentName] = useState(rowData[4]);
+  const [documentName, setDocumentName] = useState(rowData ? rowData[4] : '');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -83,6 +83,11 @@ const EditDocument = ({
             value={documentName}
             inputProps={{
               autoComplete: 'off',
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                editDocument();
+              }
             }}
           />
         </DialogContent>

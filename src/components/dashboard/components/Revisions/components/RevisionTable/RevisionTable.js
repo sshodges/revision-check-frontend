@@ -62,6 +62,14 @@ const RevisionTable = ({
     {
       name: 'createdAt',
       label: 'Created',
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          let timestamp = new Date(value);
+          return (
+            timestamp.toDateString() + ' ' + timestamp.toLocaleTimeString()
+          );
+        },
+      },
     },
     {
       name: 'latest',
@@ -84,7 +92,7 @@ const RevisionTable = ({
     filter: false,
     search: false,
     viewColumns: false,
-    responsive: 'scrollFullHeight',
+    responsive: 'simple',
     textLabels: {
       body: {
         noMatch: 'No revisions created',

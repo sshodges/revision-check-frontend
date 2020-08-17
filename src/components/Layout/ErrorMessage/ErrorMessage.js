@@ -5,14 +5,13 @@ import { useStyles } from './ErrorMessage-styles';
 
 export default function ErrorMessage({ message, clearError }) {
   const classes = useStyles();
-  const [open, setOpen] = useState(true);
+  const [open] = useState(true);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     clearError();
-    setOpen(false);
   };
 
   return (

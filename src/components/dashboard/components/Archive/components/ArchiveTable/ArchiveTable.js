@@ -10,7 +10,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import ArchiveIcon from '@material-ui/icons/Archive';
 // Internal Components
 import Loading from '../../../../../Layout/Loading';
-import SuccessMessage from 'components/Dashboard/components/layout/SuccessMessage';
+import SuccessMessage from 'components/Layout/SuccessMessage';
 import ArchiveSelectToolbar from './components/ArchiveSelectToolbar/ArchiveSelectToolbar';
 
 const ArchiveTable = ({
@@ -63,7 +63,7 @@ const ArchiveTable = ({
     download: false,
     filter: false,
     viewColumns: false,
-    responsive: 'scrollFullHeight',
+    responsive: 'simple',
     selectableRows: 'single',
     textLabels: {
       body: {
@@ -72,7 +72,7 @@ const ArchiveTable = ({
     },
     customToolbarSelect: (row, displayData, setSelectedRows) => (
       <ArchiveSelectToolbar
-        rowData={displayData[row.data[0].index].data}
+        rowData={displayData[row.data[0].index]?.data}
         handleSuccess={setSuccessMessage}
         setSelectedRows={setSelectedRows}
       />

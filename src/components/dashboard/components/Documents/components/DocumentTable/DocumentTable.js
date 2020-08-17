@@ -15,7 +15,7 @@ import FolderIcon from '@material-ui/icons/Folder';
 import Toolbar from './components/Toolbar';
 import Loading from '../../../../../Layout/Loading';
 import SelectToolbar from './components/SelectToolbar';
-import SuccessMessage from 'components/Dashboard/components/layout/SuccessMessage';
+import SuccessMessage from 'components/Layout/SuccessMessage';
 
 const DocumentTable = ({
   document: { documents, current, loading, selectedDocument },
@@ -84,7 +84,7 @@ const DocumentTable = ({
     download: false,
     filter: false,
     viewColumns: false,
-    responsive: 'scrollFullHeight',
+    responsive: 'simple',
     selectableRows: 'single',
     textLabels: {
       body: {
@@ -135,7 +135,7 @@ const DocumentTable = ({
     },
     customToolbarSelect: (row, displayData, setSelectedRows) => (
       <SelectToolbar
-        rowData={displayData[row.data[0].index].data}
+        rowData={displayData[row.data[0].index]?.data}
         handleSuccess={setSuccessMessage}
         setSelectedRows={setSelectedRows}
       />
