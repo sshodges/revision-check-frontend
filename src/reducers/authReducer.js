@@ -72,8 +72,14 @@ export default (state = initialState, action) => {
         loading: false,
       };
     case LOGIN_FAIL:
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('idToken');
+      localStorage.removeItem('refreshToken');
       return initialState;
     case LOGOUT:
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('idToken');
+      localStorage.removeItem('refreshToken');
       return initialState;
     default:
       return state;

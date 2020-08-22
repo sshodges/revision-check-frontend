@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { IconButton, Typography, Button } from '@material-ui/core';
 import DocumentSettings from '../DocumentSettings/DocumentSettings';
+import FollowersSettings from '../FollowersSettings/FollowersSettings';
 
 const TitleBar = ({ document: { selectedDocument }, backFunction }) => {
-  const [open, setOpen] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [showFollowers, setShowFollowers] = useState(false);
 
   return (
     <div>
@@ -19,13 +21,26 @@ const TitleBar = ({ document: { selectedDocument }, backFunction }) => {
           variant='outlined'
           color='primary'
           style={{ marginTop: 10, marginBottom: 15 }}
-          onClick={() => setOpen(true)}
+          onClick={() => setShowSettings(true)}
         >
           Settings
         </Button>
+
+        {selectedDocument.allowFollowers && (
+          <Button
+            size='small'
+            variant='outlined'
+            color='secondary'
+            style={{ marginTop: 10, marginBottom: 15, marginLeft: 20 }}
+            onClick={() => setShowFollowers(true)}
+          >
+            Followers
+          </Button>
+        )}
       </div>
 
-      <DocumentSettings open={open} setOpen={setOpen} />
+      <DocumentSettings open={showSettings} setOpen={setShowSettings} />
+      <FollowersSettings open={showFollowers} setOpen={setShowFollowers} />
     </div>
   );
 };

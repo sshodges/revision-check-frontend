@@ -9,6 +9,8 @@ import {
   CLEAR_DOCUMENT,
 } from './types';
 import axios from 'axios';
+import store from 'store';
+import { logout } from './authActions';
 
 export const getAllDocuments = () => async (dispatch) => {
   try {
@@ -28,6 +30,12 @@ export const getAllDocuments = () => async (dispatch) => {
       payload: data,
     });
   } catch (error) {
+    console.log(error.response);
+    if (error.response?.status === 401) {
+      store.dispatch(logout());
+      return;
+    }
+
     dispatch({
       type: ERROR,
       payload: error,
@@ -48,11 +56,90 @@ export const getArchives = () => async (dispatch) => {
       payload: data,
     });
   } catch (error) {
+    console.log(error.response);
+    if (error.response?.status === 401) {
+      store.dispatch(logout());
+      return;
+    }
     dispatch({
       type: ERROR,
       payload: error,
     });
   }
+};
+
+export const getDocumentByRevcode = (payload) => async (dispatch) => {
+  const res = await axios
+    .post(process.env.REACT_APP_BASE_API_URL + 'documents/by-rev-code', payload)
+    .catch((err) => {
+      return err.response;
+    });
+
+  let data = res.data;
+
+  return data;
+};
+
+export const followDocument = (payload) => async (dispatch) => {
+  const res = await axios
+    .post(
+      process.env.REACT_APP_BASE_API_URL + 'documents/follow-document',
+      payload
+    )
+    .catch((err) => {
+      return err.response;
+    });
+
+  let data = res.data;
+
+  return data;
+};
+
+export const approveFollower = (payload) => async (dispatch) => {
+  const res = await axios
+    .post(
+      process.env.REACT_APP_BASE_API_URL + 'documents/follower/approve',
+      payload
+    )
+    .catch((err) => {
+      return err.response;
+    });
+
+  let data = res.data;
+
+  return data;
+};
+
+export const denyFollower = (payload) => async (dispatch) => {
+  console.log(payload);
+  const res = await axios
+    .post(
+      process.env.REACT_APP_BASE_API_URL + 'documents/follower/deny',
+      payload
+    )
+    .catch((err) => {
+      return err.response;
+    });
+
+  let data = res.data;
+
+  return data;
+};
+
+export const getDocumentFollowers = (documentId) => async (dispatch) => {
+  const res = await axios
+    .get(
+      process.env.REACT_APP_BASE_API_URL +
+        'documents/get-followers/' +
+        documentId
+    )
+    .catch((err) => {
+      return err.response;
+    });
+
+  let data = res.data;
+
+  return data;
 };
 
 export const getAllFolders = () => async (dispatch) => {

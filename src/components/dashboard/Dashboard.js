@@ -10,7 +10,7 @@ import { useStyles } from './Dashboard-styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Websocket from 'utils/websocket';
 // Actions
-import { getUser, setLoading } from 'actions/authActions';
+import { getUser, setLoading, logout } from 'actions/authActions';
 import {
   getAllDocuments,
   getArchives,
@@ -31,6 +31,7 @@ const Dashboard = ({
   getAllDocuments,
   getArchives,
   setDocumentLoading,
+  logout,
 }) => {
   const [userLoading, setUserLoading] = useState(true);
   const [socketConnected, setSocketConnected] = useState(false);
@@ -40,7 +41,9 @@ const Dashboard = ({
       await setLoading();
       await getUser().catch((err) => {
         console.log(err);
+        logout();
       });
+
       setUserLoading(false);
       setLoading(false);
       //Get all Documents
@@ -99,4 +102,5 @@ export default connect(mapStateToProps, {
   getArchives,
   setDocumentLoading,
   setLoading,
+  logout,
 })(Dashboard);

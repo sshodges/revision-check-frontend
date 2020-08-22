@@ -85,10 +85,10 @@ const DocumentSettings = ({
                   margin='dense'
                   id='name'
                   label='Password'
-                  type='text'
+                  type='password'
                   fullWidth
                   variant='outlined'
-                  defaultValue={password}
+                  defaultValue={''}
                   onChange={(e) => setPassword(e.target.value)}
                   style={{ marginBottom: 10 }}
                 />
@@ -113,14 +113,6 @@ const DocumentSettings = ({
                       onChange={(e) => setRequireApproval(e.target.checked)}
                     />
                   </FormGroup>
-
-                  <Button
-                    color='primary'
-                    variant='outlined'
-                    style={{ marginBottom: 10 }}
-                  >
-                    Invite
-                  </Button>
                 </Fragment>
               </Collapse>
 

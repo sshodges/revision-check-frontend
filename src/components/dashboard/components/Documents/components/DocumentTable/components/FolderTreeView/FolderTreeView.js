@@ -49,7 +49,7 @@ const FolderTreeView = ({ setParent, folders, itemId }) => {
             if (node.id !== itemId) {
               return renderTree(node);
             }
-            return <div></div>;
+            return <div key={nodes.id}></div>;
           })
         : null}
     </TreeItem>

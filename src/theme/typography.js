@@ -29,12 +29,6 @@ export default {
     letterSpacing: '-0.05px',
     lineHeight: '20px',
   },
-  h6: {
-    fontWeight: 500,
-    fontSize: '14px',
-    letterSpacing: '-0.05px',
-    lineHeight: '20px',
-  },
   subtitle1: {
     fontSize: '16px',
     letterSpacing: '-0.05px',

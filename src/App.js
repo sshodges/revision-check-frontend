@@ -16,6 +16,7 @@ import Register from './components/Register';
 import { lightTheme, darkTheme } from './theme';
 import VerifyUser from './components/VerifyUser';
 import ForgotPassword from './components/ForgotPassword';
+import Scan from './components/Scan';
 
 if (localStorage.token) {
   axios.defaults.headers.common['auth-token'] = localStorage.token;
@@ -28,10 +29,12 @@ const ThemedApp = ({ layout: { preferredTheme }, updateColorPreference }) => {
     ? 'dark'
     : 'light';
 
+  if (!localStorage.preferredTheme) {
+    localStorage.setItem('preferredTheme', computerThemePreference);
+  }
+
   useEffect(() => {
-    const userThemePreference = localStorage.preferredTheme
-      ? localStorage.preferredTheme
-      : computerThemePreference;
+    const userThemePreference = localStorage.preferredTheme;
 
     updateColorPreference(userThemePreference);
   }, [preferredTheme, computerThemePreference, updateColorPreference]);
@@ -47,6 +50,7 @@ const ThemedApp = ({ layout: { preferredTheme }, updateColorPreference }) => {
             <Route exact path='/register' component={Register} />
             <Route exact path='/verify/:email' component={VerifyUser} />
             <Route exact path='/forgot-password' component={ForgotPassword} />
+            <Route exact path='/revcheck/:revcode' component={Scan} />
             <Dashboard />
           </Switch>
         </Fragment>

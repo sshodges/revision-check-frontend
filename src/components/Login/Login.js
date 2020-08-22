@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {
   loginUser,
   setLoading,
+  logout,
   clearError,
   getUser,
 } from '../../actions/authActions';
@@ -29,6 +30,7 @@ import Logo from '../Layout/Logo';
 const Login = ({
   auth: { isAuthenticated, loading },
   loginUser,
+  logout,
   getUser,
   setLoading,
 }) => {
@@ -40,7 +42,7 @@ const Login = ({
   useEffect(() => {
     // Check if user already logged in
     async function asyncGetUser() {
-      await getUser().catch((err) => console.log(err));
+      await getUser().catch((err) => logout());
       setLoadingPage(false);
       setLoading(false);
     }
@@ -144,6 +146,7 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
   loginUser,
   getUser,
+  logout,
   setLoading,
   clearError,
 })(Login);
