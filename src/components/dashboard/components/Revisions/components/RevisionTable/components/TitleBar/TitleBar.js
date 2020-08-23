@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { IconButton, Typography, Button } from '@material-ui/core';
+import { IconButton, Typography, Button, Badge } from '@material-ui/core';
 import DocumentSettings from '../DocumentSettings/DocumentSettings';
-import FollowersSettings from '../FollowersSettings/FollowersSettings';
+import FollowersSettings from '../FollowersSettings';
 
 const TitleBar = ({ document: { selectedDocument }, backFunction }) => {
   const [showSettings, setShowSettings] = useState(false);
   const [showFollowers, setShowFollowers] = useState(false);
+
+  const pendingFollowers = selectedDocument?.followers
+    ? selectedDocument.followers.filter(
+        (follower) => !follower.approved && !follower.blocked
+      ).length
+    : 0;
 
   return (
     <div>
@@ -26,17 +32,25 @@ const TitleBar = ({ document: { selectedDocument }, backFunction }) => {
           Settings
         </Button>
 
-        {selectedDocument.allowFollowers && (
-          <Button
-            size='small'
-            variant='outlined'
-            color='secondary'
-            style={{ marginTop: 10, marginBottom: 15, marginLeft: 20 }}
-            onClick={() => setShowFollowers(true)}
-          >
-            Followers
-          </Button>
-        )}
+        {selectedDocument.allowFollowers &&
+          selectedDocument.followers?.length > 0 && (
+            <Badge
+              badgeContent={pendingFollowers}
+              color='primary'
+              max={99}
+              style={{ marginTop: 10 }}
+            >
+              <Button
+                size='small'
+                variant='outlined'
+                color='secondary'
+                style={{ marginBottom: 15, marginLeft: 20 }}
+                onClick={() => setShowFollowers(true)}
+              >
+                Followers
+              </Button>
+            </Badge>
+          )}
       </div>
 
       <DocumentSettings open={showSettings} setOpen={setShowSettings} />

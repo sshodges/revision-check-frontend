@@ -33,7 +33,6 @@ const FollowersSettings = ({
   getDocumentFollowers,
   open,
   setOpen,
-
   approveFollower,
   denyFollower,
 }) => {
@@ -43,12 +42,11 @@ const FollowersSettings = ({
 
   useEffect(() => {
     async function getFollowers() {
-      const res = await getDocumentFollowers(selectedDocument._id);
       setLoading(false);
-      setFollowers(res);
+      setFollowers(selectedDocument.followers);
     }
     getFollowers();
-  }, [getDocumentFollowers, selectedDocument._id]);
+  }, [getDocumentFollowers, selectedDocument.followers]);
 
   const pending = followers
     ? followers.filter((follower) => !follower.approved && !follower.blocked)

@@ -11,11 +11,13 @@ import {
   ARCHIVE_DOCUMENT,
   SET_LOADING_DOCUMENTS,
   SELECT_DOCUMENT,
+  GET_FOLLOWERS,
   CHANGE_PARENT,
   ERROR,
   CLEAR_DOCUMENT,
 } from '../actions/types';
 import findPreviousParent from '../utils/findPreviousParent';
+import { CardActionArea } from '@material-ui/core';
 
 const initialState = {
   documents: [],
@@ -27,6 +29,7 @@ const initialState = {
   selectedDocument: {
     _id: null,
     name: null,
+    followers: null,
   },
   error: null,
 };
@@ -49,6 +52,15 @@ export default (state = initialState, action) => {
         ...state,
         documents: action.payload,
         loading: false,
+      };
+
+    case GET_FOLLOWERS:
+      return {
+        ...state,
+        selectedDocument: {
+          ...state.selectedDocument,
+          followers: action.payload,
+        },
       };
 
     case GET_ARCHIVES:

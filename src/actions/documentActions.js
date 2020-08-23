@@ -3,6 +3,7 @@ import {
   GET_ALL_FOLDERS,
   GET_ARCHIVES,
   SET_LOADING_DOCUMENTS,
+  GET_FOLLOWERS,
   CHANGE_PARENT,
   ERROR,
   SELECT_DOCUMENT,
@@ -138,6 +139,11 @@ export const getDocumentFollowers = (documentId) => async (dispatch) => {
     });
 
   let data = res.data;
+
+  dispatch({
+    type: GET_FOLLOWERS,
+    payload: data,
+  });
 
   return data;
 };
