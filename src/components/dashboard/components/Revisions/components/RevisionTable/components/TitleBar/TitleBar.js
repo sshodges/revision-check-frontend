@@ -36,7 +36,7 @@ const TitleBar = ({ document: { selectedDocument }, backFunction }) => {
           selectedDocument.followers?.length > 0 && (
             <Badge
               badgeContent={pendingFollowers}
-              color='primary'
+              color='secondary'
               max={99}
               style={{ marginTop: 10 }}
             >

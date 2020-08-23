@@ -17,7 +17,7 @@ const Revisions = ({
     setLoading();
     getRevisions(selectedDocument._id);
     getDocumentFollowers(selectedDocument._id);
-  }, [getRevisions, selectedDocument._id, setLoading]);
+  }, [getRevisions, selectedDocument._id, setLoading, getDocumentFollowers]);
 
   if (!selectedDocument._id) {
     return <Redirect to='/' />;

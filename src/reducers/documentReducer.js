@@ -17,7 +17,6 @@ import {
   CLEAR_DOCUMENT,
 } from '../actions/types';
 import findPreviousParent from '../utils/findPreviousParent';
-import { CardActionArea } from '@material-ui/core';
 
 const initialState = {
   documents: [],
