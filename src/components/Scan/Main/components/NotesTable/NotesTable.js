@@ -16,16 +16,19 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(revision, note) {
-  return { revision, note };
+const currentColour =
+  localStorage.preferredTheme === 'dark' ? '#579156' : '#C8E1D3';
+
+function createData(revision, note, _id) {
+  return { revision, note, _id };
 }
 
-export default function NotesTable({ data }) {
+export default function NotesTable({ data, currentRev }) {
   const classes = useStyles();
   let rows = [];
   if (data) {
     for (let i = 0; i < data.length; i++) {
-      rows.push(createData(data[i].name, data[i].note));
+      rows.push(createData(data[i].name, data[i].note, data[i]._id));
     }
   }
 
@@ -46,24 +49,34 @@ export default function NotesTable({ data }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.revision}>
-                <TableCell
-                  className={classes.cell}
-                  component='th'
-                  scope='row'
-                  align='center'
-                >
-                  {row.revision}
-                </TableCell>
-                <TableCell className={classes.cell} align='right'>
-                  {row.note}
-                </TableCell>
-              </TableRow>
-            ))}
+            {rows.map((row) => {
+              const color =
+                row._id === currentRev._id ? currentColour : 'inherit';
+              const identifier = row._id === currentRev._id ? '*' : '';
+
+              console.log(color);
+              console.log(row);
+              console.log(currentRev);
+              return (
+                <TableRow key={row.revision} style={{ backgroundColor: color }}>
+                  <TableCell
+                    className={classes.cell}
+                    component='th'
+                    scope='row'
+                    align='center'
+                  >
+                    {row.revision + identifier}
+                  </TableCell>
+                  <TableCell className={classes.cell} align='right'>
+                    {row.note}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>
+      <Typography>* Revision scanned</Typography>
     </div>
   );
 }

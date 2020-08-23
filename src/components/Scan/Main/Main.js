@@ -58,7 +58,11 @@ const Main = ({ payload }) => {
             </Box>
           </Typography>
 
-          {payload?.revision?.latest ? <LatestRevision /> : <OldRevision />}
+          {payload?.revision?.latest ? (
+            <LatestRevision />
+          ) : (
+            <OldRevision latest={payload?.latestRevision} />
+          )}
           <div
             style={{
               marginTop: 50,
@@ -105,7 +109,7 @@ const Main = ({ payload }) => {
               )}
           </div>
 
-          <NotesTable data={payload?.notes} />
+          <NotesTable data={payload?.notes} currentRev={payload?.revision} />
         </div>
         <Box mt={8}>
           <Copyright />
