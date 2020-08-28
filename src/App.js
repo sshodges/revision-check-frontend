@@ -8,7 +8,7 @@ import axios from 'axios';
 // Actions
 import { updateColorPreference } from './actions/layoutActions';
 // Components
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/Login';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ThemeProvider } from '@material-ui/core/styles';

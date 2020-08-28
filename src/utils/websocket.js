@@ -14,7 +14,9 @@ import store from '../store';
 
 class Websocket {
   constructor(account) {
-    const socket = io('http://localhost:5000');
+    const socket = io(
+      'http://dev-revision-check-api-1453815321.ap-southeast-2.elb.amazonaws.com'
+    );
     socket.on('connect', function () {
       socket.on('connection:sid', function (socketId) {
         localStorage.socketId = socketId;
