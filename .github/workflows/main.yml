@@ -18,7 +18,12 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
       - name: Build React App
         env:
-          NODE_PATH: src/
+          NODE_PATH: ${{ secrets.NODE_PATH }}
+          REACT_APP_BASE_API_URL: ${{ secrets.REACT_APP_BASE_API_URL }}
+          REACT_APP_SOCKET_HASH: ${{ secrets.REACT_APP_SOCKET_HASH }}
+          REACT_APP_COGNITO_USER_POOL_ID: ${{ secrets.REACT_APP_COGNITO_USER_POOL_ID }}
+          REACT_APP_COGNITO_CLIENT_ID: ${{ secrets.REACT_APP_COGNITO_CLIENT_ID }}
+          REACT_APP_COGNITO_REGION: ${{ secrets.REACT_APP_COGNITO_REGION }}
         run: npm install && npm run build
       - name: Deploy app build to S3 bucket
         run: aws s3 sync ./build/ s3://dev-revision-check-frontend --delete
