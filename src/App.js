@@ -8,7 +8,6 @@ import axios from 'axios';
 // Actions
 import { updateColorPreference } from './actions/layoutActions';
 // Components
-import Dashboard from './components/Dashboard/Dashboard.js';
 import Login from './components/Login';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ThemeProvider } from '@material-ui/core/styles';
@@ -17,6 +16,7 @@ import { lightTheme, darkTheme } from './theme';
 import VerifyUser from './components/VerifyUser';
 import ForgotPassword from './components/ForgotPassword';
 import Scan from './components/Scan';
+import Dashboard from './components/Dashboard';
 
 if (localStorage.token) {
   axios.defaults.headers.common['auth-token'] = localStorage.token;
