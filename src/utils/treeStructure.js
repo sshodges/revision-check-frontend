@@ -11,7 +11,7 @@ class Tree {
 
   add(id, parentId, name) {
     const node = new Node(id, name);
-    // If the toNodeData arg is passed, find it. Otherwise, store null.
+    // If the parentId arg is passed, find it. Otherwise, store null.
     const parent = parentId ? this.findBFS(parentId) : null;
 
     // Push new node to parent whose value matches toNodeData
